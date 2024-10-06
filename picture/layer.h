@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace IMAGE
+namespace PICTURE
 {
 
 struct pixelRGBA_f

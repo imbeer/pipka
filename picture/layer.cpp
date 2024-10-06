@@ -1,6 +1,6 @@
 #include "layer.h"
 
-namespace IMAGE
+namespace PICTURE
 {
 
 Layer::Layer(int w, int h)
@@ -21,14 +21,14 @@ pixelRGBA_f* Layer::pixels()
 pixelRGBA_f* Layer::pixel(const int x, const int y)
 {
     const int index = convertCoordsInIndex(x, y);
-    if (index >= buffer.size()) return nullptr;
+    if (index >= buffer.size() || index < 0) return nullptr;
     return &buffer.at(index);
 }
 
-void Layer::setPixel(int x, int y, pixelRGBA_f pixel)
+void Layer::setPixel(const int x, const int y, const pixelRGBA_f pixel)
 {
     const int index = convertCoordsInIndex(x, y);
-    if (index >= buffer.size()) return;
+    if (index >= buffer.size() || index < 0) return;
     buffer[index] = pixel;
 }
 }
