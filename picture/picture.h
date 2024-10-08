@@ -2,13 +2,17 @@
 #define PICTURE_H
 
 #include "layer.h"
+#include <QObject>
 
 namespace PICTURE
 {
 
 class Picture
 {
+
+Q_OBJECT
 public:
+    Picture();
     Picture(const int w, const int h);
     ~Picture();
 
@@ -18,6 +22,13 @@ public:
     Layer& activeLayer();
     void setActiveLayer(const int index);
     std::vector<Layer>& layers();
+
+    inline int width() {return w;};
+    inline int height() {return h;};
+
+signals:
+    void addedLayer();
+    void removedLayer();
 
 private:
     std::vector<Layer> layerStorage;
