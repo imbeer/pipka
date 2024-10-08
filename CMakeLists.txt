@@ -10,12 +10,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGLWidgets)
 
 set(PROJECT_SOURCES
         main.cpp
+        shaders/shaders.qrc
         picture/layer.h picture/layer.cpp
         picture/picture.h picture/picture.cpp
+        widgets/canvaswidget.h widgets/canvaswidget.cpp
+        control/transform.h control/transform.cpp
+        control/controller.h control/controller.cpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -41,7 +46,10 @@ else()
     endif()
 endif()
 
-target_link_libraries(pipka PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(pipka PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
