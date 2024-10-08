@@ -20,6 +20,7 @@ void CanvasWidget::initializeGL()
     initializeOpenGLFunctions();
     initGeometry();
     initShaders();
+    updateTextureArray();
 }
 
 void CanvasWidget::resizeGL(int width, int height)
@@ -48,6 +49,8 @@ void CanvasWidget::paintGL()
 
     m_program.release();
     m_textureArray->release();
+    m_vertexBuffer.release();
+    m_uvBuffer.release();
 }
 
 void CanvasWidget::initShaders()
@@ -90,32 +93,27 @@ void CanvasWidget::updateTextureArray()
 {
     clearTextures();
     m_program.bind();
-    m_textureNum = m_controller.picture().layers().size();
+    m_textureNum = m_controller.picture()->layers().size();
     m_program.setUniformValue("textureNum", m_textureNum);
-    const int width = m_controller.picture().width();
-    const int height = m_controller.picture().height();
-
-    if (m_textureNum == 0 || (width == 0 && height == 0)) {
-        m_program.setUniformValue("textureArray", 0);
-        m_program.release();
-        return;
-    }
+    const int width = m_controller.picture()->width();
+    const int height = m_controller.picture()->height();
 
     m_textureArray = new QOpenGLTexture(QOpenGLTexture::Target2DArray);
     m_textureArray->setFormat(QOpenGLTexture::RGBA32F);
     m_textureArray->setSize(width, height, m_textureNum);
     m_textureArray->allocateStorage();
 
+    auto layers = m_controller.picture()->layers();
     for (int i = 0; i < m_textureNum; ++i) {
         // Check if works.
-        m_textureArray->setData(0, i, QOpenGLTexture::RGBA, QOpenGLTexture::Float32, m_controller.picture().layers()[i].pixels());
+        m_textureArray->setData(0, i, QOpenGLTexture::RGBA, QOpenGLTexture::Float32, layers[i].pixels());
     }
     m_textureArray->setWrapMode(QOpenGLTexture::ClampToBorder);
     m_textureArray->setBorderColor(1.0f, 1.0f, 1.0f, 1.0f);
     m_textureArray->setMinificationFilter(QOpenGLTexture::Linear);
     m_textureArray->setMagnificationFilter(QOpenGLTexture::Linear);
 
-    m_program.setUniformValue("textureArray", 0);
+    // m_program.setUniformValue("textureArray", 0);
     m_program.release();
 }
 

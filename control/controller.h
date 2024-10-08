@@ -12,12 +12,12 @@ namespace CONTROL {
 class Controller
 {
 
-Q_OBJECT
+// Q_OBJECT
 public:
     Controller();
     Controller(const int w, const int h);
-    inline Transform transform() {return m_transform;};
-    inline Picture picture() {return m_picture;};
+    Transform* transform();
+    Picture* picture();
     void handleEvnet(QEvent *event);
 
 private:

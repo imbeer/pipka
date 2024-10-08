@@ -3,10 +3,10 @@
 namespace PICTURE
 {
 
-Picture::Picture()
+Picture::Picture() : QObject()
 {}
 
-Picture::Picture(const int w, const int h)
+Picture::Picture(const int w, const int h) : QObject()
 {
     this->w = w;
     this->h = h;

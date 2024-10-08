@@ -29,7 +29,6 @@ protected:
     void paintGL() override;
 
 private:
-    void initializeOpenGLFunctions();
     void initShaders();
     void initGeometry();
     void updateTextureArray();

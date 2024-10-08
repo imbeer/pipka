@@ -14,5 +14,5 @@ void main(void)
         finalColor += texture(textureArray, vec3(uvCord, layer));
     }
 
-    fragColor = finalColor / float(textureNum)
+    fragColor = finalColor / float(textureNum);
 }

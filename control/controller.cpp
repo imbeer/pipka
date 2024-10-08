@@ -14,4 +14,15 @@ void Controller::handleEvnet(QEvent *event)
 {
 
 }
+
+Picture* Controller::picture()
+{
+    return &this->m_picture;
+}
+
+Transform* Controller::transform()
+{
+    return &this->m_transform;
+}
+
 }

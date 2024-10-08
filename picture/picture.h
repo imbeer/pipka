@@ -7,7 +7,7 @@
 namespace PICTURE
 {
 
-class Picture
+class Picture : public QObject
 {
 
 Q_OBJECT
