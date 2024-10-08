@@ -8,10 +8,9 @@ namespace PICTURE
 
 struct pixelRGBA_f
 {
-    float r;
-    float g;
-    float b;
-    float a;
+    float r, g, b, a;
+    pixelRGBA_f(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f)
+        : r(red), g(green), b(blue), a(alpha) {}
 };
 
 
