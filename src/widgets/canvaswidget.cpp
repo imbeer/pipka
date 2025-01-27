@@ -2,7 +2,7 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QOpenGLWidget(parent),
-    m_layer(16, 16, 0xFFAAAAFF)
+    m_layer(10, 10, 0xFFAAAAFF)
 {}
 
 CanvasWidget::~CanvasWidget()
@@ -25,6 +25,7 @@ void CanvasWidget::initializeGL()
     m_texture->setSize(m_layer.width(), m_layer.height());
     m_texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
     m_texture->allocateStorage();
+    m_texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
     m_texture->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8,
                      reinterpret_cast<const void*>(m_layer.pixels().data()));
 
@@ -73,6 +74,10 @@ void CanvasWidget::initializeGL()
     m_vao.release();
     m_vertexBuffer.release();
     m_indexBuffer.release();
+
+    connect(
+        &m_layer, &PIPKA::IMAGE::Layer::layerChanged,
+        this, &CanvasWidget::updateTextureData);
 }
 
 void CanvasWidget::resizeGL(int width, int height)
@@ -100,7 +105,17 @@ void CanvasWidget::paintGL()
     }
 }
 
+void CanvasWidget::updateTextureData()
+{
+    m_texture->setData(
+        QOpenGLTexture::RGBA,
+        QOpenGLTexture::UInt8,
+        reinterpret_cast<const void*>(m_layer.pixels().data()));
+    update();
+}
+
 void CanvasWidget::tabletEvent(QTabletEvent *event)
 {
     qDebug() << event->pressure();
+    m_layer.testDifferentPixels();
 }

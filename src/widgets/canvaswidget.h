@@ -18,6 +18,7 @@ class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
 public:
     CanvasWidget(QWidget *parent = nullptr);
     ~CanvasWidget();
+    void updateTextureData();
 
 protected:
     void initializeGL() override;
