@@ -6,10 +6,15 @@
 namespace PIPKA::IMAGE {
 
 Layer::Layer(
+    const int &index,
     const int &w,
     const int &h,
     const Color &color)
-    : w(w), h(h), m_pixels(w * h, color)
+    : index(index), w(w), h(h), m_pixels(w * h, color)
+{}
+
+Layer::Layer(const Layer &layer)
+    : index(layer.index), w(layer.w), h(layer.h), m_pixels(layer.m_pixels) // todo: the fuck is wrong with this copy constructors
 {}
 
 void Layer::testDifferentPixels()
@@ -20,11 +25,9 @@ void Layer::testDifferentPixels()
     for (auto &pixel : m_pixels) {
         pixel = dis(gen);
     }
-    emit layerChanged();
-    // for (auto &pixel : m_pixels) {
-    //     qDebug() << pixel;
-    // }
-    // qDebug() << m_pixels.size();
+    qDebug() <<"layer changed";
+    qDebug() << index;
+    emit layerChanged(index);
 }
 
 }

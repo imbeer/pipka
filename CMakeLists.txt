@@ -17,13 +17,14 @@ set(PROJECT_SOURCES
     src/main.cpp
     src/widgets/canvaswidget.cpp
     src/widgets/canvaswidget.h
+    src/image/layer.h src/image/layer.cpp
+    src/image/image.h src/image/image.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(pipka
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        src/image/layer.h src/image/layer.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pipka APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
