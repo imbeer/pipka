@@ -1,10 +1,10 @@
 #include "canvaswidget.h"
 
 CanvasWidget::CanvasWidget(
-    PIPKA::IMAGE::Image &image,
+    PIPKA::CONTROL::Controller &controller,
     QWidget *parent)
     : QOpenGLWidget(parent),
-    m_image(image)
+    m_controller(controller)
 {}
 
 CanvasWidget::~CanvasWidget()
@@ -24,12 +24,13 @@ CanvasWidget::~CanvasWidget()
 
 void CanvasWidget::initializeTextures()
 {
-    qDebug() << m_image.layerSize();
-    for (int layerInd = 0; layerInd < m_image.layerSize(); layerInd++) {
-        auto layer = m_image.layers()[layerInd];
+    auto image = m_controller.getImage().value();
+    qDebug() << image.layerSize();
+    for (int layerInd = 0; layerInd < image.layerSize(); layerInd++) {
+        auto layer = image.layers()[layerInd];
         auto texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
 
-        texture->setSize(m_image.width(), m_image.height());
+        texture->setSize(image.width(), image.height());
         texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
         texture->allocateStorage();
         texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
@@ -43,7 +44,7 @@ void CanvasWidget::initializeTextures()
 
         // I guess layer is destructed at the end of scope, so it disconnects.
         auto res = QObject::connect(
-            m_image.layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
+            image.layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
             this, &CanvasWidget::updateTextureData);
         if (res) {
             qDebug() << "connected";
@@ -63,10 +64,10 @@ void CanvasWidget::initializeGL()
 
     static const GLfloat vertices[] = {
         // Positions    // Texture Coords
-        -1.0f, -1.0f,   0.0f, 0.0f,
-        1.0f, -1.0f,   1.0f, 0.0f,
-        -1.0f,  1.0f,   0.0f, 1.0f,
-        1.0f,  1.0f,   1.0f, 1.0f,
+       -1.0f, -1.0f, 1.0,  0.0f, 0.0f,
+        1.0f, -1.0f, 1.0,  1.0f, 0.0f,
+       -1.0f,  1.0f, 1.0,  0.0f, 1.0f,
+        1.0f,  1.0f, 1.0,  1.0f, 1.0f,
     };
 
     static const GLuint indices[] = {
@@ -92,10 +93,10 @@ void CanvasWidget::initializeGL()
     // Enable vertex attributes
     m_shaderProgram->bind();
     m_shaderProgram->enableAttributeArray(0);
-    m_shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 2, 4 * sizeof(GLfloat)); // Positions
+    m_shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, 5 * sizeof(GLfloat)); // Positions
 
     m_shaderProgram->enableAttributeArray(1);
-    m_shaderProgram->setAttributeBuffer(1, GL_FLOAT, 2 * sizeof(GLfloat), 2, 4 * sizeof(GLfloat)); // Texture Coords
+    m_shaderProgram->setAttributeBuffer(1, GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat)); // Texture Coords
     m_shaderProgram->release();
 
     m_vao.release();
@@ -111,6 +112,7 @@ void CanvasWidget::resizeGL(int width, int height)
 
 void CanvasWidget::paintGL()
 {
+    glClearColor(0.1f, 0.2f, 0.3f, 1.0f); // Set background color
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (!m_textures.empty() && m_shaderProgram) {
@@ -119,6 +121,7 @@ void CanvasWidget::paintGL()
         for (const auto &texture : m_textures) {
             texture->bind();
             m_shaderProgram->setUniformValue("uTexture", 0); // Texture unit 0
+            m_shaderProgram->setUniformValue("uTransform", m_controller.transform());
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             texture->release();
         }
@@ -133,7 +136,7 @@ void CanvasWidget::updateTextureData(int index)
     m_textures[index]->setData(
         QOpenGLTexture::RGBA,
         QOpenGLTexture::UInt8,
-        reinterpret_cast<const void*>(m_image.layers()[index]->pixels().data()));
+        reinterpret_cast<const void*>(m_controller.getImage()->layers()[index]->pixels().data()));
     qDebug() << "Updated";
     update();
 }
@@ -141,6 +144,25 @@ void CanvasWidget::updateTextureData(int index)
 void CanvasWidget::tabletEvent(QTabletEvent *event)
 {
     qDebug() << event->pressure();
-    if (!m_image.layers().empty())
-        m_image.layers()[0]->testDifferentPixels();
+    auto image = m_controller.getImage().value();
+    if (!image.layers().empty())
+        image.layers()[0]->testDifferentPixels();
+}
+
+void CanvasWidget::wheelEvent(QWheelEvent *event)
+{
+    int delta = event->angleDelta().y();  // Get scroll amount
+
+    if (delta > 0) {
+        m_controller.scaleUp();
+    } else {
+        m_controller.scaleDown();
+    }
+    update();
+}
+
+void CanvasWidget::mousePressEvent(QMouseEvent *event) {
+    auto image = m_controller.getImage().value();
+    if (!image.layers().empty())
+        image.layers()[0]->testDifferentPixels();
 }

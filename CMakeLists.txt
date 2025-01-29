@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
     src/widgets/canvaswidget.h
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
+
+    src/controller/controller.h src/controller/controller.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
