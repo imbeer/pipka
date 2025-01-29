@@ -15,6 +15,8 @@ public:
     inline std::optional<PIPKA::IMAGE::Image> getImage() {return m_image;};
     void scaleUp();
     void scaleDown();
+    void rotateLeft();
+    void rotateRight();
 
 private:
     void updateTransform();
@@ -25,7 +27,7 @@ private:
 
     float scaleX = 0.0f;
     float scaleY = 0.0f;
-    float rotation = 0.0f;
+    float angle = 0.0f;
     float moveX = 0.0f;
     float moveY = 0.0f;
 };

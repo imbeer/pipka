@@ -166,3 +166,20 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     if (!image.layers().empty())
         image.layers()[0]->testDifferentPixels();
 }
+
+void CanvasWidget::keyPressEvent(QKeyEvent *event) {
+    int key = event->key();
+
+    switch (key) {
+        case Qt::Key_R:
+            m_controller.rotateRight();
+            break;
+        case Qt::Key_Q:
+            m_controller.rotateLeft();
+            break;
+        default:
+            break;
+    }
+    update();
+}
+

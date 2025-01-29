@@ -32,10 +32,26 @@ void Controller::scaleDown()
     updateTransform();
 }
 
+void Controller::rotateLeft()
+{
+    angle += 0.1f;
+    if (angle > 2 * M_PI)
+        angle -= 2 * M_PI;
+    updateTransform();
+}
+
+void Controller::rotateRight()
+{
+    angle -= 0.1f;
+    if (angle < -2 * M_PI)
+        angle += 2 * M_PI;
+    updateTransform();
+}
+
 void Controller::updateTransform()
 {
-    m_transform(0, 0) = scaleX * cos(rotation);  m_transform(0, 1) = -scaleY * sin(rotation);   m_transform(0, 2) = moveX;
-    m_transform(1, 0) = scaleX * sin(rotation);  m_transform(1, 1) = scaleY * cos(rotation);    m_transform(1, 2) = moveY;
+    m_transform(0, 0) = scaleX * cos(angle);  m_transform(0, 1) = -scaleY * sin(angle);   m_transform(0, 2) = moveX;
+    m_transform(1, 0) = scaleX * sin(angle);  m_transform(1, 1) = scaleY * cos(angle);    m_transform(1, 2) = moveY;
     m_transform(2, 0) = 0.0f;                    m_transform(2, 1) = 0.0f;                      m_transform(2, 2) = 1.0f;
 }
 
