@@ -1,16 +1,13 @@
 #version 330 core
 
-// Input vertex attributes
-layout(location = 0) in vec2 aPosition; // Position (e.g., -1.0 to 1.0)
+layout(location = 0) in vec3 aPosition; // Position (e.g., -1.0 to 1.0 and "1" for trandform)
 layout(location = 1) in vec2 aTexCoord; // Texture coordinates (e.g., 0.0 to 1.0)
 
-// Output to the fragment shader
+uniform mat3 uTransform;
 out vec2 vTexCoord;
 
 void main() {
-    // Pass the texture coordinate to the fragment shader
     vTexCoord = aTexCoord;
-
-    // Set the vertex position in clip space
-    gl_Position = vec4(aPosition, 0.0, 1.0);
+    vec3 transformedPosition = uTransform * aPosition;
+    gl_Position = vec4(transformedPosition, 0.0, 1.0);
 }
