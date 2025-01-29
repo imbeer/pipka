@@ -177,6 +177,18 @@ void CanvasWidget::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_Q:
             m_controller.rotateLeft();
             break;
+        case Qt::Key_W:
+            m_controller.moveUp();
+            break;
+        case Qt::Key_S:
+            m_controller.moveDown();
+            break;
+        case Qt::Key_A:
+            m_controller.moveLeft();
+            break;
+        case Qt::Key_D:
+            m_controller.moveRight();
+            break;
         default:
             break;
     }

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     PIPKA::CONTROL::Controller controller;
     controller.createImage(10, 10);
     CanvasWidget w(controller);
-    w.resize(400, 400);
+    w.resize(800, 800);
     w.show();
     return a.exec();
 }

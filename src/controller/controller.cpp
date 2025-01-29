@@ -55,4 +55,28 @@ void Controller::updateTransform()
     m_transform(2, 0) = 0.0f;                    m_transform(2, 1) = 0.0f;                      m_transform(2, 2) = 1.0f;
 }
 
+void Controller::moveLeft()
+{
+    moveX -= 0.1f;
+    updateTransform();
+}
+
+void Controller::moveRight()
+{
+    moveX += 0.1f;
+    updateTransform();
+}
+
+void Controller::moveUp()
+{
+    moveY += 0.1f;
+    updateTransform();
+}
+
+void Controller::moveDown()
+{
+    moveY -= 0.1f;
+    updateTransform();
+}
+
 }

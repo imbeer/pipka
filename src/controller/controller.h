@@ -17,6 +17,10 @@ public:
     void scaleDown();
     void rotateLeft();
     void rotateRight();
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
 
 private:
     void updateTransform();
