@@ -33,6 +33,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 // qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
 //

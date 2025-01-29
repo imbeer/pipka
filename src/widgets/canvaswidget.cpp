@@ -41,8 +41,6 @@ void CanvasWidget::initializeTextures()
         qDebug() << "one texture added";
         qDebug() << m_textures.size();
 
-
-        // I guess layer is destructed at the end of scope, so it disconnects.
         auto res = QObject::connect(
             image.layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
             this, &CanvasWidget::updateTextureData);
@@ -107,13 +105,20 @@ void CanvasWidget::initializeGL()
 void CanvasWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, width, height);
+    m_controller.updateProjection(static_cast<float>(width) / height);
     update();
 }
 
 void CanvasWidget::paintGL()
 {
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f); // Set background color
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(.0, 0.0, 0.0, 1.0); // Set background color
+
+    glDisable(GL_DEPTH_TEST);
+    // glDisable(GL_ALPHA_TEST);
+    glEnable (GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glDepthMask(GL_FALSE);
 
     if (!m_textures.empty() && m_shaderProgram) {
         m_shaderProgram->bind();
@@ -129,6 +134,8 @@ void CanvasWidget::paintGL()
         m_vao.release();
         m_shaderProgram->release();
     }
+    glDisable(GL_BLEND);
+    glFlush();
 }
 
 void CanvasWidget::updateTextureData(int index)
@@ -195,3 +202,14 @@ void CanvasWidget::keyPressEvent(QKeyEvent *event) {
     update();
 }
 
+void CanvasWidget::resizeEvent(QResizeEvent *event)
+{
+    QOpenGLWidget::resizeEvent(event);
+
+    qDebug() << "resized";
+
+    int newWidth = event->size().width();
+    int newHeight = event->size().height();
+
+    resizeGL(newWidth, newHeight);
+}

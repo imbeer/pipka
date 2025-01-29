@@ -7,6 +7,7 @@ Controller::Controller()
     : m_image(std::nullopt)
 {
     updateTransform();
+    updateProjection(1);
 }
 
 void Controller::createImage(const int &w, const int &h)
@@ -20,21 +21,22 @@ void Controller::createImage(const int &w, const int &h)
 
 void Controller::scaleUp()
 {
-    scaleX += 0.1f;
-    scaleY += 0.1f;
+    scaleX += 0.01f;
+    scaleY += 0.01f;
     updateTransform();
 }
 
 void Controller::scaleDown()
 {
-    scaleX -= 0.1f;
-    scaleY -= 0.1f;
+    if (scaleX <= 0.01 && scaleY <= 0.01) return;
+    scaleX -= 0.01f;
+    scaleY -= 0.01f;
     updateTransform();
 }
 
 void Controller::rotateLeft()
 {
-    angle += 0.1f;
+    angle += M_PI / 36;
     if (angle > 2 * M_PI)
         angle -= 2 * M_PI;
     updateTransform();
@@ -42,17 +44,39 @@ void Controller::rotateLeft()
 
 void Controller::rotateRight()
 {
-    angle -= 0.1f;
+    angle -= M_PI / 36;
     if (angle < -2 * M_PI)
         angle += 2 * M_PI;
     updateTransform();
 }
 
+void Controller::updateProjection(const float &viewPortRatio)
+{
+    if (!m_image.has_value()) return;
+    qDebug() << viewPortRatio;
+    m_projection(0, 0) = 1 / viewPortRatio;  m_projection(0, 1) = 0.0f;   m_projection(0, 2) = 0.0f;
+    m_projection(1, 0) = 0.0f;  m_projection(1, 1) = 1.0f;  m_projection(1, 2) = 0.0f;
+    m_projection(2, 0) = 0.0f;  m_projection(2, 1) = 0.0f;  m_projection(2, 2) = 1.0f;
+    updateFullMatrix();
+
+    qDebug() << m_projection;
+    qDebug() << m_fullMatrix;
+}
+
+
 void Controller::updateTransform()
 {
-    m_transform(0, 0) = scaleX * cos(angle);  m_transform(0, 1) = -scaleY * sin(angle);   m_transform(0, 2) = moveX;
-    m_transform(1, 0) = scaleX * sin(angle);  m_transform(1, 1) = scaleY * cos(angle);    m_transform(1, 2) = moveY;
-    m_transform(2, 0) = 0.0f;                    m_transform(2, 1) = 0.0f;                      m_transform(2, 2) = 1.0f;
+    const float imageRatio = m_image->ratio();
+    // qDebug() << imageRatio;
+    m_transform(0, 0) = scaleX * imageRatio * cos(angle);  m_transform(0, 1) = -scaleY * sin(angle);   m_transform(0, 2) = moveX;
+    m_transform(1, 0) = scaleX * imageRatio * sin(angle);  m_transform(1, 1) = scaleY * cos(angle);    m_transform(1, 2) = moveY;
+    m_transform(2, 0) = 0.0f;                 m_transform(2, 1) = 0.0f;                   m_transform(2, 2) = 1.0f;
+    updateFullMatrix();
+}
+
+void Controller::updateFullMatrix()
+{
+    m_fullMatrix = m_projection * m_transform;
 }
 
 void Controller::moveLeft()

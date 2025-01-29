@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     // PIPKA::IMAGE::Image image(10, 10);
     PIPKA::CONTROL::Controller controller;
-    controller.createImage(10, 10);
+    controller.createImage(100, 100);
     CanvasWidget w(controller);
     w.resize(800, 800);
     w.show();

@@ -14,6 +14,7 @@ public:
         const int &h);
     inline const int width() {return w;};
     inline const int height() {return h;};
+    inline const float ratio() {return static_cast<float>(w) / h;};
     inline std::vector<std::shared_ptr<Layer>> layers() {return m_layers;};
     inline const int layerSize() {return m_layers.size();};
 
