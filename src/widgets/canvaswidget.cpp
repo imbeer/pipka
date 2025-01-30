@@ -38,14 +38,14 @@ void CanvasWidget::initializeTextures()
                          reinterpret_cast<const void*>(layer->pixels().data()));
         m_textures.push_back(texture);
 
-        qDebug() << "one texture added";
-        qDebug() << m_textures.size();
+        // qDebug() << "one texture added";
+        // qDebug() << m_textures.size();
 
         auto res = QObject::connect(
             image.layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
             this, &CanvasWidget::updateTextureData);
         if (res) {
-            qDebug() << "connected";
+            // qDebug() << "connected";
         }
     }
 }
@@ -144,16 +144,13 @@ void CanvasWidget::updateTextureData(int index)
         QOpenGLTexture::RGBA,
         QOpenGLTexture::UInt8,
         reinterpret_cast<const void*>(m_controller.getImage()->layers()[index]->pixels().data()));
-    qDebug() << "Updated";
+    // qDebug() << "Updated";
     update();
 }
 
 void CanvasWidget::tabletEvent(QTabletEvent *event)
 {
-    qDebug() << event->pressure();
-    auto image = m_controller.getImage().value();
-    if (!image.layers().empty())
-        image.layers()[0]->testDifferentPixels();
+    handleClick(event->position());
 }
 
 void CanvasWidget::wheelEvent(QWheelEvent *event)
@@ -168,18 +165,24 @@ void CanvasWidget::wheelEvent(QWheelEvent *event)
     update();
 }
 
-void CanvasWidget::mousePressEvent(QMouseEvent *event) {
-    auto image = m_controller.getImage().value();
-    // if (!image.layers().empty())
-        // image.layers()[0]->testDifferentPixels();
-
-    double x = 2.0 * event->pos().x() / width() - 1.0;
-    double y = 1.0 - 2.0 * event->pos().y() / height();
-
-    m_controller.handleClick(x, y);
+void CanvasWidget::mousePressEvent(QMouseEvent *event)
+{
+    m_mousePressed = true;
+    handleClick(event->position());
 }
 
-void CanvasWidget::keyPressEvent(QKeyEvent *event) {
+void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_mousePressed = false;
+}
+void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (m_mousePressed)
+        handleClick(event->position());
+}
+
+void CanvasWidget::keyPressEvent(QKeyEvent *event)
+{
     int key = event->key();
 
     switch (key) {
@@ -217,4 +220,11 @@ void CanvasWidget::resizeEvent(QResizeEvent *event)
     int newHeight = event->size().height();
 
     resizeGL(newWidth, newHeight);
+}
+
+void CanvasWidget::handleClick(const QPointF &position)
+{
+    double x = 2.0 * position.x() / width() - 1.0;
+    double y = 1.0 - 2.0 * position.y() / height();
+    m_controller.handleClick(x, y);
 }

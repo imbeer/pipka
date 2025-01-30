@@ -56,14 +56,14 @@ void Controller::handleClick(const double &x, const double &y)
     const float normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
     const float normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
 
-    qDebug() << normalizedX;
-    qDebug() << normalizedY;
+    // qDebug() << normalizedX;
+    // qDebug() << normalizedY;
 
     float imageX = (1 - normalizedX) * m_image->width() * 0.5f;
     float imageY = (normalizedY + 1) * m_image->height() * 0.5f;
 
-    qDebug() << imageX;
-    qDebug() << imageY;
+    // qDebug() << imageX;
+    // qDebug() << imageY;
 
     if ((imageX < 0 || imageX >= m_image->width())
         || (imageY < 0 || imageY >= m_image->height()))

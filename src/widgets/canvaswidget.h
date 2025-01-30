@@ -32,8 +32,13 @@ protected:
     void tabletEvent(QTabletEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void handleClick(const QPointF &position);
 
 // qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
 //
@@ -47,5 +52,7 @@ private:
     QOpenGLBuffer m_vertexBuffer;
     QOpenGLBuffer m_indexBuffer;
     QOpenGLVertexArrayObject m_vao;
+
+    bool m_mousePressed;
 };
 #endif // CANVASWIDGET_H

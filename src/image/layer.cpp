@@ -25,8 +25,8 @@ void Layer::testDifferentPixels()
     for (auto &pixel : m_pixels) {
         pixel = dis(gen);
     }
-    qDebug() <<"layer changed";
-    qDebug() << m_index;
+    // qDebug() <<"layer changed";
+    // qDebug() << m_index;
     emit layerChanged(m_index);
 }
 
