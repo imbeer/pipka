@@ -172,6 +172,11 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     auto image = m_controller.getImage().value();
     if (!image.layers().empty())
         image.layers()[0]->testDifferentPixels();
+
+    double x = 2.0 * event->pos().x() / width() - 1.0;
+    double y = 1.0 - 2.0 * event->pos().y() / height();
+
+    m_controller.handleClick(x, y);
 }
 
 void CanvasWidget::keyPressEvent(QKeyEvent *event) {
