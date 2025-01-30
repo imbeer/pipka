@@ -10,7 +10,7 @@ Layer::Layer(
     const int &w,
     const int &h,
     const Color &color)
-    : index(index), w(w), h(h), m_pixels(w * h, color)
+    : m_index(index), w(w), h(h), m_pixels(w * h, color)
 {}
 
 // Layer::Layer(const Layer &layer)
@@ -26,8 +26,16 @@ void Layer::testDifferentPixels()
         pixel = dis(gen);
     }
     qDebug() <<"layer changed";
-    qDebug() << index;
-    emit layerChanged(index);
+    qDebug() << m_index;
+    emit layerChanged(m_index);
+}
+
+void Layer::drawPixel(const int &x, const int &y, const Color &color)
+{
+    const auto pixelInd = x + y * w;
+    // if (index > m_pixels.size() || index < 0) return;
+    m_pixels.at(pixelInd) = color;
+    emit layerChanged(m_index);
 }
 
 }

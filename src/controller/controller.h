@@ -49,6 +49,8 @@ private:
     float angle = 0.0f;
     float moveX = 0.0f;
     float moveY = 0.0f;
+
+    int m_activeLayerIndex = 0;
 };
 
 }

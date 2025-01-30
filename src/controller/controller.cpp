@@ -53,17 +53,23 @@ void Controller::rotateRight()
 
 void Controller::handleClick(const double &x, const double &y)
 {
-    const float normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) + 1 * m_i_mvp(0, 2);
+    const float normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
     const float normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
 
     qDebug() << normalizedX;
     qDebug() << normalizedY;
 
-    float imageX = (1 - normalizedX) * m_image->width() / 2.0f;
-    float imageY = (1 - normalizedY) * m_image->height() / 2.0f;
+    float imageX = (1 - normalizedX) * m_image->width() * 0.5f;
+    float imageY = (normalizedY + 1) * m_image->height() * 0.5f;
 
     qDebug() << imageX;
     qDebug() << imageY;
+
+    if ((imageX < 0 || imageX >= m_image->width())
+        || (imageY < 0 || imageY >= m_image->height()))
+        return;
+
+    m_image->layers()[m_activeLayerIndex]->drawPixel(imageX, imageY, 0xFFFFFFFF);
 }
 
 void Controller::updateProjection(const float &viewPortRatio)
@@ -118,12 +124,12 @@ void Controller::updateTransform()
 
     /// first row
     m_i_transform(0, 0) = -cos(angle) / (scaleX * imageRatio);
-    m_i_transform(0, 1) =-sin(angle) / (scaleX * imageRatio);
-    m_i_transform(0, 2) = (-moveX * cos(angle) - moveY * sin(angle)) / (imageRatio * scaleX);
+    m_i_transform(0, 1) = -sin(angle) / (scaleX * imageRatio);
+    m_i_transform(0, 2) = (-moveX * cos(angle) - moveY * sin(angle)) / (scaleX * imageRatio);
     /// second row
     m_i_transform(1, 0) = -sin(angle) / scaleY;
-    m_i_transform(1, 1) = cos(angle) / scaleY ;
-    m_i_transform(1, 2) = (-moveY * cos(angle) * moveX * sin(angle)) / scaleY;
+    m_i_transform(1, 1) =  cos(angle) / scaleY ;
+    m_i_transform(1, 2) = (-moveY * cos(angle) + moveX * sin(angle)) / scaleY;
     /// third row
     m_i_transform(2, 0) = 0.0f;
     m_i_transform(2, 1) = 0.0f;
@@ -135,7 +141,7 @@ void Controller::updateTransform()
 void Controller::updateFullMatrix()
 {
     m_mvp = m_projection * m_transform;
-    m_i_mvp = m_i_projection * m_i_transform;
+    m_i_mvp = m_i_transform * m_i_projection;
 }
 
 void Controller::moveLeft()

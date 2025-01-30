@@ -21,6 +21,7 @@ public:
     inline const int height() {return h;};
     inline std::vector<Color> pixels() {return m_pixels;};
     void testDifferentPixels();
+    void drawPixel(const int &x, const int &y, const Color &color);
 
 signals:
     void layerChanged(
@@ -30,7 +31,7 @@ private:
     std::vector<Color> m_pixels;
     const int w;
     const int h;
-    int index;
+    int m_index;
 };
 
 }
