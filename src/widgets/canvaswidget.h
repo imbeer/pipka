@@ -38,7 +38,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    void handleClick(const QPointF &position);
+    QVector3D getNormalizedClickVector(const QPointF &position, const double &pressure = 1);
 
 // qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
 //
@@ -53,6 +53,6 @@ private:
     QOpenGLBuffer m_indexBuffer;
     QOpenGLVertexArrayObject m_vao;
 
-    bool m_mousePressed;
+    // bool m_mousePressed;
 };
 #endif // CANVASWIDGET_H

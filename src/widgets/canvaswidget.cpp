@@ -150,7 +150,7 @@ void CanvasWidget::updateTextureData(int index)
 
 void CanvasWidget::tabletEvent(QTabletEvent *event)
 {
-    handleClick(event->position());
+    getNormalizedClickVector(event->position());
 }
 
 void CanvasWidget::wheelEvent(QWheelEvent *event)
@@ -167,18 +167,23 @@ void CanvasWidget::wheelEvent(QWheelEvent *event)
 
 void CanvasWidget::mousePressEvent(QMouseEvent *event)
 {
-    m_mousePressed = true;
-    handleClick(event->position());
+    // m_mousePressed = true;
+    auto point = getNormalizedClickVector(event->position());
+    m_controller.handleClick(point.x(), point.y(), point.z());
 }
 
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_mousePressed = false;
+    // m_mousePressed = false;
+    auto point = getNormalizedClickVector(event->position());
+    m_controller.handleRelease(point.x(), point.y(), point.z());
 }
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_mousePressed)
-        handleClick(event->position());
+    // if (m_mousePressed)
+    //     getNormalizedClickVector(event->position());
+    auto point = getNormalizedClickVector(event->position());
+    m_controller.handleMove(point.x(), point.y(), point.z());
 }
 
 void CanvasWidget::keyPressEvent(QKeyEvent *event)
@@ -222,9 +227,9 @@ void CanvasWidget::resizeEvent(QResizeEvent *event)
     resizeGL(newWidth, newHeight);
 }
 
-void CanvasWidget::handleClick(const QPointF &position)
+QVector3D CanvasWidget::getNormalizedClickVector(const QPointF &position, const double &pressure)
 {
     double x = 2.0 * position.x() / width() - 1.0;
     double y = 1.0 - 2.0 * position.y() / height();
-    m_controller.handleClick(x, y);
+    return QVector3D(x, y, pressure);
 }

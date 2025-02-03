@@ -33,7 +33,7 @@ void Layer::testDifferentPixels()
 void Layer::drawPixel(const int &x, const int &y, const Color &color)
 {
     const auto pixelInd = x + y * w;
-    // if (index > m_pixels.size() || index < 0) return;
+    if (pixelInd > m_pixels.size() || pixelInd < 0) return;
     m_pixels.at(pixelInd) = color;
     emit layerChanged(m_index);
 }

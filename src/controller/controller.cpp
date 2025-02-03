@@ -22,16 +22,16 @@ void Controller::createImage(const int &w, const int &h)
 
 void Controller::scaleUp()
 {
-    scaleX += 0.01f;
-    scaleY += 0.01f;
+    scaleX += 0.1f;
+    scaleY += 0.1f;
     updateTransform();
 }
 
 void Controller::scaleDown()
 {
     if (scaleX <= 0.01 && scaleY <= 0.01) return;
-    scaleX -= 0.01f;
-    scaleY -= 0.01f;
+    scaleX -= 0.1f;
+    scaleY -= 0.1f;
     updateTransform();
 }
 
@@ -51,26 +51,46 @@ void Controller::rotateRight()
     updateTransform();
 }
 
-void Controller::handleClick(const double &x, const double &y)
+void Controller::handleClick(const double &x, const double &y, const double &pressure)
 {
-    const float normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
-    const float normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
+    m_pressed = true;
+    // m_rasterizer.clearPointQueue();
+    m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
+    // todo: if needed add queue
+}
 
-    // qDebug() << normalizedX;
-    // qDebug() << normalizedY;
+void Controller::handleRelease(const double &x, const double &y, const double &pressure)
+{
+    m_pressed = false;
+    m_rasterizer.clearPointList();
+    // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
+}
 
-    float imageX = (1 - normalizedX) * m_image->width() * 0.5f;
-    float imageY = (normalizedY + 1) * m_image->height() * 0.5f;
+void Controller::handleMove(const double &x, const double &y, const double &pressure)
+{
+    if (!m_pressed) return;
+    // m_image->layers()[m_activeLayerIndex]->drawPixel(imageX, imageY, 0xFFFFFFFF);
+    m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
+}
+
+QVector3D Controller::getCoordinates(const double &x, const double &y, const double &pressure)
+{
+    const double normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
+    const double normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
+
+    double imageX = (1 - normalizedX) * m_image->width() * 0.5f;
+    double imageY = (normalizedY + 1) * m_image->height() * 0.5f;
 
     // qDebug() << imageX;
     // qDebug() << imageY;
 
-    if ((imageX < 0 || imageX >= m_image->width())
-        || (imageY < 0 || imageY >= m_image->height()))
-        return;
+    // if ((imageX < 0 || imageX >= m_image->width())
+    //     || (imageY < 0 || imageY >= m_image->height()))
+    //     return;
 
-    m_image->layers()[m_activeLayerIndex]->drawPixel(imageX, imageY, 0xFFFFFFFF);
+    return QVector3D(imageX, imageY, pressure);
 }
+
 
 void Controller::updateProjection(const float &viewPortRatio)
 {
