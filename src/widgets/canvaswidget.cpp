@@ -150,7 +150,21 @@ void CanvasWidget::updateTextureData(int index)
 
 void CanvasWidget::tabletEvent(QTabletEvent *event)
 {
-    getNormalizedClickVector(event->position());
+    auto point = getNormalizedClickVector(event->position(), event->pressure());
+    //
+    switch (event->type()) {
+    case QEvent::TabletPress:
+        m_controller.handleClick(point.x(), point.y(), point.z());
+        break;
+    case QEvent::TabletRelease:
+        m_controller.handleRelease(point.x(), point.y(), point.z());
+        break;
+    case QEvent::TabletMove:
+        m_controller.handleMove(point.x(), point.y(), point.z());
+        break;
+    default:
+        break;
+    }
 }
 
 void CanvasWidget::wheelEvent(QWheelEvent *event)
@@ -197,18 +211,20 @@ void CanvasWidget::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Q:
             m_controller.rotateLeft();
             break;
-        case Qt::Key_W:
+        case Qt::Key_S:
             m_controller.moveUp();
             break;
-        case Qt::Key_S:
+        case Qt::Key_W:
             m_controller.moveDown();
             break;
-        case Qt::Key_A:
+        case Qt::Key_D:
             m_controller.moveLeft();
             break;
-        case Qt::Key_D:
+        case Qt::Key_A:
             m_controller.moveRight();
             break;
+        case Qt::Key_Backspace:
+            m_controller.clearActiveLayer();
         default:
             break;
     }

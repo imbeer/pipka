@@ -2,7 +2,6 @@
 #define RASTERIZER_H
 
 #include <QVector3D>
-#include <vector>
 #include "../image/layer.h"
 
 namespace PIPKA::CONTROL {
@@ -22,7 +21,7 @@ public:
         const LayerPtr layer,
         const QVector3D &start,
         const QVector3D &end);
-    void clearPointList();
+    void clearPoint();
     // void setColor(const Color &color);
     // inline const Color getColor() {return m_color;};
 
@@ -33,11 +32,13 @@ private:
         const LayerPtr layer,
         const Color &color,
         const int &x, const int &y,
+        const double &startPressure, const double &endPressure,
         const float &interpolation);
 
 private:
-    std::vector<QVector3D> m_points; /// x, y, pressure
-    Color m_color{0xFFFFFFFF};
+    // std::vector<QVector3D> m_points; /// x, y, pressure
+    std::optional<QVector3D> m_previousPoint;
+    Color m_color{0xEE00FFFF};
 
 };
 

@@ -16,6 +16,8 @@ public:
     inline QMatrix3x3 transform() {return m_mvp;};
     inline std::optional<PIPKA::IMAGE::Image> getImage() {return m_image;};
 
+    void clearActiveLayer();
+
     void scaleUp();
     void scaleDown();
     void rotateLeft();

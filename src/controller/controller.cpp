@@ -20,6 +20,11 @@ void Controller::createImage(const int &w, const int &h)
     }
 }
 
+void Controller::clearActiveLayer()
+{
+    m_image->layers()[m_activeLayerIndex]->clearLayer();
+}
+
 void Controller::scaleUp()
 {
     scaleX += 0.1f;
@@ -62,7 +67,7 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 void Controller::handleRelease(const double &x, const double &y, const double &pressure)
 {
     m_pressed = false;
-    m_rasterizer.clearPointList();
+    m_rasterizer.clearPoint();
     // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
 }
 
