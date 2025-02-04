@@ -3,39 +3,38 @@
 
 namespace PIPKA::IMAGE {
 
-Color blendColors(const Color &background, const Color &foreground)
-{
-    uint8_t bg_alpha = (background >> 24) & 0xFF;
-    uint8_t bg_red = (background >> 16) & 0xFF;
-    uint8_t bg_green = (background >> 8) & 0xFF;
-    uint8_t bg_blue = background & 0xFF;
-
-    // Extract the alpha, red, green, blue channels for foreground
-    uint8_t fg_alpha = (foreground >> 24) & 0xFF;
-    uint8_t fg_red = (foreground >> 16) & 0xFF;
-    uint8_t fg_green = (foreground >> 8) & 0xFF;
-    uint8_t fg_blue = foreground & 0xFF;
-
-    int alpha_sum = bg_alpha + fg_alpha;
-
-    int result_red = (bg_red * bg_alpha + fg_red * fg_alpha) / alpha_sum;
-    int result_green = (bg_green * bg_alpha + fg_green * fg_alpha) / alpha_sum;
-    int result_blue = (bg_blue * bg_alpha + fg_blue * fg_alpha) / alpha_sum;
-
-    result_red = std::min(255, std::max(0, result_red));
-    result_green = std::min(255, std::max(0, result_green));
-    result_blue = std::min(255, std::max(0, result_blue));
-    alpha_sum = std::min(255, std::max(0, alpha_sum));
-
-    Color result = (alpha_sum << 24) | (result_red << 16) | (result_green << 8) | result_blue;
-
-    return result;
+Color blend(const Color &background, const Color &foreground, const BlendMode &mode) {
+    switch(mode) {
+    case BlendMode::NORMAL:
+        return normalBlend(background, foreground);
+    default:
+        return foreground;
+    }
 }
 
-void setAlpha(Color& color, uint8_t newAlpha)
+Color normalBlend(const Color &background, const Color &foreground)
 {
-    color &= 0x00FFFFFF;
-    color |= (newAlpha << 24);
+    Channel fgAlpha = COLOR::alpha(foreground);
+    Channel fgRed   = COLOR::red  (foreground);
+    Channel fgGreen = COLOR::green(foreground);
+    Channel fgBlue  = COLOR::blue (foreground);
+
+    Channel bgAlpha = COLOR::alpha(background);
+    Channel bgRed   = COLOR::red  (background);
+    Channel bgGreen = COLOR::green(background);
+    Channel bgBlue  = COLOR::blue (background);
+
+    // if (fgAlpha == 0xFF || bgAlpha == 0x00) return foreground;
+    // if (fgAlpha == 0x00) return background;
+
+    int alphaSum = bgAlpha + fgAlpha;
+
+    Channel alpha = std::clamp(alphaSum, 0, 0xFF);
+    Channel red   = std::clamp((bgRed   * bgAlpha + fgRed   * fgAlpha) / alphaSum, 0, 0xFF);
+    Channel green = std::clamp((bgGreen * bgAlpha + fgGreen * fgAlpha) / alphaSum, 0, 0xFF);
+    Channel blue  = std::clamp((bgBlue  * bgAlpha + fgBlue  * fgAlpha) / alphaSum, 0, 0xFF);
+
+    return COLOR::makeColor(alpha, red, green, blue);
 }
 
 }

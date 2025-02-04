@@ -119,11 +119,11 @@ Color Rasterizer::calculateColor(
     qDebug() << "point pressure" << pressure;
     Color baseColor = layer->getColor(x, y);
     Color paintColor = color;
-    auto alpha = getAlpha(paintColor);
+    auto alpha = COLOR::alpha(paintColor);
     alpha *= pressure;
-    setAlpha(paintColor, alpha);
+    COLOR::setAlpha(paintColor, alpha);
     qDebug() << QString::number(paintColor, 16);
-    const Color blendedColor = blendColors(paintColor, baseColor);
+    const Color blendedColor = normalBlend(baseColor, paintColor);
     qDebug() << QString::number(blendedColor, 16);
     return blendedColor;
 }
