@@ -19,6 +19,11 @@ void Rasterizer::drawPoint(const LayerPtr layer, const QVector3D &point)
         return;
     }
 
+    if (!isFarEnough(point)) {
+        qDebug() << "not redrawing";
+        return;
+    }
+
     if (!m_previousPoint.has_value()) {
         m_previousPoint.emplace(std::move(point));
         int x = static_cast<int>(point.x());
@@ -27,10 +32,6 @@ void Rasterizer::drawPoint(const LayerPtr layer, const QVector3D &point)
             x, y,
             calculateColor(layer, m_color, x, y, point.z(), point.z(), 1));
         layer->update();
-        return;
-    }
-    if (m_previousPoint->distanceToPoint(point) < 1) {
-        qDebug() << "not redrawing";
         return;
     }
 
@@ -60,8 +61,8 @@ void Rasterizer::drawLine(
     int errorTerm = deltaX - deltaY;
     int totalSteps = std::max(deltaX, deltaY);
 
-    for (int currentStep = 0; currentStep <= totalSteps; ++currentStep) {
-        float interpolation = (totalSteps != 0) ? (static_cast<float>(currentStep) / totalSteps) : 0.0f;
+    for (int currentStep = 1; currentStep <= totalSteps; ++currentStep) {
+        float interpolation = static_cast<float>(currentStep) / totalSteps;
         layer->drawPixel(
             startX,
             startY,
@@ -91,6 +92,17 @@ void Rasterizer::clearPoint()
 {
     // qDebug() << "point list cleared";
     m_previousPoint.reset();
+}
+
+float Rasterizer::distanceToPreviousPoint(const QVector3D &point)
+{
+    return std::pow(std::pow((point.x() - m_previousPoint->x()), 2)
+                 + std::pow((point.y() - m_previousPoint->y()), 2), 0.5);
+}
+
+bool Rasterizer::isFarEnough(const QVector3D &point)
+{
+    return distanceToPreviousPoint(point) >= 1;
 }
 
 Color Rasterizer::calculateColor(
