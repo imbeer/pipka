@@ -1,18 +1,24 @@
 #include "color.h"
-#include <algorithm>
 
 namespace PIPKA::IMAGE {
 
 Color blend(const Color &background, const Color &foreground, const BlendMode &mode) {
     switch(mode) {
     case BlendMode::NORMAL:
-        return normalBlend(background, foreground);
+        return normal(background, foreground);
+    case BlendMode::ALPHA_NORMAL:
+        return alphaNormal(background, foreground);
     default:
         return foreground;
     }
 }
 
-Color normalBlend(const Color &background, const Color &foreground)
+Color normal(const Color &background, const Color &foreground)
+{
+    return foreground;
+}
+
+Color alphaNormal(const Color &background, const Color &foreground)
 {
     Channel fgAlpha = COLOR::alpha(foreground);
     Channel fgRed   = COLOR::red  (foreground);
@@ -24,8 +30,8 @@ Color normalBlend(const Color &background, const Color &foreground)
     Channel bgGreen = COLOR::green(background);
     Channel bgBlue  = COLOR::blue (background);
 
-    // if (fgAlpha == 0xFF || bgAlpha == 0x00) return foreground;
-    // if (fgAlpha == 0x00) return background;
+    if (fgAlpha == 0xFF || bgAlpha == 0x00) return foreground;
+    if (fgAlpha == 0x00) return background;
 
     int alphaSum = bgAlpha + fgAlpha;
 

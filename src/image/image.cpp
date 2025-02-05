@@ -12,4 +12,17 @@ Image::Image(
     };
 }
 
+void Image::insertLayer(const int &index)
+{
+    m_layers.insert(m_layers.begin() + index, std::make_shared<Layer>(index, w, h, 0x00000000));
+    emit layerAdded(index);
 }
+
+void Image::pushBackLayer()
+{
+    m_layers.push_back(std::make_shared<Layer>(layerSize(), w, h, 0x00000000));
+    emit layerAdded(layerSize() - 1);
+}
+
+}
+

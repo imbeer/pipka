@@ -13,7 +13,7 @@ class Layer : public QObject
 
 public:
     Layer(const int &index, const int &w, const int &h, const Color &color);
-    // Layer(const Layer &layer);
+
     inline const int width()  {return w;};
     inline const int height() {return h;};
     inline std::vector<Color> pixels() {return m_pixels;};
@@ -25,8 +25,7 @@ public:
     void update();
 
 signals:
-    void layerChanged(
-        int index);
+    void layerChanged(int index);
 
 private:
     std::vector<Color> m_pixels;

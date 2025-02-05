@@ -6,17 +6,26 @@
 
 namespace PIPKA::IMAGE {
 
-class Image
+class Image : public QObject
 {
+    Q_OBJECT
 public:
     Image(
         const int &w,
         const int &h);
+
     inline const int width() {return w;};
     inline const int height() {return h;};
     inline const float ratio() {return static_cast<float>(w) / h;};
-    inline std::vector<std::shared_ptr<Layer>> layers() {return m_layers;};
     inline const int layerSize() {return m_layers.size();};
+    inline std::vector<std::shared_ptr<Layer>> layers() {return m_layers;};
+
+public:
+    void insertLayer(const int &index);
+    void pushBackLayer();
+
+signals:
+    void layerAdded(int index);
 
 private:
     const int w;

@@ -12,11 +12,12 @@ class Controller
 {
 public:
     Controller();
-    void createImage(const int &w, const int &h);
     inline QMatrix3x3 transform() {return m_mvp;};
     inline std::shared_ptr<PIPKA::IMAGE::Image> getImage() {return m_image;};
 
+    void createImage(const int &w, const int &h);
     void clearActiveLayer();
+    void addLayer();
 
     void scaleUp();
     void scaleDown();

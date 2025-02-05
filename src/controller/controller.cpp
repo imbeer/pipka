@@ -27,6 +27,13 @@ void Controller::clearActiveLayer()
     m_image->layers()[m_activeLayerIndex]->clearLayer();
 }
 
+void Controller::addLayer()
+{
+    m_image->pushBackLayer();
+    m_activeLayerIndex = m_image->layerSize() - 1;
+    // m_image->layers()[m_activeLayerIndex]
+}
+
 void Controller::scaleUp()
 {
     scaleX += 0.1f;

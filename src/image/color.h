@@ -1,6 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include <algorithm>
 #include <cstdint>
 
 
@@ -10,7 +11,8 @@ using Color = std::uint32_t;
 using Channel = std::uint8_t;
 
 enum class BlendMode {
-    NORMAL
+    NORMAL,
+    ALPHA_NORMAL
 };
 
 namespace COLOR {
@@ -34,10 +36,14 @@ inline void setBlue (Color& color, const Channel &newBlue ) { color &= 0xFFFFFF0
 [[nodiscard]] inline Channel green(const Color& color) {return (color >>  8) & 0xFF;};
 [[nodiscard]] inline Channel blue (const Color& color) {return color & 0xFF;};
 
+[[nodiscard]] inline float   hexToFloat(const Color &color) {return static_cast<float>(color) / 0xFF;};
+[[nodiscard]] inline Channel floatToHex(const float &color) {return std::clamp(static_cast<int>(color * 0xFF), 0, 0xFF);};
+
 }
 
 Color blend(const Color &background, const Color &foreground, const BlendMode &mode);
-Color normalBlend(const Color &background, const Color &foreground);
+Color normal(const Color &background, const Color &foreground);
+Color alphaNormal(const Color &background, const Color &foreground);
 
 
 }
