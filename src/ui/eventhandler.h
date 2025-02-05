@@ -4,6 +4,7 @@
 #include "../controller/controller.h"
 
 #include <qevent.h>
+#include <unordered_set>
 
 namespace PIPKA::UI {
 
@@ -20,6 +21,7 @@ public:
     void mouseReleaseEvent(QMouseEvent  *event);
     void mouseMoveEvent   (QMouseEvent  *event);
     void keyPressEvent    (QKeyEvent    *event);
+    void keyReleaseEvent  (QKeyEvent    *event);
     void resizeEvent      (QResizeEvent *event);
 
     inline void setSize(const int &width, const int &height) {this->width = width; this->height = height;};
@@ -34,6 +36,7 @@ public:
 
 private:
     std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
+    std::unordered_set<int> m_pressedKeys;
     int width;
     int height;
 };

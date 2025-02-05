@@ -68,7 +68,11 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
         m_controller->rotateLeft();
         break;
     case Qt::Key_S:
-        m_controller->moveUp();
+        if (m_pressedKeys.count(Qt::Key_Control) > 0) {
+            qDebug() << "ctrl + s";
+        } else {
+            m_controller->moveUp();
+        }
         break;
     case Qt::Key_W:
         m_controller->moveDown();
@@ -88,6 +92,12 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
     default:
         break;
     }
+    m_pressedKeys.emplace(key);
+}
+
+void EventHandler::keyReleaseEvent(QKeyEvent *event)
+{
+    m_pressedKeys.erase(m_pressedKeys.find(event->key()));
 }
 
 }

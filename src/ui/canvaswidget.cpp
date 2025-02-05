@@ -195,6 +195,12 @@ void CanvasWidget::keyPressEvent(QKeyEvent *event)
     update();
 }
 
+void CanvasWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    m_eventHandler.keyReleaseEvent(event);
+    // update();
+}
+
 void CanvasWidget::resizeEvent(QResizeEvent *event)
 {
     QOpenGLWidget::resizeEvent(event);

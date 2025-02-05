@@ -35,13 +35,14 @@ protected:
 
 protected:
     // todo: slap event filter here
-    void tabletEvent(QTabletEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
+    void tabletEvent      (QTabletEvent *event) override;
+    void wheelEvent       (QWheelEvent *event) override;
+    void mousePressEvent  (QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
+    void mouseMoveEvent   (QMouseEvent *event) override;
+    void keyPressEvent    (QKeyEvent *event) override;
+    void keyReleaseEvent  (QKeyEvent *event) override;
+    void resizeEvent      (QResizeEvent *event) override;
 
 // qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
 
