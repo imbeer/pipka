@@ -1,5 +1,6 @@
 #include "rasterizer.h"
 #include <qdebug.h>
+#include <qimage.h>
 
 namespace PIPKA::CONTROL {
 
@@ -88,6 +89,35 @@ void Rasterizer::drawLine(
     layer->update();
 }
 
+QImage Rasterizer::renderImage(const std::shared_ptr<PIPKA::IMAGE::Image> image)
+{
+    const int w = image->width();
+    const int h = image->height();
+    std::vector<Color> buffer(w * h, 0x00);
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int pixelInd = 0; pixelInd < w * h; ++pixelInd) {
+        Color baseColor = 0x00;
+        for (const auto &layer : image->layers()) {
+            baseColor = IMAGE::blend(baseColor, layer->getColor(pixelInd), IMAGE::BlendMode::ALPHA_NORMAL);
+        }
+        buffer.at(pixelInd) = baseColor;
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+
+    qDebug() << duration.count();
+
+
+    return QImage(
+        reinterpret_cast<const uchar*>(buffer.data()),
+        w, h,
+        w * sizeof(Color), // Bytes per line
+        QImage::Format_ARGB32);
+}
+
 void Rasterizer::clearPoint()
 {
     // qDebug() << "point list cleared";
@@ -112,20 +142,18 @@ Color Rasterizer::calculateColor(
     const double &startPressure, const double &endPressure,
     const float &interpolation)
 {
-    qDebug() << "point interpolation" << interpolation;
     using namespace PIPKA::IMAGE;
     // todo: here should be a brush method or something, but for now
     const double pressure = std::clamp(interpolation * (endPressure - startPressure) + startPressure, 0.0, 1.0);
-    qDebug() << "point pressure" << pressure;
+
     Color baseColor = layer->getColor(x, y);
     Color paintColor = color;
+
     auto alpha = COLOR::alpha(paintColor);
     alpha *= pressure;
     COLOR::setAlpha(paintColor, alpha);
-    qDebug() << QString::number(paintColor, 16);
-    const Color blendedColor = normal(baseColor, paintColor);
-    qDebug() << QString::number(blendedColor, 16);
-    return blendedColor;
+
+    return blend(baseColor, paintColor, BlendMode::ALPHA_NORMAL);
 }
 
 }

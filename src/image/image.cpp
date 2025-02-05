@@ -8,7 +8,7 @@ Image::Image(
     : w(w), h(h)
 {
     m_layers = std::vector<std::shared_ptr<Layer>>{
-        std::make_shared<Layer>(0, w, h, 0xFF111111),
+        std::make_shared<Layer>(0, w, h, 0xff1e1e2e),
     };
 }
 

@@ -30,8 +30,8 @@ Color alphaNormal(const Color &background, const Color &foreground)
     Channel bgGreen = COLOR::green(background);
     Channel bgBlue  = COLOR::blue (background);
 
-    if (fgAlpha == 0xFF || bgAlpha == 0x00) return foreground;
-    if (fgAlpha == 0x00) return background;
+    // if (fgAlpha == 0xFF || bgAlpha == 0x00) return foreground;
+    // if (fgAlpha == 0x00) return background;
 
     int alphaSum = bgAlpha + fgAlpha;
 

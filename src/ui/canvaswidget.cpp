@@ -49,7 +49,7 @@ void CanvasWidget::addTexture(const int &index) // todo: add check for vector bo
     texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
     texture->allocateStorage();
     texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
-    texture->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8,
+    texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
                      reinterpret_cast<const void*>(layer->pixels().data()));
     // m_textures.push_back(texture);
     m_textures.insert(m_textures.begin() + index, texture);
@@ -65,7 +65,7 @@ void CanvasWidget::addTexture(const int &index) // todo: add check for vector bo
 void CanvasWidget::updateTextureData(int index)
 {
     m_textures[index]->setData(
-        QOpenGLTexture::RGBA,
+        QOpenGLTexture::BGRA,
         QOpenGLTexture::UInt8,
         reinterpret_cast<const void*>(m_controller->getImage()->layers()[index]->pixels().data()));
     qDebug() << "Updated";
@@ -138,8 +138,8 @@ void CanvasWidget::paintGL()
 
     // glDisable(GL_DEPTH_TEST);
     // glDisable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // glEnable(GL_TEXTURE_2D);
     // glDepthMask(GL_FALSE);
 

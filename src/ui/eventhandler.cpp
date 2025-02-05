@@ -69,7 +69,8 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_S:
         if (m_pressedKeys.count(Qt::Key_Control) > 0) {
-            qDebug() << "ctrl + s";
+            qDebug() << "saving";
+            m_controller->saveImage();
         } else {
             m_controller->moveUp();
         }

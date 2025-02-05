@@ -18,6 +18,7 @@ public:
     inline const int height() {return h;};
     inline std::vector<Color> pixels() {return m_pixels;};
     Color getColor(const int &x, const int &y);
+    Color getColor(const int &index);
     void testDifferentPixels();
     void drawPixel(const int &x, const int &y, const Color &color);
     void clearLayer();

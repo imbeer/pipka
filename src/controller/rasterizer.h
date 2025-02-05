@@ -3,6 +3,7 @@
 
 #include <QVector3D>
 #include "../image/layer.h"
+#include "../image/image.h"
 
 namespace PIPKA::CONTROL {
 
@@ -21,9 +22,12 @@ public:
         const LayerPtr layer,
         const QVector3D &start,
         const QVector3D &end);
+    QImage renderImage(const std::shared_ptr<PIPKA::IMAGE::Image> image);
+
     void clearPoint();
     float distanceToPreviousPoint(const QVector3D &point);
     bool isFarEnough(const QVector3D &point);
+
     // void setColor(const Color &color);
     // inline const Color getColor() {return m_color;};
 
@@ -40,7 +44,7 @@ private:
 private:
     // std::vector<QVector3D> m_points; /// x, y, pressure
     std::optional<QVector3D> m_previousPoint;
-    Color m_color{0xEE00FFFF};
+    Color m_color{0xfff38ba8};
 
 };
 

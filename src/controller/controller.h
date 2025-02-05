@@ -5,6 +5,7 @@
 #include "rasterizer.h"
 #include <QMatrix3x3>
 #include <QMatrix4x4>
+#include <QImage>
 
 namespace PIPKA::CONTROL {
 
@@ -16,6 +17,7 @@ public:
     inline std::shared_ptr<PIPKA::IMAGE::Image> getImage() {return m_image;};
 
     void createImage(const int &w, const int &h);
+    void saveImage(const QString &path = "output.png");
     void clearActiveLayer();
     void addLayer();
 

@@ -23,6 +23,11 @@ Color Layer::getColor(const int &x, const int &y)
     return m_pixels.at(pixelInd);
 }
 
+Color Layer::getColor(const int &index)
+{
+    return m_pixels.at(index);
+}
+
 
 void Layer::testDifferentPixels()
 {

@@ -22,6 +22,12 @@ void Controller::createImage(const int &w, const int &h)
     updateProjection(1);
 }
 
+void Controller::saveImage(const QString &path)
+{
+    auto image = m_rasterizer.renderImage(m_image);
+    image.save(path, "PNG");
+}
+
 void Controller::clearActiveLayer()
 {
     m_image->layers()[m_activeLayerIndex]->clearLayer();
