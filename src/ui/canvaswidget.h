@@ -20,11 +20,12 @@ public:
         PIPKA::CONTROL::Controller &controller,
         QWidget *parent = nullptr);
     ~CanvasWidget();
-public:
+private:
+    void initializeTextures();
+    void addTexture(const int &index);
     void updateTextureData(int index);
 
 protected:
-    void initializeTextures();
     void initializeGL() override;
     void resizeGL(int width, int height) override;
     void paintGL() override;

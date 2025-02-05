@@ -1,7 +1,7 @@
 // #include "widgets/canvaswidget.h"
 
 #include <QApplication>
-#include "widgets/canvaswidget.h"
+#include "ui/canvaswidget.h"
 #include "controller/controller.h"
 
 int main(int argc, char *argv[])
