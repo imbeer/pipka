@@ -15,20 +15,22 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGLWidgets)
 set(PROJECT_SOURCES
     src/shaders/shaders.qrc
     src/main.cpp
-    src/ui/canvaswidget.cpp
-    src/ui/canvaswidget.h
+    src/ui/canvaswidget.h src/ui/canvaswidget.cpp
+    src/ui/eventhandler.h src/ui/eventhandler.cpp
+
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
+    src/image/color.h src/image/color.cpp
 
     src/controller/controller.h src/controller/controller.cpp
+    src/controller/rasterizer.h src/controller/rasterizer.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(pipka
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        src/controller/rasterizer.h src/controller/rasterizer.cpp
-        src/image/color.h src/image/color.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pipka APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

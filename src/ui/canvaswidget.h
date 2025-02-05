@@ -10,6 +10,9 @@
 #include <QTabletEvent>
 
 #include "../controller/controller.h"
+#include "eventhandler.h"
+
+namespace PIPKA::UI {
 
 class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -17,7 +20,7 @@ class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
 
 public:
     CanvasWidget(
-        PIPKA::CONTROL::Controller &controller,
+        std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
         QWidget *parent = nullptr);
     ~CanvasWidget();
 private:
@@ -31,6 +34,7 @@ protected:
     void paintGL() override;
 
 protected:
+    // todo: slap event filter here
     void tabletEvent(QTabletEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -39,17 +43,15 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
-private:
-    QVector3D getNormalizedClickVector(const QPointF &position, const double &pressure = 1);
-
 // qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
-//
+
 private:
+    EventHandler m_eventHandler;
     std::vector<std::shared_ptr<QOpenGLTexture>> m_textures;
     // QOpenGLTexture* m_texture;
     // PIPKA::IMAGE::Layer m_layer;
     // PIPKA::IMAGE::Image m_image;
-    PIPKA::CONTROL::Controller m_controller;
+    std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
     QOpenGLShaderProgram* m_shaderProgram;
     QOpenGLBuffer m_vertexBuffer;
     QOpenGLBuffer m_indexBuffer;
@@ -57,4 +59,7 @@ private:
 
     // bool m_mousePressed;
 };
+
+}
+
 #endif // CANVASWIDGET_H
