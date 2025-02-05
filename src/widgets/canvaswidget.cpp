@@ -24,13 +24,13 @@ CanvasWidget::~CanvasWidget()
 
 void CanvasWidget::initializeTextures()
 {
-    auto image = m_controller.getImage().value();
-    qDebug() << image.layerSize();
-    for (int layerInd = 0; layerInd < image.layerSize(); layerInd++) {
-        auto layer = image.layers()[layerInd];
+    auto image = m_controller.getImage();
+    qDebug() << image->layerSize();
+    for (int layerInd = 0; layerInd < image->layerSize(); layerInd++) {
+        auto layer = image->layers()[layerInd];
         auto texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
 
-        texture->setSize(image.width(), image.height());
+        texture->setSize(image->width(), image->height());
         texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
         texture->allocateStorage();
         texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
@@ -42,7 +42,7 @@ void CanvasWidget::initializeTextures()
         // qDebug() << m_textures.size();
 
         auto res = QObject::connect(
-            image.layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
+            image->layers()[layerInd].get(), &PIPKA::IMAGE::Layer::layerChanged,
             this, &CanvasWidget::updateTextureData);
         if (res) {
             // qDebug() << "connected";

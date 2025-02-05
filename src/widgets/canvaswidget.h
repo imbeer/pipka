@@ -20,6 +20,7 @@ public:
         PIPKA::CONTROL::Controller &controller,
         QWidget *parent = nullptr);
     ~CanvasWidget();
+public:
     void updateTextureData(int index);
 
 protected:

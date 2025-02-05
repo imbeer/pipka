@@ -5,19 +5,21 @@
 namespace PIPKA::CONTROL {
 
 Controller::Controller()
-    : m_image(std::nullopt)
+    : m_image(nullptr)
 {
-    updateTransform();
-    updateProjection(1);
+    // updateTransform();
+    // updateProjection(1);
 }
 
 void Controller::createImage(const int &w, const int &h)
 {
-    if (!m_image.has_value()) {
-        m_image.emplace(w, h);
+    if (!m_image) {
+        m_image = std::make_shared<PIPKA::IMAGE::Image>(w, h);
     } else {
         qDebug() << "image already exists";
     }
+    updateTransform();
+    updateProjection(1);
 }
 
 void Controller::clearActiveLayer()

@@ -14,7 +14,7 @@ public:
     Controller();
     void createImage(const int &w, const int &h);
     inline QMatrix3x3 transform() {return m_mvp;};
-    inline std::optional<PIPKA::IMAGE::Image> getImage() {return m_image;};
+    inline std::shared_ptr<PIPKA::IMAGE::Image> getImage() {return m_image;};
 
     void clearActiveLayer();
 
@@ -40,7 +40,7 @@ private:
     void updateFullMatrix();
 
 private:
-    std::optional<PIPKA::IMAGE::Image> m_image; // todo something better idk
+    std::shared_ptr<PIPKA::IMAGE::Image> m_image;
     Rasterizer m_rasterizer;
     QMatrix3x3 m_transform;
     QMatrix3x3 m_i_transform;

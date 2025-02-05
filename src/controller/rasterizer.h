@@ -40,7 +40,7 @@ private:
 private:
     // std::vector<QVector3D> m_points; /// x, y, pressure
     std::optional<QVector3D> m_previousPoint;
-    Color m_color{0xFF00FFFF};
+    Color m_color{0x8800FFFF};
 
 };
 

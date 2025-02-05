@@ -123,7 +123,7 @@ Color Rasterizer::calculateColor(
     alpha *= pressure;
     COLOR::setAlpha(paintColor, alpha);
     qDebug() << QString::number(paintColor, 16);
-    const Color blendedColor = normalBlend(baseColor, paintColor);
+    const Color blendedColor = normal(baseColor, paintColor);
     qDebug() << QString::number(blendedColor, 16);
     return blendedColor;
 }
