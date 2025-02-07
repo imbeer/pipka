@@ -11,7 +11,9 @@ Layer::Layer(
     const int &h,
     const Color &color)
     : m_index(index), w(w), h(h), m_pixels(w * h, color), defaultColor(color)
-{}
+{
+    blend = std::make_shared<COLOR::NormalBlend>();
+}
 
 // Layer::Layer(const Layer &layer)
 //     : index(layer.index), w(layer.w), h(layer.h), m_pixels(layer.m_pixels) // todo: the fuck is wrong with this copy constructors

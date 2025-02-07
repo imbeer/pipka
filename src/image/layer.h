@@ -4,6 +4,8 @@
 #include <vector>
 #include <QObject>
 #include "color/color.h"
+#include "color/blend.h"
+
 
 namespace PIPKA::IMAGE {
 
@@ -34,6 +36,9 @@ private:
     const int h;
     const Color defaultColor;
     int m_index;
+
+public:
+    std::shared_ptr<COLOR::Blend> blend;
 };
 
 }

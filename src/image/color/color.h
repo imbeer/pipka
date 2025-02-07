@@ -10,11 +10,6 @@ namespace PIPKA::IMAGE {
 using Color = std::uint32_t;
 using Channel = std::uint8_t;
 
-enum class BlendMode {
-    REPLACE,
-    NORMAL
-};
-
 namespace COLOR {
 
 [[nodiscard]] inline Color makeColor(
@@ -26,24 +21,20 @@ namespace COLOR {
     return result;
 };
 
-inline void setAlpha(Color& color, const Channel &newAlpha) { color &= 0x00FFFFFF; color |= (newAlpha << 24); };
-inline void setRed  (Color& color, const Channel &newRed  ) { color &= 0xFF00FFFF; color |= (newRed   << 16); };
-inline void setGreen(Color& color, const Channel &newGreen) { color &= 0xFFFF00FF; color |= (newGreen <<  8); };
-inline void setBlue (Color& color, const Channel &newBlue ) { color &= 0xFFFFFF00; color |= newBlue ; };
+inline void setAlpha(Color &color, const Channel &newAlpha) { color &= 0x00FFFFFF; color |= (newAlpha << 24); };
+inline void setRed  (Color &color, const Channel &newRed  ) { color &= 0xFF00FFFF; color |= (newRed   << 16); };
+inline void setGreen(Color &color, const Channel &newGreen) { color &= 0xFFFF00FF; color |= (newGreen <<  8); };
+inline void setBlue (Color &color, const Channel &newBlue ) { color &= 0xFFFFFF00; color |= newBlue ; };
 
-[[nodiscard]] inline Channel alpha(const Color& color) {return (color >> 24) & 0xFF;};
-[[nodiscard]] inline Channel red  (const Color& color) {return (color >> 16) & 0xFF;};
-[[nodiscard]] inline Channel green(const Color& color) {return (color >>  8) & 0xFF;};
-[[nodiscard]] inline Channel blue (const Color& color) {return color & 0xFF;};
+[[nodiscard]] inline Channel alpha(const Color &color) {return (color >> 24) & 0xFF;};
+[[nodiscard]] inline Channel red  (const Color &color) {return (color >> 16) & 0xFF;};
+[[nodiscard]] inline Channel green(const Color &color) {return (color >>  8) & 0xFF;};
+[[nodiscard]] inline Channel blue (const Color &color) {return color & 0xFF;};
 
 [[nodiscard]] inline float   hexToFloat(const Color &color) {return static_cast<float>(color) / 0xFF;};
 [[nodiscard]] inline Channel floatToHex(const float &color) {return std::clamp(static_cast<int>(color * 0xFF), 0, 0xFF);};
 
 }
-
-Color blend(const Color &background, const Color &foreground, const BlendMode &mode);
-Color replace(const Color &background, const Color &foreground);
-Color normal(const Color &background, const Color &foreground);
 
 }
 

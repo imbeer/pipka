@@ -45,6 +45,7 @@ private:
     // std::vector<QVector3D> m_points; /// x, y, pressure
     std::optional<QVector3D> m_previousPoint;
     Color m_color{0xfff38ba8};
+    std::shared_ptr<IMAGE::COLOR::Blend> m_blend;
 
 };
 

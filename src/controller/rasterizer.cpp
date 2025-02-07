@@ -4,7 +4,9 @@
 
 namespace PIPKA::CONTROL {
 
-Rasterizer::Rasterizer() {}
+Rasterizer::Rasterizer() {
+    m_blend = std::make_shared<IMAGE::COLOR::NormalBlend>();
+}
 
 void Rasterizer::drawPoint(const LayerPtr layer, const QVector3D &point)
 {
@@ -100,7 +102,7 @@ QImage Rasterizer::renderImage(const std::shared_ptr<PIPKA::IMAGE::Image> image)
     for (int pixelInd = 0; pixelInd < w * h; ++pixelInd) {
         Color baseColor = 0x00;
         for (const auto &layer : image->layers()) {
-            baseColor = IMAGE::blend(baseColor, layer->getColor(pixelInd), IMAGE::BlendMode::NORMAL);
+            baseColor = layer->blend->blend(baseColor, layer->getColor(pixelInd));
         }
         buffer.at(pixelInd) = baseColor;
     }
@@ -153,7 +155,7 @@ Color Rasterizer::calculateColor(
     alpha *= pressure;
     COLOR::setAlpha(paintColor, alpha);
 
-    return blend(baseColor, paintColor, BlendMode::NORMAL);
+    return m_blend->blend(baseColor, paintColor);
 }
 
 }
