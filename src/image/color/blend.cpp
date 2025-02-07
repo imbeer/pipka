@@ -14,10 +14,10 @@ Color Blend::blend(const Color &background, const Color &foreground)
     const float bgGreen { hexToFloat(green(background)) * bgAlpha };
     const float bgBlue  { hexToFloat(blue (background)) * bgAlpha };
 
-    const Channel alpha { floatToHex(this->alpha(bgAlpha, fgAlpha)) };
-    const Channel red   { floatToHex(channel(bgRed,   bgAlpha, fgRed,   fgAlpha)) };
-    const Channel green { floatToHex(channel(bgGreen, bgAlpha, fgGreen, fgAlpha)) };
-    const Channel blue  { floatToHex(channel(bgBlue,  bgAlpha, fgBlue,  fgAlpha)) };
+    const Channel alpha { this->alpha(bgAlpha, fgAlpha) };
+    const Channel red   { channel(bgRed,   bgAlpha, fgRed,   fgAlpha) };
+    const Channel green { channel(bgGreen, bgAlpha, fgGreen, fgAlpha) };
+    const Channel blue  { channel(bgBlue,  bgAlpha, fgBlue,  fgAlpha) };
 
     return COLOR::makeColor(alpha, red, green, blue);
 }
