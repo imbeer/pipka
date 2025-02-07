@@ -100,7 +100,7 @@ QImage Rasterizer::renderImage(const std::shared_ptr<PIPKA::IMAGE::Image> image)
     for (int pixelInd = 0; pixelInd < w * h; ++pixelInd) {
         Color baseColor = 0x00;
         for (const auto &layer : image->layers()) {
-            baseColor = IMAGE::blend(baseColor, layer->getColor(pixelInd), IMAGE::BlendMode::ALPHA_NORMAL);
+            baseColor = IMAGE::blend(baseColor, layer->getColor(pixelInd), IMAGE::BlendMode::NORMAL);
         }
         buffer.at(pixelInd) = baseColor;
     }
@@ -153,7 +153,7 @@ Color Rasterizer::calculateColor(
     alpha *= pressure;
     COLOR::setAlpha(paintColor, alpha);
 
-    return blend(baseColor, paintColor, BlendMode::ALPHA_NORMAL);
+    return blend(baseColor, paintColor, BlendMode::NORMAL);
 }
 
 }

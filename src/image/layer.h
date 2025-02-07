@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <QObject>
-#include "color.h"
+#include "color/color.h"
 
 namespace PIPKA::IMAGE {
 

@@ -21,7 +21,7 @@ set(PROJECT_SOURCES
 
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
-    src/image/color.h src/image/color.cpp
+    src/image/color/color.h src/image/color/color.cpp
 
     src/controller/controller.h src/controller/controller.cpp
     src/controller/rasterizer.h src/controller/rasterizer.cpp

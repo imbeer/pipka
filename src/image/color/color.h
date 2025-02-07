@@ -11,8 +11,8 @@ using Color = std::uint32_t;
 using Channel = std::uint8_t;
 
 enum class BlendMode {
-    NORMAL,
-    ALPHA_NORMAL
+    REPLACE,
+    NORMAL
 };
 
 namespace COLOR {
@@ -42,9 +42,8 @@ inline void setBlue (Color& color, const Channel &newBlue ) { color &= 0xFFFFFF0
 }
 
 Color blend(const Color &background, const Color &foreground, const BlendMode &mode);
+Color replace(const Color &background, const Color &foreground);
 Color normal(const Color &background, const Color &foreground);
-Color alphaNormal(const Color &background, const Color &foreground);
-
 
 }
 
