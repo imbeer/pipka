@@ -81,9 +81,6 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 
     m_tool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
     m_previousPoint.emplace(currentPoint);
-    // m_rasterizer.clearPointQueue();
-    // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
-    // todo: if needed add queue
 }
 
 void Controller::handleRelease(const double &x, const double &y, const double &pressure)

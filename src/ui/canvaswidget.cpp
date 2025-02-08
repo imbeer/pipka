@@ -63,6 +63,7 @@ void CanvasWidget::addTexture(const int &index) // todo: add check for vector bo
 }
 
 void CanvasWidget::updateTextureData(int index)
+// todo: add indexes of a part of layer that was updated.
 {
     m_textures[index]->setData(
         QOpenGLTexture::BGRA,

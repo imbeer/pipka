@@ -46,7 +46,7 @@ private:
     /// distance between points, where z is tablet pressure
     inline float distance(const QVector3D &first, const QVector3D &second) { return
         std::pow(std::pow((first.x() - second.x()), 2)
-                 + std::pow((first.y() - second.y()), 2), 0.5);
+            + std::pow((first.y() - second.y()), 2), 0.5);
     }
 
     inline bool isFarEnough(const QVector3D &first, const QVector3D &second) { return distance(first, second) >= 1; }
