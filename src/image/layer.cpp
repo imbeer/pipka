@@ -21,12 +21,14 @@ Layer::Layer(
 
 Color Layer::getColor(const int &x, const int &y)
 {
+    if (x >= w || x < 0 || y >= h || y < 0) return 0;
     const auto pixelInd = x + y * w;
     return m_pixels.at(pixelInd);
 }
 
 Color Layer::getColor(const int &index)
 {
+    if (index < 0 || index >= m_pixels.size()) return 0;
     return m_pixels.at(index);
 }
 
@@ -46,8 +48,9 @@ void Layer::testDifferentPixels()
 
 void Layer::drawPixel(const int &x, const int &y, const Color &color)
 {
+    if (x >= w || x < 0 || y >= h || y < 0) return;
     const auto pixelInd = x + y * w;
-    if (pixelInd > m_pixels.size() || pixelInd < 0) return;
+    // if (pixelInd >= m_pixels.size() || pixelInd < 0) return;
     m_pixels.at(pixelInd) = color;
 }
 

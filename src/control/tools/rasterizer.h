@@ -2,38 +2,36 @@
 #define RASTERIZER_H
 
 #include <QVector3D>
-#include "../image/layer.h"
-#include "../image/image.h"
 
-namespace PIPKA::CONTROL {
+#include "tool.h"
 
-using Color = IMAGE::Color;
-using Layer = IMAGE::Layer;
-using LayerPtr = std::shared_ptr<Layer>;
+namespace PIPKA::CONTROL::TOOLS {
 
-class Rasterizer
+class Rasterizer : public Tool
 {    
 public:
     Rasterizer();
 
-    void drawPoint(const LayerPtr layer, const QVector3D &point);
-    /// brazenham
+    void action(const QVector3D &currentPoint,
+                const optional<QVector3D> &previousPoint,
+                const LayerPtr &layer,
+                const ImagePtr &image) override;
+
+    void release() override;
+    void confirm() override;
+
+private:
+    /// brazenham line rasterization
     void drawLine(
         const LayerPtr layer,
         const QVector3D &start,
         const QVector3D &end);
     QImage renderImage(const std::shared_ptr<PIPKA::IMAGE::Image> image);
 
-    void clearPoint();
-    float distanceToPreviousPoint(const QVector3D &point);
-    bool isFarEnough(const QVector3D &point);
+    // float distanceToPreviousPoint(const QVector3D &first, const QVector3D &second);
+    // bool isFarEnough(const QVector3D &first, const QVector3D &second);
 
-    // void setColor(const Color &color);
-    // inline const Color getColor() {return m_color;};
-
-private:
     /// get new color according to blending and alpha channel.
-    /// maybe should be moved to PIPKA::IMAGE::Layer.
     Color calculateColor(
         const LayerPtr layer,
         const Color &color,
@@ -42,8 +40,7 @@ private:
         const float &interpolation);
 
 private:
-    // std::vector<QVector3D> m_points; /// x, y, pressure
-    std::optional<QVector3D> m_previousPoint;
+    // std::optional<QVector3D> m_previousPoint;
     Color m_color{0xfff38ba8};
     std::shared_ptr<IMAGE::COLOR::Blend> m_blend;
 

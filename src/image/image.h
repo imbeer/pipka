@@ -23,6 +23,7 @@ public:
 public:
     void insertLayer(const int &index);
     void pushBackLayer();
+    QImage toQImage();
 
 signals:
     void layerAdded(int index);

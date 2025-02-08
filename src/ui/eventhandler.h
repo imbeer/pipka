@@ -1,7 +1,7 @@
 #ifndef EVENTHANDLER_H
 #define EVENTHANDLER_H
 
-#include "../controller/controller.h"
+#include "../control/controller.h"
 
 #include <qevent.h>
 #include <unordered_set>

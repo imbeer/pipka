@@ -2,7 +2,7 @@
 #define CONTROLLER_H
 
 #include "../image/image.h"
-#include "rasterizer.h"
+#include "tools/tool.h"
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 #include <QImage>
@@ -43,8 +43,24 @@ private:
     void updateFullMatrix();
 
 private:
+    /// distance between points, where z is tablet pressure
+    inline float distance(const QVector3D &first, const QVector3D &second) { return
+        std::pow(std::pow((first.x() - second.x()), 2)
+                 + std::pow((first.y() - second.y()), 2), 0.5);
+    }
+
+    inline bool isFarEnough(const QVector3D &first, const QVector3D &second) { return distance(first, second) >= 1; }
+
+    inline bool isOutside(const QVector3D &point) { return (
+        point.x() < 0
+        || point.y() < 0
+        || point.x() >= m_image->width()
+        || point.y() >= m_image->height());
+    };
+
+private:
     std::shared_ptr<PIPKA::IMAGE::Image> m_image;
-    Rasterizer m_rasterizer;
+    std::shared_ptr<TOOLS::Tool> m_tool;
     QMatrix3x3 m_transform;
     QMatrix3x3 m_i_transform;
 
@@ -62,6 +78,7 @@ private:
     float moveY = 0.0f;
 
     bool m_pressed = false;
+    std::optional<QVector3D> m_previousPoint;
 
     int m_activeLayerIndex = 0;
 };

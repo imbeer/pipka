@@ -1,5 +1,7 @@
 #include "controller.h"
+#include "tools/rasterizer.h"
 #include <qdebug.h>
+#include <qvector3d.h>
 #include <qvectornd.h>
 
 namespace PIPKA::CONTROL {
@@ -7,7 +9,7 @@ namespace PIPKA::CONTROL {
 Controller::Controller()
     : m_image(nullptr)
 {
-    // updateTransform();
+    m_tool = std::make_shared<TOOLS::Rasterizer>();
     // updateProjection(1);
 }
 
@@ -24,8 +26,7 @@ void Controller::createImage(const int &w, const int &h)
 
 void Controller::saveImage(const QString &path)
 {
-    auto image = m_rasterizer.renderImage(m_image);
-    image.save(path, "PNG");
+    m_image->toQImage().save(path, "PNG");
 }
 
 void Controller::clearActiveLayer()
@@ -74,39 +75,55 @@ void Controller::rotateRight()
 void Controller::handleClick(const double &x, const double &y, const double &pressure)
 {
     m_pressed = true;
+    const QVector3D currentPoint = getCoordinates(x, y, pressure);
+
+    if (isOutside(currentPoint)) return;
+
+    m_tool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+    m_previousPoint.emplace(currentPoint);
     // m_rasterizer.clearPointQueue();
-    m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
+    // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
     // todo: if needed add queue
 }
 
 void Controller::handleRelease(const double &x, const double &y, const double &pressure)
 {
     m_pressed = false;
-    m_rasterizer.clearPoint();
+    m_tool->release();
+    m_previousPoint.reset();
     // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
 }
 
 void Controller::handleMove(const double &x, const double &y, const double &pressure)
 {
     if (!m_pressed) return;
-    // m_image->layers()[m_activeLayerIndex]->drawPixel(imageX, imageY, 0xFFFFFFFF);
-    m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
+    const QVector3D currentPoint = getCoordinates(x, y, pressure);
+
+    if (isOutside(currentPoint)) {
+        m_previousPoint.reset();
+        return;
+    }
+
+    if (!m_previousPoint.has_value()) {
+        m_tool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_previousPoint.emplace(currentPoint);
+        return;
+    }
+
+    if (isFarEnough(currentPoint, *m_previousPoint)) {
+        m_tool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_previousPoint.emplace(currentPoint);
+    }
 }
 
 QVector3D Controller::getCoordinates(const double &x, const double &y, const double &pressure)
 {
+    // todo: fix mirroring of actual image
     const double normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
     const double normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
 
     double imageX = (1 - normalizedX) * m_image->width() * 0.5f;
     double imageY = (normalizedY + 1) * m_image->height() * 0.5f;
-
-    // qDebug() << imageX;
-    // qDebug() << imageY;
-
-    // if ((imageX < 0 || imageX >= m_image->width())
-    //     || (imageY < 0 || imageY >= m_image->height()))
-    //     return;
 
     return QVector3D(imageX, imageY, pressure);
 }

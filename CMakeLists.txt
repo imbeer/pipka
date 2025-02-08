@@ -24,8 +24,10 @@ set(PROJECT_SOURCES
     src/image/color/color.h src/image/color/color.cpp
     src/image/color/blend.h src/image/color/blend.cpp
 
-    src/controller/controller.h src/controller/controller.cpp
-    src/controller/rasterizer.h src/controller/rasterizer.cpp
+    src/control/controller.h src/control/controller.cpp
+
+    src/control/tools/tool.h
+    src/control/tools/rasterizer.h src/control/tools/rasterizer.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

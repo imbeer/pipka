@@ -9,7 +9,7 @@
 #include <QtOpenGL/QOpenGLVertexArrayObject>
 #include <QTabletEvent>
 
-#include "../controller/controller.h"
+#include "../control/controller.h"
 #include "eventhandler.h"
 
 namespace PIPKA::UI {
