@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     // PIPKA::UI::CanvasWidget w(controller);
     PIPKA::UI::Window w;
     w.setController(controller);
-    w.resize(800, 800);
-    w.show();
+    w.showMaximized();
     return a.exec();
 }

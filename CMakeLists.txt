@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
     src/ui/shaders/shaders.qrc
     src/ui/canvaswidget.h src/ui/canvaswidget.cpp
     src/ui/eventhandler.h src/ui/eventhandler.cpp
+    src/ui/menus/floatingwidget.h src/ui/menus/floatingwidget.cpp
 
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
