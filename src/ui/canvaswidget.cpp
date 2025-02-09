@@ -55,7 +55,7 @@ void CanvasWidget::addTexture(const int &index) // todo: add check for vector bo
     m_textures.insert(m_textures.begin() + index, texture);
 
     auto res = QObject::connect(
-        image->layers()[index].get(), &PIPKA::IMAGE::Layer::layerChanged,
+        image->layers()[index].get(), &PIPKA::IMAGE::Layer::fullLayerChanged,
         this, &CanvasWidget::updateTextureData);
     if (res) {
         qDebug() << "connected";
@@ -93,7 +93,7 @@ void CanvasWidget::initializeGL()
 
     static const GLuint indices[] = {
         0, 1, 2,
-        2, 1, 3,
+        1, 2, 3,
     };
 
     m_vao.create();

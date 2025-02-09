@@ -48,11 +48,13 @@ QImage Image::toQImage()
 
     qDebug() << duration.count();
 
-    return QImage(
+    auto image = QImage(
         reinterpret_cast<const uchar*>(buffer.data()),
         w, h,
         w * sizeof(Color), // Bytes per line
         QImage::Format_ARGB32);
+    image.mirror(false, true);
+    return image;
 }
 
 }

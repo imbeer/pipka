@@ -15,10 +15,6 @@ Layer::Layer(
     blend = std::make_shared<COLOR::NormalBlend>();
 }
 
-// Layer::Layer(const Layer &layer)
-//     : index(layer.index), w(layer.w), h(layer.h), m_pixels(layer.m_pixels) // todo: the fuck is wrong with this copy constructors
-// {}
-
 Color Layer::getColor(const int &x, const int &y)
 {
     if (x >= w || x < 0 || y >= h || y < 0) return 0;
@@ -41,9 +37,7 @@ void Layer::testDifferentPixels()
     for (auto &pixel : m_pixels) {
         pixel = dis(gen);
     }
-    // qDebug() <<"layer changed";
-    // qDebug() << m_index;
-    emit layerChanged(m_index);
+    emit fullLayerChanged(m_index);
 }
 
 void Layer::drawPixel(const int &x, const int &y, const Color &color)
@@ -64,7 +58,7 @@ void Layer::clearLayer()
 
 void Layer::update()
 {
-    emit layerChanged(m_index);
+    emit fullLayerChanged(m_index);
 }
 
 }
