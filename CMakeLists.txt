@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGLWidgets)
 set(PROJECT_SOURCES
     src/main.cpp
 
+    src/ui/window.h src/ui/window.cpp
     src/ui/shaders/shaders.qrc
     src/ui/canvaswidget.h src/ui/canvaswidget.cpp
     src/ui/eventhandler.h src/ui/eventhandler.cpp

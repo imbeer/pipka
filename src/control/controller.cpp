@@ -115,7 +115,6 @@ void Controller::handleMove(const double &x, const double &y, const double &pres
 
 QVector3D Controller::getCoordinates(const double &x, const double &y, const double &pressure)
 {
-    // todo: fix mirroring of actual image
     const double normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
     const double normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
 
