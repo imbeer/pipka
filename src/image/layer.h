@@ -19,6 +19,9 @@ public:
     inline const int width()  {return w;};
     inline const int height() {return h;};
     inline std::vector<Color> pixels() {return m_pixels;};
+    inline QString name() {return m_name;};
+    inline void setName(const QString &name) {m_name = name;};
+
     Color getColor(const int &x, const int &y);
     Color getColor(const int &index);
     void testDifferentPixels();
@@ -37,6 +40,7 @@ private:
     const int h;
     const Color defaultColor;
     int m_index;
+    QString m_name;
 
 public:
     std::shared_ptr<COLOR::Blend> blend;

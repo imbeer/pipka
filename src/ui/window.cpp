@@ -1,7 +1,8 @@
 #include "window.h"
 
 #include "canvaswidget.h"
-#include "menus/floatingwidget.h"
+// #include "menus/floatingwidget.h"
+#include "menus/maintoolbar.h"
 
 #include <QBoxLayout>
 
@@ -29,7 +30,8 @@ void Window::setController(std::shared_ptr<PIPKA::CONTROL::Controller> &controll
     // centralWidget()->layout()->addWidget(canvas);
     setCentralWidget(canvas);
     canvas->setFocus();
-    auto menu = std::make_shared<FloatingWidget>(10, 10, 256, 1000, this);
+    canvas->setFocusPolicy(Qt::StrongFocus);
+    auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
     m_menus.push_back(menu);
     menu->show();
 }

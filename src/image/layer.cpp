@@ -13,6 +13,7 @@ Layer::Layer(
     : m_index(index), w(w), h(h), m_pixels(w * h, color), defaultColor(color)
 {
     blend = std::make_shared<COLOR::NormalBlend>();
+    m_name = "Layer" + QString::number(index);
 }
 
 Color Layer::getColor(const int &x, const int &y)

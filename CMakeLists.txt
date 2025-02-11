@@ -19,7 +19,11 @@ set(PROJECT_SOURCES
     src/ui/shaders/shaders.qrc
     src/ui/canvaswidget.h src/ui/canvaswidget.cpp
     src/ui/eventhandler.h src/ui/eventhandler.cpp
+
     src/ui/menus/floatingwidget.h src/ui/menus/floatingwidget.cpp
+    src/ui/menus/maintoolbar.h src/ui/menus/maintoolbar.cpp
+    src/ui/menus/toollist.h src/ui/menus/toollist.cpp
+    src/ui/menus/layerlist.h src/ui/menus/layerlist.cpp
 
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
