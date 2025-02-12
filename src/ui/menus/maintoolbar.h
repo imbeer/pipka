@@ -2,7 +2,7 @@
 #define MAINTOOLBAR_H
 
 #include "floatingwidget.h"
-#include "layerlist.h"
+#include "lists/layerlist.h"
 #include "../../control/controller.h"
 
 namespace PIPKA::UI {
@@ -21,7 +21,7 @@ private:
 
 private:
     std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
-    ToolList *m_layerList;
+    LayerList *m_layerList;
 };
 
 }

@@ -22,8 +22,11 @@ set(PROJECT_SOURCES
 
     src/ui/menus/floatingwidget.h src/ui/menus/floatingwidget.cpp
     src/ui/menus/maintoolbar.h src/ui/menus/maintoolbar.cpp
-    src/ui/menus/toollist.h src/ui/menus/toollist.cpp
-    src/ui/menus/layerlist.h src/ui/menus/layerlist.cpp
+
+    src/ui/menus/lists/toollist.h  src/ui/menus/lists/toollist.cpp
+    src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
+    src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
+    src/ui/menus/lists/layeritemdelegate.h src/ui/menus/lists/layeritemdelegate.cpp
 
     src/image/layer.h src/image/layer.cpp
     src/image/image.h src/image/image.cpp
