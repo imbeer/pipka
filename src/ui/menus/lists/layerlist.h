@@ -17,7 +17,7 @@ public:
 
 private slots:
     void onItemSelected(const QItemSelection &selected, const QItemSelection &);
-    void onLayerAdded(const int &index);
+    // void onLayerAdded(const int &index);
 
 };
 

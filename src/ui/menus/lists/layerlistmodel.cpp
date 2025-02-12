@@ -8,6 +8,9 @@ LayerListModel::LayerListModel(
     : QAbstractListModel(parent)
 {
     m_image = controller->getImage();
+
+    connect(m_image.get(), &PIPKA::IMAGE::Image::layerAdded,
+            this, &LayerListModel::onLayerAdded);
 }
 
 int LayerListModel::rowCount(const QModelIndex &parent) const
@@ -38,6 +41,11 @@ Qt::ItemFlags LayerListModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) return Qt::NoItemFlags;
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+}
+
+void LayerListModel::onLayerAdded(int index) {
+    beginInsertRows(QModelIndex(), index, index);
+    endInsertRows();
 }
 
 }

@@ -10,9 +10,6 @@ LayerList::LayerList(
 {
     connect(m_listView->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &LayerList::onItemSelected);
-
-    connect(m_controller->getImage().get(), &PIPKA::IMAGE::Image::layerAdded,
-            this, &LayerList::onLayerAdded);
 }
 
 void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &)
@@ -23,10 +20,11 @@ void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelect
     }
 }
 
-void LayerList::onLayerAdded(const int &index)
-{
+// void LayerList::onLayerAdded(const int &index)
+// {
     // const auto layer = m_controller->getImage()->layers().at(index);
-    update();
-}
+    // m_model.on
+    // update();
+// }
 
 }
