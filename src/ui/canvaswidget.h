@@ -25,8 +25,8 @@ public:
     ~CanvasWidget();
 private:
     void initializeTextures();
-    void addTexture(const int &index);
-    void updateTextureData(int index);
+    // void addTexture(const int &index);
+    void updateTextureData(const int &x, const int &y);
 
 protected:
     void initializeGL() override;
@@ -48,7 +48,7 @@ protected:
 
 private:
     EventHandler m_eventHandler;
-    std::vector<std::shared_ptr<QOpenGLTexture>> m_textures;
+    std::shared_ptr<QOpenGLTexture> m_texture;
     // QOpenGLTexture* m_texture;
     // PIPKA::IMAGE::Layer m_layer;
     // PIPKA::IMAGE::Image m_image;

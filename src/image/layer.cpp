@@ -29,7 +29,6 @@ Color Layer::getColor(const int &index)
     return m_pixels.at(index);
 }
 
-
 void Layer::testDifferentPixels()
 {
     std::random_device rd;
@@ -45,8 +44,8 @@ void Layer::drawPixel(const int &x, const int &y, const Color &color)
 {
     if (x >= w || x < 0 || y >= h || y < 0) return;
     const auto pixelInd = x + y * w;
-    // if (pixelInd >= m_pixels.size() || pixelInd < 0) return;
     m_pixels.at(pixelInd) = color;
+    emit pixelChanged(m_index, x, y);
 }
 
 void Layer::clearLayer()

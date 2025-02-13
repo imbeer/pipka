@@ -13,6 +13,6 @@ void main() {
     // Sample the texture at the interpolated texture coordinate
     // FragColor = texture(uTexture, vTexCoord);
     vec4 texColor = texture(uTexture, vTexCoord);
-    if (texColor.a < 0.01) discard; // Optional: discard fully transparent pixels
+    if (texColor.a < 0.001) discard; // Optional: discard fully transparent pixels
     gl_FragColor = texColor;
 }

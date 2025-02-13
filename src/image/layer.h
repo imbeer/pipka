@@ -32,7 +32,8 @@ public:
 
 signals:
     void fullLayerChanged(int selfIndex);
-    void partLayerChanged(int selfIndex, int begin, int end); // todo: make this thing work
+    // void partLayerChanged(int selfIndex, int begin, int end);
+    void pixelChanged(const int &selfIndex, const int &x, const int &y);
 
 private:
     std::vector<Color> m_pixels;

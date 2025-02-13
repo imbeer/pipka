@@ -41,7 +41,7 @@ private:
 
 private:
     // std::optional<QVector3D> m_previousPoint;
-    Color m_color{0xfff38ba8};
+    Color m_color{0xFFFFFFFF};
     std::shared_ptr<IMAGE::COLOR::Blend> m_blend;
 
 };

@@ -44,8 +44,8 @@ void Rasterizer::drawLine(
     int endY = static_cast<int>(round(end.y()));
     double startPressure = start.z();
     double endPressure = start.z();
-    qDebug() << "start pressure" << startPressure;
-    qDebug() << "end pressure" << endPressure;
+    // qDebug() << "start pressure" << startPressure;
+    // qDebug() << "end pressure" << endPressure;
 
     int deltaX = abs(endX - startX);
     int deltaY = abs(endY - startY);

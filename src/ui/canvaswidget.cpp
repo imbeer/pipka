@@ -1,5 +1,7 @@
 #include "canvaswidget.h"
 
+#include <QOpenGLPixelTransferOptions>
+
 namespace PIPKA::UI {
 
 CanvasWidget::CanvasWidget(
@@ -12,13 +14,7 @@ CanvasWidget::CanvasWidget(
 
 CanvasWidget::~CanvasWidget()
 {
-    for (auto &texture : m_textures) {
-        if (texture) {
-            // delete texture;
-            texture->destroy();
-        }
-    }
-    m_textures.clear();
+    m_texture->destroy();
     if (m_shaderProgram) {
         delete m_shaderProgram;
         m_shaderProgram = nullptr;
@@ -28,55 +24,53 @@ CanvasWidget::~CanvasWidget()
 void CanvasWidget::initializeTextures()
 {
     auto image = m_controller->getImage();
-    for (int layerInd = 0; layerInd < image->layerSize(); layerInd++) {
-        addTexture(layerInd);
-    }
-    auto res = QObject::connect(
-        image.get(), &PIPKA::IMAGE::Image::layerAdded,
-        this, &CanvasWidget::addTexture);
-    if (res) {
-        qDebug() << "connected";
-    }
-}
+    m_texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
 
-void CanvasWidget::addTexture(const int &index) // todo: add check for vector bounds or something idk
-{
-    auto image = m_controller->getImage();
-    auto layer = image->layers()[index];
-    auto texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
+    m_texture->setSize(image->width(), image->height());
+    m_texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
+    m_texture->allocateStorage();
+    m_texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
+    m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
+                       reinterpret_cast<const void*>(image->pixels().data()));
 
-    texture->setSize(image->width(), image->height());
-    texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
-    texture->allocateStorage();
-    texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
-    texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
-                     reinterpret_cast<const void*>(layer->pixels().data()));
-    // m_textures.push_back(texture);
-    m_textures.insert(m_textures.begin() + index, texture);
-
-    auto res = QObject::connect(
-        image->layers()[index].get(), &PIPKA::IMAGE::Layer::fullLayerChanged,
+    QObject::connect(
+        image.get(), &PIPKA::IMAGE::Image::pixelChanged,
         this, &CanvasWidget::updateTextureData);
-    if (res) {
-        qDebug() << "connected";
-    }
 }
 
-void CanvasWidget::updateTextureData(int index)
-// todo: add indexes of a part of layer that was updated.
+void CanvasWidget::updateTextureData(const int &x, const int &y)
 {
-    m_textures[index]->setData(
-        QOpenGLTexture::BGRA,
-        QOpenGLTexture::UInt8,
-        reinterpret_cast<const void*>(m_controller->getImage()->layers()[index]->pixels().data()));
-    // qDebug() << "Updated";
+    const int w = m_controller->getImage()->width();
+    const int h = m_controller->getImage()->height();
+    const int pixelInd = y * w + x;
+
+    qDebug() << "updating";
+
+    PIPKA::IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
+
+    qDebug() << QString::number(pixel, 16);
+
+    uint8_t pixelData[4] = {
+        static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red
+        static_cast<uint8_t>((pixel >> 8) & 0xFF),   // Green
+        static_cast<uint8_t>(pixel & 0xFF),          // Blue
+        static_cast<uint8_t>((pixel >> 24) & 0xFF)   // Alpha
+    };
+    m_texture->bind();
+    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, pixelData);
+    m_texture->release();
+    // m_texture->setData(
+    //     x, y, 0, w, h, 1,
+    //     QOpenGLTexture::BGRA,
+    //     QOpenGLTexture::UInt8,
+    //     pixelData);
     update();
 }
 
 void CanvasWidget::initializeGL()
 {
     initializeOpenGLFunctions();
-    qDebug() << "initializing textures";
+    // qDebug() << "initializing textures";
     initializeTextures();
     m_shaderProgram = new QOpenGLShaderProgram();
     m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/canvas_vertex_shader.vert");
@@ -134,32 +128,28 @@ void CanvasWidget::resizeGL(int width, int height)
 
 void CanvasWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0, 0.0, 0.0, 1.0); // Set background color
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glFlush();
 
-    glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glDepthMask(GL_FALSE);
-    glDisable(GL_ALPHA_TEST);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
 
-    if (!m_textures.empty() && m_shaderProgram) {
+    if (m_texture && m_shaderProgram) {
         m_shaderProgram->bind();
         m_vao.bind();
         m_shaderProgram->setUniformValue("uTransform", m_controller->transform());
-        for (const auto &texture : m_textures) {
-            texture->bind();
-            m_shaderProgram->setUniformValue("uTexture", 0); // Texture unit 0
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            // qDebug() << "draw texture";
-            texture->release();
-        }
+        // for (const auto &texture : m_textures) {
+        m_texture->bind();
+        // m_shaderProgram->setUniformValue("uTexture", 0); // Texture unit 0
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        m_texture->release();
+        // }
         m_vao.release();
         m_shaderProgram->release();
 
     }
-    glDisable(GL_BLEND);
     glFlush();
 }
 
