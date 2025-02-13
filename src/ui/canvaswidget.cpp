@@ -69,7 +69,7 @@ void CanvasWidget::updateTextureData(int index)
         QOpenGLTexture::BGRA,
         QOpenGLTexture::UInt8,
         reinterpret_cast<const void*>(m_controller->getImage()->layers()[index]->pixels().data()));
-    qDebug() << "Updated";
+    // qDebug() << "Updated";
     update();
 }
 
@@ -137,17 +137,16 @@ void CanvasWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0, 0.0, 0.0, 1.0); // Set background color
 
-    // glDisable(GL_DEPTH_TEST);
-    // glDisable(GL_ALPHA_TEST);
-    // glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glDepthMask(GL_FALSE);
+    glDisable(GL_ALPHA_TEST);
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // glEnable(GL_TEXTURE_2D);
-    // glDepthMask(GL_FALSE);
 
     if (!m_textures.empty() && m_shaderProgram) {
         m_shaderProgram->bind();
         m_vao.bind();
-        qDebug() << m_textures.size();
         m_shaderProgram->setUniformValue("uTransform", m_controller->transform());
         for (const auto &texture : m_textures) {
             texture->bind();
@@ -156,11 +155,11 @@ void CanvasWidget::paintGL()
             // qDebug() << "draw texture";
             texture->release();
         }
-
         m_vao.release();
         m_shaderProgram->release();
+
     }
-    // glDisable(GL_BLEND);
+    glDisable(GL_BLEND);
     glFlush();
 }
 

@@ -16,7 +16,7 @@ public:
     inline QMatrix3x3 transform() {return m_mvp;};
     inline std::shared_ptr<PIPKA::IMAGE::Image> getImage() {return m_image;};
 
-    void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index;};
+    void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
 
     void createImage(const int &w, const int &h);
     void saveImage(const QString &path = "output.png");
