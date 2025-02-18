@@ -3,7 +3,7 @@
 namespace PIPKA::UI {
 
 LayerListModel::LayerListModel(
-    std::shared_ptr<PIPKA::CONTROL::Controller> controller,
+    const std::shared_ptr<CONTROL::Controller> &controller,
     QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -22,10 +22,10 @@ int LayerListModel::rowCount(const QModelIndex &parent) const
 QVariant LayerListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_image->layerSize())
-        return QVariant();
+        return {};
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return m_image->layers()[index.row()]->name();
-    return QVariant();
+    return {};
 }
 
 bool LayerListModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -43,7 +43,7 @@ Qt::ItemFlags LayerListModel::flags(const QModelIndex &index) const
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 }
 
-void LayerListModel::onLayerAdded(int index) {
+void LayerListModel::onLayerAdded(const int index) {
     beginInsertRows(QModelIndex(), index, index);
     endInsertRows();
 }

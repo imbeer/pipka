@@ -14,13 +14,12 @@ public:
         const int &w,
         const int &h);
 
-public:
-    inline const int width() {return w;};
-    inline const int height() {return h;};
-    inline const float ratio() {return static_cast<float>(w) / h;};
-    inline const int layerSize() {return m_layers.size();};
-    inline std::vector<std::shared_ptr<Layer>> layers() {return m_layers;};
-    inline std::vector<Color> pixels() {return m_mergedImage;};
+    [[nodiscard]] int width() const {return w;};
+    [[nodiscard]] int height() const {return h;};
+    [[nodiscard]] float ratio() const {return static_cast<float>(w) / h;};
+    [[nodiscard]] int layerSize() const {return m_layers.size();};
+    std::vector<std::shared_ptr<Layer>> layers() {return m_layers;};
+    std::vector<Color> pixels() {return m_mergedImage;};
     void insertLayer(const int &index);
     void pushBackLayer();
     QImage toQImage();

@@ -15,6 +15,9 @@ using ImagePtr = std::shared_ptr<Image>;
 /// interface for all tools
 class Tool
 {
+protected:
+    ~Tool() = default;
+
 public:
     // Tool();
 

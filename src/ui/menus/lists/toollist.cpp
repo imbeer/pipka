@@ -11,7 +11,7 @@ namespace PIPKA::UI {
 
 template <typename Model, typename Delegate>
 ToolList<Model, Delegate>::ToolList(
-    std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+    std::shared_ptr<CONTROL::Controller> &controller,
     const int &w, const int &h,
     QWidget *parent)
     : QWidget{parent}, m_controller(controller)
@@ -33,7 +33,7 @@ void ToolList<Model, Delegate>::initUi()
     m_listView->setSpacing(0);
 
     // Layout
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto *layout = new QVBoxLayout(this);
     layout->addWidget(m_listView);
     setLayout(layout);
 }

@@ -7,6 +7,8 @@ namespace PIPKA::IMAGE::COLOR {
 
 class Blend {
 public:
+    virtual ~Blend() = default;
+
     virtual Color blend(const Color &background, const Color &foreground);
 
 protected:
@@ -22,33 +24,33 @@ protected:
 
 class ReplaceBlend : public Blend{
 public:
-    virtual Color blend(const Color &background, const Color &foreground) override;
+    Color blend(const Color &background, const Color &foreground) override;
 };
 
-class NormalBlend : public Blend{
+class NormalBlend final : public Blend{
 public:
-     virtual Channel channel(
+     Channel channel(
         const float &bgChannel, const float &bgAlpha,
         const float &fgChannel, const float &fgAlpha) override;
 };
 
-class MultiplyBlend : public Blend{
+class MultiplyBlend final : public Blend{
 public:
-    virtual Channel channel(
+    Channel channel(
         const float &bgChannel, const float &bgAlpha,
         const float &fgChannel, const float &fgAlpha) override;
 };
 
-class ScreenBlend : public Blend{
+class ScreenBlend final : public Blend{
 public:
-    virtual Channel channel(
+    Channel channel(
         const float &bgChannel, const float &bgAlpha,
         const float &fgChannel, const float &fgAlpha) override;
 };
 
-class OverlayBlend : public Blend{
+class OverlayBlend final : public Blend{
 public:
-    virtual Channel channel(
+    Channel channel(
         const float &bgChannel, const float &bgAlpha,
         const float &fgChannel, const float &fgAlpha) override;
 };

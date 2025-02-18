@@ -7,7 +7,6 @@
 #include <QtOpenGL/QOpenGLShaderProgram>
 #include <QtOpenGL/QOpenGLBuffer>
 #include <QtOpenGL/QOpenGLVertexArrayObject>
-#include <QTabletEvent>
 
 #include "../control/controller.h"
 #include "eventhandler.h"
@@ -19,10 +18,10 @@ class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
     Q_OBJECT
 
 public:
-    CanvasWidget(
+    explicit CanvasWidget(
         std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
         QWidget *parent = nullptr);
-    ~CanvasWidget();
+    ~CanvasWidget() override;
 private:
     void initializeTextures();
     // void addTexture(const int &index);

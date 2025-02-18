@@ -12,7 +12,7 @@ class EventHandler
 {
 public:
     EventHandler(
-        std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+        const std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
         const int &width, const int &height);
 
     void tabletEvent      (QTabletEvent *event);

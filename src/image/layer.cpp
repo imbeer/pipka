@@ -10,20 +10,20 @@ Layer::Layer(
     const int &w,
     const int &h,
     const Color &color)
-    : m_index(index), w(w), h(h), m_pixels(w * h, color), defaultColor(color)
+    : m_pixels(w * h, color), w(w), h(h), defaultColor(color), m_index(index)
 {
     blend = std::make_shared<COLOR::NormalBlend>();
     m_name = "Layer" + QString::number(index);
 }
 
-Color Layer::getColor(const int &x, const int &y)
+Color Layer::getColor(const int &x, const int &y) const
 {
     if (x >= w || x < 0 || y >= h || y < 0) return 0;
     const auto pixelInd = x + y * w;
     return m_pixels.at(pixelInd);
 }
 
-Color Layer::getColor(const int &index)
+Color Layer::getColor(const int &index) const
 {
     if (index < 0 || index >= m_pixels.size()) return 0;
     return m_pixels.at(index);

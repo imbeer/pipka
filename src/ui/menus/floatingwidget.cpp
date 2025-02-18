@@ -22,7 +22,7 @@ void FloatingWidget::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor(0xFF2C2C2C));
     painter.setBackground(QColor(0xFF2C2C2C));
-    const int radius = 20;
+    constexpr int radius = 20;
     painter.drawRoundedRect(this->rect(), radius, radius);
     // painter.fillRect(this->rect(),));
 }

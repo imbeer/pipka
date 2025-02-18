@@ -3,14 +3,14 @@
 namespace PIPKA::UI {
 
 EventHandler::EventHandler(
-    std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+    const std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
     const int &width, const int &height)
     : m_controller(controller), width(width), height(height)
 {}
 
 void EventHandler::tabletEvent(QTabletEvent *event)
 {
-    auto point = getNormalizedClickVector(event->position(), event->pressure());
+    const auto point = getNormalizedClickVector(event->position(), event->pressure());
     //
     switch (event->type()) {
     case QEvent::TabletPress:
@@ -40,19 +40,19 @@ void EventHandler::wheelEvent(QWheelEvent *event)
 
 void EventHandler::mousePressEvent(QMouseEvent *event)
 {
-    auto point = getNormalizedClickVector(event->position());
+    const auto point = getNormalizedClickVector(event->position());
     m_controller->handleClick(point.x(), point.y(), point.z());
 }
 
 void EventHandler::mouseReleaseEvent(QMouseEvent *event)
 {
-    auto point = getNormalizedClickVector(event->position());
+    const auto point = getNormalizedClickVector(event->position());
     m_controller->handleRelease(point.x(), point.y(), point.z());
 }
 
 void EventHandler::mouseMoveEvent(QMouseEvent *event)
 {
-    auto point = getNormalizedClickVector(event->position());
+    const auto point = getNormalizedClickVector(event->position());
     m_controller->handleMove(point.x(), point.y(), point.z());
 }
 

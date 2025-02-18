@@ -12,16 +12,16 @@ template <typename Model, typename Delegate>
 class ToolList : public QWidget
 {
     static_assert(
-        std::is_base_of<QAbstractItemModel, Model>::value,
+        std::is_base_of_v<QAbstractItemModel, Model>,
         "Model is not a child class of QAbstractItemModel");
     static_assert(
-        std::is_base_of<QAbstractItemDelegate, Delegate>::value,
+        std::is_base_of_v<QAbstractItemDelegate, Delegate>,
         "Delegate is not a child class of QAbstractItemDelegate");
 
     // Q_OBJECT
 public:
     explicit ToolList(
-        std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+        std::shared_ptr<CONTROL::Controller> &controller,
         const int &w = 248, const int &h = 500,
         QWidget *parent = nullptr);
 
@@ -29,7 +29,7 @@ private:
     void initUi();
 
 protected:
-    std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
+    std::shared_ptr<CONTROL::Controller> m_controller;
     QListView *m_listView;
     Model *m_model;
     Delegate *m_delegate;

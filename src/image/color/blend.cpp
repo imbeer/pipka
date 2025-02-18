@@ -19,7 +19,7 @@ Color Blend::blend(const Color &background, const Color &foreground)
     const Channel green { channel(bgGreen, bgAlpha, fgGreen, fgAlpha) };
     const Channel blue  { channel(bgBlue,  bgAlpha, fgBlue,  fgAlpha) };
 
-    return COLOR::makeColor(alpha, red, green, blue);
+    return makeColor(alpha, red, green, blue);
 }
 
 Color ReplaceBlend::blend(const Color &background, const Color &foreground)

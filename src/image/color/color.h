@@ -17,7 +17,7 @@ namespace COLOR {
     const Channel &red,
     const Channel &green,
     const Channel &blue) {
-    Color result = (alpha << 24) | (red << 16) | (green << 8) | blue;
+    const Color result = (alpha << 24) | (red << 16) | (green << 8) | blue;
     return result;
 };
 

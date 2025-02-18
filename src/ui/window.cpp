@@ -18,7 +18,7 @@ void Window::initUi()
 {
     // startSystemMove();
     // setWindowFlags(Qt::FramelessWindowHint);
-    QWidget *centralWidget = new QWidget();
+    auto centralWidget = new QWidget();
     setCentralWidget(centralWidget);
     setMinimumSize(800, 500);
     centralWidget->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
@@ -26,14 +26,14 @@ void Window::initUi()
 
 void Window::setController(std::shared_ptr<PIPKA::CONTROL::Controller> &controller)
 {
-    auto canvas = new CanvasWidget(controller);
+    const auto canvas = new CanvasWidget(controller);
     // centralWidget()->layout()->addWidget(canvas);
     setCentralWidget(canvas);
     canvas->setFocus();
     canvas->setFocusPolicy(Qt::StrongFocus);
-    auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
-    m_menus.push_back(menu);
-    menu->show();
+    // const auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
+    // m_menus.push_back(menu);
+    // menu->show();
 }
 
 // void Window::moveEvent(QMoveEvent *event)

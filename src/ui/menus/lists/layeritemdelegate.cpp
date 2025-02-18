@@ -16,8 +16,8 @@ void LayerItemDelegate::paint(
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const
 {
-    QString text = index.data(Qt::DisplayRole).toString();
-    auto marginedRect = option.rect.adjusted(0, 5, 0, -5);
+    const QString text = index.data(Qt::DisplayRole).toString();
+    const auto marginedRect = option.rect.adjusted(0, 5, 0, -5);
     painter->setPen(Qt::NoPen);
 
     QPainterPath path;
@@ -43,7 +43,7 @@ QSize LayerItemDelegate::sizeHint(
 {
     Q_UNUSED(option);
     Q_UNUSED(index);
-    return QSize(235, 40);
+    return {235, 40};
 }
 
 bool LayerItemDelegate::editorEvent(
@@ -53,9 +53,7 @@ bool LayerItemDelegate::editorEvent(
     const QModelIndex& index)
 {
     if (event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-
-        if (option.rect.adjusted(10,10,10,10).contains(mouseEvent->pos())) {
+        if (const auto* mouseEvent = dynamic_cast<QMouseEvent*>(event); option.rect.adjusted(10,10,10,10).contains(mouseEvent->pos())) {
             emit button1Clicked(index);
             return true;
         }

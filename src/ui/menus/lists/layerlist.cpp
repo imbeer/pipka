@@ -12,7 +12,7 @@ LayerList::LayerList(
             this, &LayerList::onItemSelected);
 }
 
-void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &)
+void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &) const
 {
     if (!selected.indexes().isEmpty()) {
         // QString selectedItem = m_model->data(selected.indexes().first(), Qt::DisplayRole).toString();

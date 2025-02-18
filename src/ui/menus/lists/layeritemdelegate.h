@@ -13,12 +13,11 @@ class LayerItemDelegate : public QAbstractItemDelegate
 public:
     explicit LayerItemDelegate(QObject *parent = nullptr);
 
-public:
     void paint(
         QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const override;
-    QSize sizeHint(
+    [[nodiscard]] QSize sizeHint(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const override;
 

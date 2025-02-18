@@ -11,7 +11,7 @@ class MainToolBar : public FloatingWidget
 {
 public:
     MainToolBar(
-        std::shared_ptr<PIPKA::CONTROL::Controller> &m_controller,
+        const std::shared_ptr<PIPKA::CONTROL::Controller> &m_controller,
         const int &x = 10, const int &y = 10,
         const int &w = 256, const int &h = 1000,
         QWidget *parent = nullptr);

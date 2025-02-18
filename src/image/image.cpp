@@ -10,7 +10,7 @@ Image::Image(
     const int &h)
     : w(w), h(h)
 {
-    m_layers = std::vector<std::shared_ptr<Layer>>{
+    m_layers = std::vector{
         std::make_shared<Layer>(0, w, h, 0xff1e1e2e),
     };
     connect(m_layers.at(0).get(), &Layer::pixelChanged, this, &Image::mergePixel);
@@ -48,7 +48,7 @@ Color Image::renderPixel(const int &index)
 {
     Color baseColor = 0x00000000;
     for (const auto &layer : m_layers) {
-        auto blend = layer->blend;
+        const auto blend = layer->blend;
         baseColor = blend->blend(baseColor, layer->getColor(index));
     }
     return baseColor;

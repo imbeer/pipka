@@ -1,6 +1,7 @@
 #include "rasterizer.h"
 #include <qdebug.h>
-#include <qimage.h>
+
+#include <cmath>
 
 namespace PIPKA::CONTROL::TOOLS {
 
@@ -17,8 +18,8 @@ void Rasterizer::action(
     const ImagePtr &image)
 {
     if (!previousPoint.has_value()) {
-        int x = static_cast<int>(currentPoint.x());
-        int y = static_cast<int>(currentPoint.y());
+        const int x = static_cast<int>(currentPoint.x());
+        const int y = static_cast<int>(currentPoint.y());
         layer->drawPixel(
             x, y,
             calculateColor(layer, m_color, x, y, currentPoint.z(), currentPoint.z(), 1));
@@ -38,19 +39,19 @@ void Rasterizer::drawLine(
     const QVector3D &start,
     const QVector3D &end)
 {
-    int startX = static_cast<int>(round(start.x()));
-    int startY = static_cast<int>(round(start.y()));
-    int endX = static_cast<int>(round(end.x()));
-    int endY = static_cast<int>(round(end.y()));
-    double startPressure = start.z();
-    double endPressure = start.z();
+    int startX = static_cast<int>(std::round(start.x()));
+    int startY = static_cast<int>(std::round(start.y()));
+    const int endX = static_cast<int>(std::round(end.x()));
+    const int endY = static_cast<int>(std::round(end.y()));
+    const double startPressure = start.z();
+    const double endPressure = start.z();
     // qDebug() << "start pressure" << startPressure;
     // qDebug() << "end pressure" << endPressure;
 
     int deltaX = abs(endX - startX);
     int deltaY = abs(endY - startY);
-    int stepX = (startX < endX) ? 1 : -1;
-    int stepY = (startY < endY) ? 1 : -1;
+    const int stepX = (startX < endX) ? 1 : -1;
+    const int stepY = (startY < endY) ? 1 : -1;
 
     int errorTerm = deltaX - deltaY;
     int totalSteps = std::max(deltaX, deltaY);
@@ -87,18 +88,17 @@ Color Rasterizer::calculateColor(
     const Color &color,
     const int &x, const int &y,
     const double &startPressure, const double &endPressure,
-    const float &interpolation)
-{
+    const float &interpolation) const {
     using namespace PIPKA::IMAGE;
     // todo: here should be a brush method or something, but for now
     const double pressure = std::clamp(interpolation * (endPressure - startPressure) + startPressure, 0.0, 1.0);
 
-    Color baseColor = layer->getColor(x, y);
+    const Color baseColor = layer->getColor(x, y);
     Color paintColor = color;
 
-    auto alpha = COLOR::alpha(paintColor);
+    auto alpha = COLOR::hexToFloat(COLOR::alpha(paintColor));
     alpha *= pressure;
-    COLOR::setAlpha(paintColor, alpha);
+    COLOR::setAlpha(paintColor, COLOR::floatToHex(alpha));
 
     return m_blend->blend(baseColor, paintColor);
 }

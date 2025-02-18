@@ -6,7 +6,6 @@
 #include "color/color.h"
 #include "color/blend.h"
 
-
 namespace PIPKA::IMAGE {
 
 class Layer : public QObject
@@ -16,14 +15,14 @@ class Layer : public QObject
 public:
     Layer(const int &index, const int &w, const int &h, const Color &color);
 
-    inline const int width()  {return w;};
-    inline const int height() {return h;};
-    inline std::vector<Color> pixels() {return m_pixels;};
-    inline QString name() {return m_name;};
-    inline void setName(const QString &name) {m_name = name;};
+    [[nodiscard]] int width() const {return w;};
+    [[nodiscard]] int height() const {return h;};
+    std::vector<Color> pixels() {return m_pixels;};
+    QString name() {return m_name;};
+    void setName(const QString &name) {m_name = name;};
 
-    Color getColor(const int &x, const int &y);
-    Color getColor(const int &index);
+    Color getColor(const int &x, const int &y) const;
+    Color getColor(const int &index) const;
     void testDifferentPixels();
     void drawPixel(const int &x, const int &y, const Color &color);
     void clearLayer();

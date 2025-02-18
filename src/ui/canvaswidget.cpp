@@ -8,8 +8,8 @@ CanvasWidget::CanvasWidget(
     std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
     QWidget *parent)
     : QOpenGLWidget(parent),
-    m_controller(controller),
-    m_eventHandler(controller, width(), height())
+    m_eventHandler(controller, width(), height()),
+    m_controller(controller)
 {}
 
 CanvasWidget::~CanvasWidget()
@@ -23,7 +23,7 @@ CanvasWidget::~CanvasWidget()
 
 void CanvasWidget::initializeTextures()
 {
-    auto image = m_controller->getImage();
+    const auto image = m_controller->getImage();
     m_texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
 
     m_texture->setSize(image->width(), image->height());
@@ -33,7 +33,7 @@ void CanvasWidget::initializeTextures()
     m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
                        reinterpret_cast<const void*>(image->pixels().data()));
 
-    QObject::connect(
+    connect(
         image.get(), &PIPKA::IMAGE::Image::pixelChanged,
         this, &CanvasWidget::updateTextureData);
 }
@@ -46,11 +46,11 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
 
     qDebug() << "updating";
 
-    PIPKA::IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
+    const PIPKA::IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
 
     qDebug() << QString::number(pixel, 16);
 
-    uint8_t pixelData[4] = {
+    const uint8_t pixelData[4] = {
         static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red
         static_cast<uint8_t>((pixel >> 8) & 0xFF),   // Green
         static_cast<uint8_t>(pixel & 0xFF),          // Blue
@@ -77,7 +77,7 @@ void CanvasWidget::initializeGL()
     m_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/canvas_fragment_shader.frag");
     m_shaderProgram->link();
 
-    static const GLfloat vertices[] = {
+    static constexpr GLfloat vertices[] = {
         // Positions    // Texture Coords
        -1.0f, -1.0f, 1.0,  0.0f, 0.0f,
         1.0f, -1.0f, 1.0,  1.0f, 0.0f,

@@ -118,10 +118,10 @@ QVector3D Controller::getCoordinates(const double &x, const double &y, const dou
     const double normalizedX = x * m_i_mvp(0, 0) + y * m_i_mvp(0, 1) - 1 * m_i_mvp(0, 2);
     const double normalizedY = x * m_i_mvp(1, 0) + y * m_i_mvp(1, 1) + 1 * m_i_mvp(1, 2);
 
-    double imageX = (1 - normalizedX) * m_image->width() * 0.5f;
-    double imageY = (normalizedY + 1) * m_image->height() * 0.5f;
+    float imageX = (1 - normalizedX) * m_image->width() * 0.5f;
+    float imageY = (normalizedY + 1) * m_image->height() * 0.5f;
 
-    return QVector3D(imageX, imageY, pressure);
+    return {imageX, imageY, static_cast<float>(pressure)};
 }
 
 

@@ -7,7 +7,7 @@
 
 namespace PIPKA::UI {
 
-class Window : public QMainWindow
+class Window final : public QMainWindow
 {
     Q_OBJECT
 public:

@@ -13,8 +13,9 @@ class Controller
 {
 public:
     Controller();
-    inline QMatrix3x3 transform() {return m_mvp;};
-    inline std::shared_ptr<PIPKA::IMAGE::Image> getImage() {return m_image;};
+
+    [[nodiscard]] QMatrix3x3 transform() const {return m_mvp;};
+    std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
 
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
 
@@ -44,16 +45,15 @@ private:
     void updateTransform();
     void updateFullMatrix();
 
-private:
     /// distance between points, where z is tablet pressure
-    inline float distance(const QVector3D &first, const QVector3D &second) { return
+    static float distance(const QVector3D &first, const QVector3D &second) { return
         std::pow(std::pow((first.x() - second.x()), 2)
             + std::pow((first.y() - second.y()), 2), 0.5);
     }
 
-    inline bool isFarEnough(const QVector3D &first, const QVector3D &second) { return distance(first, second) >= 1; }
+    static bool isFarEnough(const QVector3D &first, const QVector3D &second) { return distance(first, second) >= 1; }
 
-    inline bool isOutside(const QVector3D &point) { return (
+    [[nodiscard]] bool isOutside(const QVector3D &point) const { return (
         point.x() < 0
         || point.y() < 0
         || point.x() >= m_image->width()
@@ -61,7 +61,7 @@ private:
     };
 
 private:
-    std::shared_ptr<PIPKA::IMAGE::Image> m_image;
+    std::shared_ptr<IMAGE::Image> m_image;
     std::shared_ptr<TOOLS::Tool> m_tool;
     QMatrix3x3 m_transform;
     QMatrix3x3 m_i_transform;

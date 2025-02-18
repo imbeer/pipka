@@ -13,7 +13,7 @@ class LayerListModel : public QAbstractListModel
     Q_OBJECT
 public:
     explicit LayerListModel(
-        std::shared_ptr<PIPKA::CONTROL::Controller> controller,
+        const std::shared_ptr<CONTROL::Controller> &controller,
         QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -25,7 +25,7 @@ private:
     void onLayerAdded(int index);
 
 private:
-    std::shared_ptr<PIPKA::IMAGE::Image> m_image;
+    std::shared_ptr<IMAGE::Image> m_image;
 };
 
 }
