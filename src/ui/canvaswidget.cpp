@@ -48,11 +48,7 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
     // const int h = m_controller->getImage()->height();
     const int pixelInd = y * w + x;
 
-    qDebug() << "updating";
-
     const IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
-
-    qDebug() << QString::number(pixel, 16);
 
     const uint8_t pixelData[4] = {
         static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red

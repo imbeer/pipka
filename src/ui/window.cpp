@@ -31,9 +31,9 @@ void Window::setController(std::shared_ptr<PIPKA::CONTROL::Controller> &controll
     setCentralWidget(canvas);
     canvas->setFocus();
     canvas->setFocusPolicy(Qt::StrongFocus);
-    // const auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
-    // m_menus.push_back(menu);
-    // menu->show();
+    const auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
+    m_menus.push_back(menu);
+    menu->show();
 }
 
 // void Window::moveEvent(QMoveEvent *event)

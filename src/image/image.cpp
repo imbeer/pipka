@@ -56,7 +56,7 @@ Color Image::renderPixel(const int &index) const
     return baseColor;
 }
 
-void Image::mergePixel(const int &layerIndex, const int &x, const int &y)
+void Image::mergePixel(const int &layerIndex, int x, int y)
 {
     const auto pixelInd = x + y * w;
     m_mergedImage.at(pixelInd) = renderPixel(pixelInd);

@@ -27,9 +27,7 @@ public:
     void drawPixel(const int &x, const int &y, const Color &color);
     void clearLayer();
 
-    void update();
-
-signals:
+ signals:
     void fullLayerChanged(int selfIndex);
     // void partLayerChanged(int selfIndex, int begin, int end);
     void pixelChanged(const int &selfIndex, const int &x, const int &y);

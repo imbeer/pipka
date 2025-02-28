@@ -23,7 +23,6 @@ void Rasterizer::action(
         layer->drawPixel(
             x, y,
             calculateColor(layer, m_color, x, y, currentPoint.z(), currentPoint.z(), 1));
-        layer->update();
         return;
     }
 

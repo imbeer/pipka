@@ -56,9 +56,4 @@ void Layer::clearLayer()
     emit fullLayerChanged(m_index);
 }
 
-void Layer::update()
-{
-    emit fullLayerChanged(m_index);
-}
-
 }

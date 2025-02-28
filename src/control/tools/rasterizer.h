@@ -23,7 +23,7 @@ public:
 private:
     /// brazenham line rasterization
     void drawLine(
-        const LayerPtr layer,
+        LayerPtr layer,
         const QVector3D &start,
         const QVector3D &end);
 
@@ -31,8 +31,8 @@ private:
     // bool isFarEnough(const QVector3D &first, const QVector3D &second);
 
     /// get new color according to blending and alpha channel.
-    Color calculateColor(
-        const LayerPtr layer,
+    [[nodiscard]] Color calculateColor(
+        LayerPtr layer,
         const Color &color,
         const int &x, const int &y,
         const double &startPressure, const double &endPressure,
