@@ -51,9 +51,9 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
     const IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
 
     const uint8_t pixelData[4] = {
-        static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red
-        static_cast<uint8_t>((pixel >> 8) & 0xFF),   // Green
         static_cast<uint8_t>(pixel & 0xFF),          // Blue
+        static_cast<uint8_t>((pixel >> 8) & 0xFF),   // Green
+        static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red
         static_cast<uint8_t>((pixel >> 24) & 0xFF)   // Alpha
     };
     m_texture->bind();
