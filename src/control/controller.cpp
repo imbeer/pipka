@@ -24,18 +24,19 @@ void Controller::createImage(const int &w, const int &h)
     updateProjection(1);
 }
 
-void Controller::saveImage(const QString &path)
+void Controller::saveImage(const QString &path) const
 {
     m_image->toQImage().save(path, "PNG");
 }
 
-void Controller::clearActiveLayer()
+void Controller::clearActiveLayer() const
 {
     m_image->layers()[m_activeLayerIndex]->clearLayer();
 }
 
 void Controller::addLayer()
 {
+    // m_image->pushBackLayer();
     m_image->pushBackLayer();
     m_activeLayerIndex = m_image->layerSize() - 1;
     // m_image->layers()[m_activeLayerIndex]

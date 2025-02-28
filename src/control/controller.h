@@ -20,8 +20,8 @@ public:
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
 
     void createImage(const int &w, const int &h);
-    void saveImage(const QString &path = "output.png");
-    void clearActiveLayer();
+    void saveImage(const QString &path = "output.png") const;
+    void clearActiveLayer() const;
     void addLayer();
 
     void scaleUp();

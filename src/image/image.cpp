@@ -28,8 +28,7 @@ void Image::insertLayer(const int &index)
 
 void Image::pushBackLayer()
 {
-    m_layers.push_back(std::make_shared<Layer>(layerSize(), w, h, 0x00000000));
-    emit layerAdded(layerSize() - 1);
+    insertLayer(m_layers.size());
 }
 
 QImage Image::toQImage() const
