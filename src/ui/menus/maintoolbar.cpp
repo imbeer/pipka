@@ -17,7 +17,7 @@ MainToolBar::MainToolBar(
 void MainToolBar::initUi()
 {
     m_layerList = new LayerList(m_controller, 248, 500, this);
-    auto layout = new QVBoxLayout(this);
+    auto layout = new QVBoxLayout(this); // not leak because set as layout.
     setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);

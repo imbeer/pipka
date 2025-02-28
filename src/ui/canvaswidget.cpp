@@ -52,26 +52,28 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
 
     const uint8_t pixelData[4] = {
         static_cast<uint8_t>(pixel & 0xFF),          // Blue
-        static_cast<uint8_t>((pixel >> 8) & 0xFF),   // Green
-        static_cast<uint8_t>((pixel >> 16) & 0xFF),  // Red
-        static_cast<uint8_t>((pixel >> 24) & 0xFF)   // Alpha
+        static_cast<uint8_t>(pixel >> 8 & 0xFF),   // Green
+        static_cast<uint8_t>(pixel >> 16 & 0xFF),  // Red
+        static_cast<uint8_t>(pixel >> 24 & 0xFF)   // Alpha
     };
     m_texture->bind();
-    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, pixelData);
+    glTexSubImage2D(
+        GL_TEXTURE_2D,
+        0, x, y, 1, 1,
+        QOpenGLTexture::BGRA,
+        QOpenGLTexture::UInt8,
+        pixelData);
     m_texture->release();
-    // m_texture->setData(
-    //     x, y, 0, w, h, 1,
-    //     QOpenGLTexture::BGRA,
-    //     QOpenGLTexture::UInt8,
-    //     pixelData);
     update();
 }
 
 void CanvasWidget::updateWholeTextureData()
 {
     // m_texture->bind();
-    m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
-                       m_controller->getImage()->pixels().data());
+    m_texture->setData(
+        QOpenGLTexture::BGRA,
+        QOpenGLTexture::UInt8,
+        m_controller->getImage()->pixels().data());
     // m_texture->release();
     qDebug() << "Calls whole texture update";
     update();
@@ -207,8 +209,8 @@ void CanvasWidget::resizeEvent(QResizeEvent *event)
 
     qDebug() << "resized";
 
-    int newWidth = event->size().width();
-    int newHeight = event->size().height();
+    const int newWidth = event->size().width();
+    const int newHeight = event->size().height();
 
     m_eventHandler.setSize(newWidth, newHeight);
     resizeGL(newWidth, newHeight);

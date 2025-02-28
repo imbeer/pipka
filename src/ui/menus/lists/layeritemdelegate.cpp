@@ -34,7 +34,10 @@ void LayerItemDelegate::paint(
 
     painter->setPen(QColor(0xFFFFFFFF));
     painter->setFont(QFont("Arial", 12, QFont::Bold));
-    painter->drawText(marginedRect.adjusted(10, 5, -10, -5), Qt::AlignVCenter | Qt::AlignLeft, text);
+    painter->drawText(
+        marginedRect.adjusted(10, 5, -10, -5),
+        Qt::AlignVCenter | Qt::AlignLeft,
+        text);
 }
 
 QSize LayerItemDelegate::sizeHint(
@@ -53,12 +56,18 @@ bool LayerItemDelegate::editorEvent(
     const QModelIndex& index)
 {
     if (event->type() == QEvent::MouseButtonPress) {
-        if (const auto* mouseEvent = dynamic_cast<QMouseEvent*>(event); option.rect.adjusted(10,10,10,10).contains(mouseEvent->pos())) {
-            emit button1Clicked(index);
+        if (const auto* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+            getHideButtonRect(option).contains(mouseEvent->pos())) {
+            emit hideButtonClicked(index);
             return true;
         }
     }
     return false;
+}
+
+QRect LayerItemDelegate::getHideButtonRect(const QStyleOptionViewItem &option)
+{
+    return option.rect.adjusted(195, 0, 0, 0);
 }
 
 }

@@ -16,9 +16,7 @@ Window::Window(QWidget *parent)
 
 void Window::initUi()
 {
-    // startSystemMove();
-    // setWindowFlags(Qt::FramelessWindowHint);
-    auto centralWidget = new QWidget();
+    auto centralWidget = new QWidget(); // not leak, because set as central widget
     setCentralWidget(centralWidget);
     setMinimumSize(800, 500);
     centralWidget->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));

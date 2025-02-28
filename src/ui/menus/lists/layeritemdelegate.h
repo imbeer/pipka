@@ -27,8 +27,12 @@ public:
         const QStyleOptionViewItem& option,
         const QModelIndex& index) override;
 
+private:
+    static QRect getHideButtonRect(const QStyleOptionViewItem &option);
+
 signals:
-    void button1Clicked(const QModelIndex& index);
+    void hideButtonClicked(const QModelIndex& index);
+
 };
 
 }
