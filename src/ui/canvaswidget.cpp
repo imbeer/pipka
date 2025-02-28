@@ -5,12 +5,13 @@
 namespace PIPKA::UI {
 
 CanvasWidget::CanvasWidget(
-    std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+    const std::shared_ptr<CONTROL::Controller> &controller,
     QWidget *parent)
     : QOpenGLWidget(parent),
-    m_eventHandler(controller, width(), height()),
-    m_controller(controller)
-{}
+      m_eventHandler(controller, width(), height()),
+      m_controller(controller), m_shaderProgram(nullptr)
+{
+}
 
 CanvasWidget::~CanvasWidget()
 {
@@ -31,22 +32,25 @@ void CanvasWidget::initializeTextures()
     m_texture->allocateStorage();
     m_texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
     m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
-                       reinterpret_cast<const void*>(image->pixels().data()));
+                       image->pixels().data());
 
     connect(
-        image.get(), &PIPKA::IMAGE::Image::pixelChanged,
+        image.get(), &IMAGE::Image::pixelChanged,
         this, &CanvasWidget::updateTextureData);
+    connect(
+        image.get(), &IMAGE::Image::allPixelsChanged,
+        this, &CanvasWidget::updateWholeTextureData);
 }
 
 void CanvasWidget::updateTextureData(const int &x, const int &y)
 {
     const int w = m_controller->getImage()->width();
-    const int h = m_controller->getImage()->height();
+    // const int h = m_controller->getImage()->height();
     const int pixelInd = y * w + x;
 
     qDebug() << "updating";
 
-    const PIPKA::IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
+    const IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
 
     qDebug() << QString::number(pixel, 16);
 
@@ -64,6 +68,16 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
     //     QOpenGLTexture::BGRA,
     //     QOpenGLTexture::UInt8,
     //     pixelData);
+    update();
+}
+
+void CanvasWidget::updateWholeTextureData()
+{
+    // m_texture->bind();
+    m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
+                       m_controller->getImage()->pixels().data());
+    // m_texture->release();
+    qDebug() << "Calls whole texture update";
     update();
 }
 
@@ -143,7 +157,7 @@ void CanvasWidget::paintGL()
         // for (const auto &texture : m_textures) {
         m_texture->bind();
         // m_shaderProgram->setUniformValue("uTexture", 0); // Texture unit 0
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         m_texture->release();
         // }
         m_vao.release();

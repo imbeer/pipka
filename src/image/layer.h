@@ -21,8 +21,8 @@ public:
     QString name() {return m_name;};
     void setName(const QString &name) {m_name = name;};
 
-    Color getColor(const int &x, const int &y) const;
-    Color getColor(const int &index) const;
+    [[nodiscard]] Color getColor(const int &x, const int &y) const;
+    [[nodiscard]] Color getColor(const int &index) const;
     void testDifferentPixels();
     void drawPixel(const int &x, const int &y, const Color &color);
     void clearLayer();

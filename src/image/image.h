@@ -22,15 +22,17 @@ public:
     std::vector<Color> pixels() {return m_mergedImage;};
     void insertLayer(const int &index);
     void pushBackLayer();
-    QImage toQImage();
+    QImage toQImage() const;
 
 private:
-    Color renderPixel(const int &index);
+    Color renderPixel(const int &index) const;
     void mergePixel(const int &layerIndex, const int &x, const int &y);
+    void mergeAllPixels(const int &layerIndex);
 
 signals:
     void layerAdded(int index);
     void pixelChanged(const int &x, const int &y);
+    void allPixelsChanged();
 
 private:
     const int w;

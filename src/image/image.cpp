@@ -14,6 +14,7 @@ Image::Image(
         std::make_shared<Layer>(0, w, h, 0xff1e1e2e),
     };
     connect(m_layers.at(0).get(), &Layer::pixelChanged, this, &Image::mergePixel);
+    connect(m_layers.at(0).get(), &Layer::fullLayerChanged, this, &Image::mergeAllPixels);
     m_mergedImage = m_layers.at(0)->pixels();
 }
 
@@ -21,6 +22,7 @@ void Image::insertLayer(const int &index)
 {
     m_layers.insert(m_layers.begin() + index, std::make_shared<Layer>(index, w, h, 0x00000000));
     connect(m_layers.at(index).get(), &Layer::pixelChanged, this, &Image::mergePixel);
+    connect(m_layers.at(index).get(), &Layer::fullLayerChanged, this, &Image::mergeAllPixels);
     emit layerAdded(index);
 }
 
@@ -30,7 +32,7 @@ void Image::pushBackLayer()
     emit layerAdded(layerSize() - 1);
 }
 
-QImage Image::toQImage()
+QImage Image::toQImage() const
 {
     const int w = width();
     const int h = height();
@@ -44,7 +46,7 @@ QImage Image::toQImage()
     return image;
 }
 
-Color Image::renderPixel(const int &index)
+Color Image::renderPixel(const int &index) const
 {
     Color baseColor = 0x00000000;
     for (const auto &layer : m_layers) {
@@ -61,5 +63,15 @@ void Image::mergePixel(const int &layerIndex, const int &x, const int &y)
     emit pixelChanged(x, y);
 }
 
+void Image::mergeAllPixels(const int &layerIndex)
+{
+    for (int x = 0; x < w; ++x) {
+        for (int y = 0; y < h; ++y) {
+            const auto pixelInd = x + y * w;
+            m_mergedImage.at(pixelInd) = renderPixel(pixelInd);
+        }
+    }
+    emit allPixelsChanged();
+}
 }
 

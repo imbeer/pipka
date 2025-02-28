@@ -19,13 +19,14 @@ class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
 
 public:
     explicit CanvasWidget(
-        std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+        const std::shared_ptr<CONTROL::Controller> &controller,
         QWidget *parent = nullptr);
     ~CanvasWidget() override;
 private:
     void initializeTextures();
     // void addTexture(const int &index);
     void updateTextureData(const int &x, const int &y);
+    void updateWholeTextureData();
 
 protected:
     void initializeGL() override;

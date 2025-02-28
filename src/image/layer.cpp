@@ -53,7 +53,7 @@ void Layer::clearLayer()
     for (auto &pixel : m_pixels) {
         pixel = defaultColor;
     }
-    update();
+    emit fullLayerChanged(m_index);
 }
 
 void Layer::update()

@@ -80,7 +80,6 @@ void Rasterizer::drawLine(
             startY += stepY;
         }
     }
-    layer->update();
 }
 
 Color Rasterizer::calculateColor(
