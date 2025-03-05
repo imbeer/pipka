@@ -16,7 +16,7 @@ Layer::Layer(
     m_name = "Layer" + QString::number(index);
 }
 
-Color Layer::getColor(const int &x, const int &y) const
+Color Layer::getColor(const int x, const int y) const
 {
     if (x >= w || x < 0 || y >= h || y < 0) return 0;
     const auto pixelInd = x + y * w;
@@ -40,7 +40,7 @@ void Layer::testDifferentPixels()
     emit fullLayerChanged(m_index);
 }
 
-void Layer::drawPixel(const int &x, const int &y, const Color &color)
+void Layer::drawPixel(const int x, const int y, const Color color)
 {
     if (x >= w || x < 0 || y >= h || y < 0) return;
     const auto pixelInd = x + y * w;

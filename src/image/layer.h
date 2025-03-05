@@ -21,10 +21,10 @@ public:
     QString name() {return m_name;};
     void setName(const QString &name) {m_name = name;};
 
-    [[nodiscard]] Color getColor(const int &x, const int &y) const;
+    [[nodiscard]] Color getColor(int x, int y) const;
     [[nodiscard]] Color getColor(const int &index) const;
     void testDifferentPixels();
-    void drawPixel(const int &x, const int &y, const Color &color);
+    void drawPixel(int x, int y, Color color);
     void clearLayer();
 
  signals:

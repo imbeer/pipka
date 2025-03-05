@@ -8,7 +8,7 @@ namespace PIPKA::CONTROL::TOOLS {
 Rasterizer::Rasterizer()
     : Tool()
 {
-    m_blend = std::make_shared<IMAGE::COLOR::NormalBlend>();
+    m_brush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFF00FFFF);
 }
 
 void Rasterizer::action(
@@ -20,12 +20,14 @@ void Rasterizer::action(
     if (!previousPoint.has_value()) {
         const int x = static_cast<int>(currentPoint.x());
         const int y = static_cast<int>(currentPoint.y());
-        layer->drawPixel(
+        m_brush->draw(
+            layer,
             x, y,
-            calculateColor(layer, m_color, x, y, currentPoint.z(), currentPoint.z(), 1));
+            1, currentPoint.z(),
+            0, 0);
+
         return;
     }
-
     drawLine(layer, *previousPoint, currentPoint);
 }
 
@@ -34,7 +36,7 @@ void Rasterizer::release() {}
 void Rasterizer::confirm() {}
 
 void Rasterizer::drawLine(
-    const LayerPtr layer,
+    const LayerPtr &layer,
     const QVector3D &start,
     const QVector3D &end)
 {
@@ -44,8 +46,6 @@ void Rasterizer::drawLine(
     const int endY = static_cast<int>(std::round(end.y()));
     const double startPressure = start.z();
     const double endPressure = start.z();
-    // qDebug() << "start pressure" << startPressure;
-    // qDebug() << "end pressure" << endPressure;
 
     int deltaX = abs(endX - startX);
     int deltaY = abs(endY - startY);
@@ -57,15 +57,15 @@ void Rasterizer::drawLine(
 
     for (int currentStep = 1; currentStep <= totalSteps; ++currentStep) {
         float interpolation = static_cast<float>(currentStep) / totalSteps;
-        layer->drawPixel(
-            startX,
-            startY,
-            calculateColor(
-                layer,
-                m_color,
-                startX, startY,
-                startPressure, endPressure,
-                interpolation));
+        const float pressure = static_cast<float>(std::clamp(
+            interpolation * (endPressure - startPressure) + startPressure,
+            0.0, 1.0));
+
+        m_brush->draw(
+            layer,
+            startX, startY,
+            interpolation, pressure,
+            0, 0);
 
         if (startX == endX && startY == endY) break;
 
@@ -81,24 +81,5 @@ void Rasterizer::drawLine(
     }
 }
 
-Color Rasterizer::calculateColor(
-    const LayerPtr layer,
-    const Color &color,
-    const int &x, const int &y,
-    const double &startPressure, const double &endPressure,
-    const float &interpolation) const {
-    using namespace PIPKA::IMAGE;
-    // todo: here should be a brush method or something, but for now
-    const double pressure = std::clamp(interpolation * (endPressure - startPressure) + startPressure, 0.0, 1.0);
-
-    const Color baseColor = layer->getColor(x, y);
-    Color paintColor = color;
-
-    auto alpha = COLOR::hexToFloat(COLOR::alpha(paintColor));
-    alpha *= pressure;
-    COLOR::setAlpha(paintColor, COLOR::floatToHex(alpha));
-
-    return m_blend->blend(baseColor, paintColor);
-}
 
 }

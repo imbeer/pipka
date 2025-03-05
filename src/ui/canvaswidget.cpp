@@ -31,8 +31,10 @@ void CanvasWidget::initializeTextures()
     m_texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
     m_texture->allocateStorage();
     m_texture->setMinMagFilters(QOpenGLTexture::Filter::Nearest, QOpenGLTexture::Filter::Nearest);
-    m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8,
-                       image->pixels().data());
+    m_texture->setData(
+        QOpenGLTexture::BGRA,
+        QOpenGLTexture::UInt8,
+        image->pixels().data());
 
     connect(
         image.get(), &IMAGE::Image::pixelChanged,
@@ -49,7 +51,7 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
     const int pixelInd = y * w + x;
 
     const IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
-
+    qDebug() << "texture updated";
     const uint8_t pixelData[4] = {
         static_cast<uint8_t>(pixel & 0xFF),          // Blue
         static_cast<uint8_t>(pixel >> 8 & 0xFF),   // Green
@@ -207,7 +209,7 @@ void CanvasWidget::resizeEvent(QResizeEvent *event)
 {
     QOpenGLWidget::resizeEvent(event);
 
-    qDebug() << "resized";
+    // qDebug() << "resized";
 
     const int newWidth = event->size().width();
     const int newHeight = event->size().height();

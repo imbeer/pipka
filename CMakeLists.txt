@@ -37,6 +37,8 @@ set(PROJECT_SOURCES
 
     src/control/tools/tool.h
     src/control/tools/rasterizer.h src/control/tools/rasterizer.cpp
+        src/control/tools/brushes/Brush.cpp
+        src/control/tools/brushes/Brush.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
