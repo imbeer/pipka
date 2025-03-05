@@ -19,7 +19,7 @@ void Brush::draw(
     int deltaX, int deltaY)
 {
     const Color color = getColor(layer, centerX, centerY, interpolation, 1.0f);
-    qDebug() << QString::number(color, 16);
+    // qDebug() << QString::number(color, 16);
     layer->drawPixel(centerX, centerY, color);
 }
 

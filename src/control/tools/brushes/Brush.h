@@ -31,6 +31,12 @@ public:
 
 private:
     std::shared_ptr<IMAGE::COLOR::Blend> blend;
+    /// Half of bounding square side where changes of layer were made.
+    /// Will be useful to update only a part of texture later.
+    int radius;
+    /// Interval in steps (pixels) between brush calls during line.
+    /// Use it for
+    int drawCallInterval;
     Color color;
 };
 

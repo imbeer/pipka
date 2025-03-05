@@ -52,7 +52,7 @@ Color Image::renderPixel(const int &index) const
         const auto blend = layer->blend;
         baseColor = blend->blend(baseColor, layer->getColor(index));
     }
-    qDebug() << "pixel rendered";
+    // qDebug() << "pixel rendered";
     return baseColor;
 }
 

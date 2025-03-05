@@ -51,7 +51,7 @@ void CanvasWidget::updateTextureData(const int &x, const int &y)
     const int pixelInd = y * w + x;
 
     const IMAGE::Color pixel = m_controller->getImage()->pixels()[pixelInd];
-    qDebug() << "texture updated";
+    // qDebug() << "texture updated";
     const uint8_t pixelData[4] = {
         static_cast<uint8_t>(pixel & 0xFF),          // Blue
         static_cast<uint8_t>(pixel >> 8 & 0xFF),   // Green
@@ -77,7 +77,7 @@ void CanvasWidget::updateWholeTextureData()
         QOpenGLTexture::UInt8,
         m_controller->getImage()->pixels().data());
     // m_texture->release();
-    qDebug() << "Calls whole texture update";
+    // qDebug() << "Calls whole texture update";
     update();
 }
 
