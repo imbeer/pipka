@@ -5,6 +5,7 @@
 #include <QObject>
 #include "color/color.h"
 #include "color/blend.h"
+#include "pixel/pixelmap.h"
 
 namespace PIPKA::IMAGE {
 
@@ -15,22 +16,25 @@ class Layer : public QObject
 public:
     Layer(const int &index, const int &w, const int &h, const Color &color);
 
-    [[nodiscard]] int width() const {return w;};
-    [[nodiscard]] int height() const {return h;};
-    std::vector<Color> pixels() {return m_pixels;};
-    QString name() {return m_name;};
-    void setName(const QString &name) {m_name = name;};
+    [[nodiscard]] int width() const {return w;}
+    [[nodiscard]] int height() const {return h;}
+    std::vector<Color> pixels() {return m_pixels;}
+    QString name() {return m_name;}
+    void setName(const QString &name) {m_name = name;}
 
     [[nodiscard]] Color getColor(int x, int y) const;
-    [[nodiscard]] Color getColor(const int &index) const;
+    [[nodiscard]] Color getColor(int index) const;
     void testDifferentPixels();
     void drawPixel(int x, int y, Color color);
+    void addPixelColor(int x, int y, Color colorDifference);
+    void subtractPixelColor(int x, int y, Color colorDifference);
+    void update(const PIXELMAP::Rect &rect);
     void clearLayer();
 
  signals:
     void fullLayerChanged(int selfIndex);
-    // void partLayerChanged(int selfIndex, int begin, int end);
-    void pixelChanged(const int &selfIndex, const int &x, const int &y);
+    void rectLayerChanged(int selfIndex, const PIXELMAP::Rect &rect);
+    void pixelChanged(int selfIndex, int x, int y);
 
 private:
     std::vector<Color> m_pixels;

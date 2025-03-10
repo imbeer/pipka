@@ -23,7 +23,7 @@ Color Layer::getColor(const int x, const int y) const
     return m_pixels.at(pixelInd);
 }
 
-Color Layer::getColor(const int &index) const
+Color Layer::getColor(const int index) const
 {
     if (index < 0 || index >= m_pixels.size()) return 0;
     return m_pixels.at(index);
@@ -46,6 +46,27 @@ void Layer::drawPixel(const int x, const int y, const Color color)
     const auto pixelInd = x + y * w;
     m_pixels.at(pixelInd) = color;
     emit pixelChanged(m_index, x, y);
+}
+
+void Layer::addPixelColor(int x, int y, Color colorDifference)
+{
+    if (x >= w || x < 0 || y >= h || y < 0) return;
+    const auto pixelInd = x + y * w;
+    m_pixels.at(pixelInd) += colorDifference;
+    emit pixelChanged(m_index, x, y);
+}
+
+void Layer::subtractPixelColor(int x, int y, Color colorDifference)
+{
+    if (x >= w || x < 0 || y >= h || y < 0) return;
+    const auto pixelInd = x + y * w;
+    m_pixels.at(pixelInd) -= colorDifference;
+    emit pixelChanged(m_index, x, y);
+}
+
+void Layer::update(const PIXELMAP::Rect &rect)
+{
+    emit rectLayerChanged(m_index, rect);
 }
 
 void Layer::clearLayer()

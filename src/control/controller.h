@@ -7,6 +7,8 @@
 #include <QMatrix4x4>
 #include <QImage>
 
+#include "operations/versioncontrolsystem.h"
+
 namespace PIPKA::CONTROL {
 
 class Controller
@@ -63,6 +65,7 @@ private:
 private:
     std::shared_ptr<IMAGE::Image> m_image;
     std::shared_ptr<TOOLS::Tool> m_tool;
+    TOOLS::VersionControlPtr m_versionControlSystem;
     QMatrix3x3 m_transform;
     QMatrix3x3 m_i_transform;
 

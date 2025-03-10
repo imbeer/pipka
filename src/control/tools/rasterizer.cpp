@@ -5,8 +5,8 @@
 
 namespace PIPKA::CONTROL::TOOLS {
 
-Rasterizer::Rasterizer()
-    : Tool()
+Rasterizer::Rasterizer(const VersionControlPtr &versionControlSystem)
+    : Tool(versionControlSystem)
 {
     m_brush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFF00FFFF);
 }
@@ -17,26 +17,34 @@ void Rasterizer::action(
     const LayerPtr &layer,
     const ImagePtr &image)
 {
+    if (m_operation == nullptr || m_operation->getLayer() == nullptr) {
+        m_operation = std::make_shared<VERSIONCONTROL::PixelOperation>(layer);
+    }
+
     if (!previousPoint.has_value()) {
         const int x = static_cast<int>(currentPoint.x());
         const int y = static_cast<int>(currentPoint.y());
         m_brush->draw(
-            layer,
+            m_operation,
             x, y,
             1, currentPoint.z(),
             0, 0);
 
         return;
     }
-    drawLine(layer, *previousPoint, currentPoint);
+    drawLine(*previousPoint, currentPoint);
 }
 
-void Rasterizer::release() {}
+void Rasterizer::release()
+{
+    m_versionControlSystem->addOperation(m_operation);
+    m_operation->apply();
+    m_operation = nullptr;
+}
 
 void Rasterizer::confirm() {}
 
 void Rasterizer::drawLine(
-    const LayerPtr &layer,
     const QVector3D &start,
     const QVector3D &end)
 {
@@ -62,7 +70,7 @@ void Rasterizer::drawLine(
             0.0, 1.0));
 
         m_brush->draw(
-            layer,
+            m_operation,
             startX, startY,
             interpolation, pressure,
             0, 0);

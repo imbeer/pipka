@@ -9,8 +9,8 @@ namespace PIPKA::CONTROL {
 Controller::Controller()
     : m_image(nullptr)
 {
-    m_tool = std::make_shared<TOOLS::Rasterizer>();
-    // updateProjection(1);
+    m_versionControlSystem = std::make_shared<VERSIONCONTROL::VersionControlSystem>();
+    m_tool = std::make_shared<TOOLS::Rasterizer>(m_versionControlSystem);
 }
 
 void Controller::createImage(const int &w, const int &h)

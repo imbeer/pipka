@@ -2,14 +2,17 @@
 #define TOOL_H
 
 #include <QVector3D>
+#include <utility>
 #include "../../image/layer.h"
 #include "../../image/image.h"
+#include "../operations/versioncontrolsystem.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
 using std::optional, IMAGE::Color, IMAGE::Layer, IMAGE::Image;
 using LayerPtr = std::shared_ptr<Layer>;
 using ImagePtr = std::shared_ptr<Image>;
+using VersionControlPtr = std::shared_ptr<VERSIONCONTROL::VersionControlSystem>;
 
 
 /// interface for all tools
@@ -19,7 +22,9 @@ protected:
     ~Tool() = default;
 
 public:
-    // Tool();
+    explicit Tool(VersionControlPtr versionControlSystem):
+        m_versionControlSystem(std::move(versionControlSystem))
+    {}
 
 public:
     /// happens every frame when mouse moved and when mouse pressed.
@@ -38,8 +43,11 @@ public:
     virtual void release() = 0;
 
     /// if tool needs pressing a button for confirmation
-    /// exmple: transform, spline or merge selection
+    /// example: transform, spline or merge selection
     virtual void confirm() = 0;
+
+    /// Version control system where tool should put all its operations
+    VersionControlPtr m_versionControlSystem;
 };
 
 }
