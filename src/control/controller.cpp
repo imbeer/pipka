@@ -161,6 +161,15 @@ void Controller::updateProjection(const float &viewPortRatio)
     updateFullMatrix();
 }
 
+void Controller::undo() const
+{
+    m_versionControlSystem->undo();
+}
+
+void Controller::redo() const
+{
+    m_versionControlSystem->redo();
+}
 
 void Controller::updateTransform()
 {

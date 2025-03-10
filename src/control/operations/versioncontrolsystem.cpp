@@ -11,6 +11,26 @@ VersionControlSystem::~VersionControlSystem()
     m_doneOperationStack.clear();
 }
 
+void VersionControlSystem::undo()
+{
+    if (m_doneOperationStack.empty())
+        return;
+    const auto operation= m_doneOperationStack.back();
+    m_doneOperationStack.pop_back();
+    m_unDoneOperationStack.push_back(operation);
+    operation->undo();
+}
+
+void VersionControlSystem::redo()
+{
+    if (m_unDoneOperationStack.empty())
+        return;
+    const auto operation= m_unDoneOperationStack.back();
+    m_unDoneOperationStack.pop_back();
+    m_doneOperationStack.push_back(operation);
+    operation->apply();
+}
+
 void VersionControlSystem::addOperation(const std::shared_ptr<Operation> &operation)
 {
     if (!m_unDoneOperationStack.empty()) {
@@ -22,13 +42,5 @@ void VersionControlSystem::addOperation(const std::shared_ptr<Operation> &operat
     }
 }
 
-std::shared_ptr<Operation> VersionControlSystem::popOperation()
-{
-    if (m_doneOperationStack.empty())
-        return nullptr;
-    std::shared_ptr<Operation> result = m_doneOperationStack.back();
-    m_doneOperationStack.pop_back();
-    m_unDoneOperationStack.push_back(result);
-    return result;
-}
+
 }

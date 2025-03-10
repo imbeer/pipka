@@ -43,6 +43,9 @@ public:
 
     void updateProjection(const float &viewPortRatio);
 
+    void undo() const;
+    void redo() const;
+
 private:
     void updateTransform();
     void updateFullMatrix();
