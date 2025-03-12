@@ -77,4 +77,15 @@ void Layer::clearLayer()
     emit fullLayerChanged(m_index);
 }
 
+void Layer::flipVisible()
+{
+    visibleFlag = !visibleFlag;
+    emit fullLayerChanged(m_index);
+}
+
+void Layer::setVisible(const bool flag)
+{
+    visibleFlag = flag;
+    emit fullLayerChanged(m_index);
+}
 }

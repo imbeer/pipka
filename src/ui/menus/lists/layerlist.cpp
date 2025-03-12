@@ -9,15 +9,22 @@ LayerList::LayerList(
     : ToolList<LayerListModel, LayerItemDelegate>(controller, w, h, parent)
 {
     connect(m_listView->selectionModel(), &QItemSelectionModel::selectionChanged,
-            this, &LayerList::onItemSelected);
+        this, &LayerList::onItemSelected);
+    connect(m_delegate, &LayerItemDelegate::hideButtonClicked,
+        this, &LayerList::onLayerHide);
 }
 
-void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &) const
+void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const
 {
     if (!selected.indexes().isEmpty()) {
         // QString selectedItem = m_model->data(selected.indexes().first(), Qt::DisplayRole).toString();
         m_controller->setActiveLayerIndex(selected.indexes().first().row());
     }
+}
+
+void LayerList::onLayerHide(const QModelIndex &index) const
+{
+    m_controller->getImage()->layers().at(index.row())->flipVisible();
 }
 
 // void LayerList::onLayerAdded(const int &index)

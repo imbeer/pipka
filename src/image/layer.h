@@ -30,8 +30,10 @@ public:
     void subtractPixelColor(int x, int y, Color colorDifference);
     void update(const PIXELMAP::Rect &rect);
     void clearLayer();
-
- signals:
+    bool isVisible() const {return visibleFlag;}
+    void flipVisible();
+    void setVisible(bool flag);
+signals:
     void fullLayerChanged(int selfIndex);
     void rectLayerChanged(int selfIndex, const PIXELMAP::Rect &rect);
     void pixelChanged(int selfIndex, int x, int y);
@@ -43,6 +45,7 @@ private:
     const Color defaultColor;
     int m_index;
     QString m_name;
+    bool visibleFlag = true;
 
 public:
     std::shared_ptr<COLOR::Blend> blend;

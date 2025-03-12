@@ -16,6 +16,7 @@ void LayerItemDelegate::paint(
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const
 {
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     const QString text = index.data(Qt::DisplayRole).toString();
     const auto marginedRect = option.rect.adjusted(0, 5, 0, -5);
     painter->setPen(Qt::NoPen);
@@ -38,6 +39,8 @@ void LayerItemDelegate::paint(
         marginedRect.adjusted(10, 5, -10, -5),
         Qt::AlignVCenter | Qt::AlignLeft,
         text);
+    painter->setBrush(QColor(0xFFFFFFFF));
+    painter->drawEllipse(getHideButtonRect(option));
 }
 
 QSize LayerItemDelegate::sizeHint(
@@ -67,7 +70,7 @@ bool LayerItemDelegate::editorEvent(
 
 QRect LayerItemDelegate::getHideButtonRect(const QStyleOptionViewItem &option)
 {
-    return option.rect.adjusted(195, 0, 0, 0);
+    return option.rect.adjusted(195, 10, -20, -10);
 }
 
 }

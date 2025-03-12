@@ -16,7 +16,8 @@ public:
         QWidget *parent = nullptr);
 
 private slots:
-    void onItemSelected(const QItemSelection &selected, const QItemSelection &) const;
+    void onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const;
+    void onLayerHide(const QModelIndex& index) const;
     // void onLayerAdded(const int &index);
 
 };

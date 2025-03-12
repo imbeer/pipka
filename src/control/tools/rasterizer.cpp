@@ -8,7 +8,7 @@ namespace PIPKA::CONTROL::TOOLS {
 Rasterizer::Rasterizer(const VersionControlPtr &versionControlSystem)
     : Tool(versionControlSystem)
 {
-    m_brush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFF00FFFF);
+    m_brush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
 }
 
 void Rasterizer::action(
@@ -38,7 +38,7 @@ void Rasterizer::action(
 void Rasterizer::release()
 {
     m_versionControlSystem->addOperation(m_operation);
-    m_operation->apply();
+    // m_operation->apply();
     m_operation = nullptr;
 }
 

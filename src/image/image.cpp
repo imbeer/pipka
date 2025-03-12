@@ -49,6 +49,7 @@ Color Image::renderPixel(const int &index) const
 {
     Color baseColor = 0x00000000;
     for (const auto &layer : m_layers) {
+        if (!layer->isVisible()) continue;
         const auto blend = layer->blend;
         baseColor = blend->blend(baseColor, layer->getColor(index));
     }

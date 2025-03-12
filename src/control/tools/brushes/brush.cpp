@@ -25,7 +25,7 @@ void Brush::draw(
     const auto layer = operation->getLayer();
     const Color colorDifference = getColorDifference(layer, centerX, centerY, interpolation, 1.0f);
     // qDebug() << QString::number(color, 16);
-    // layer->drawPixel(centerX, centerY, color);
+    layer->addPixelColor(centerX, centerY, colorDifference);
     colorDifferences->putPixel(centerX, centerY, colorDifference);
 }
 
