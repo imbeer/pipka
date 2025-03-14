@@ -11,17 +11,20 @@ class MainToolBar : public FloatingWidget
 {
 public:
     MainToolBar(
-        const std::shared_ptr<PIPKA::CONTROL::Controller> &m_controller,
+        const std::shared_ptr<CONTROL::Controller> &m_controller,
         const int &x = 10, const int &y = 10,
         const int &w = 256, const int &h = 1000,
         QWidget *parent = nullptr);
+    void onWindowResize(const QSize &newWindowSize) override;
 
 private:
     void initUi();
 
 private:
-    std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
+    std::shared_ptr<CONTROL::Controller> m_controller;
     LayerList *m_layerList;
+    const int m_yMargin;
+    const int m_xMargin;
 };
 
 }

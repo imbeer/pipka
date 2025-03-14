@@ -13,6 +13,7 @@ public:
         const int &x, const int &y,
         const int &w, const int &h,
         QWidget *parent = nullptr);
+    virtual void onWindowResize(const QSize &newWindowSize) { }
 
 protected:
     void paintEvent(QPaintEvent *event) override;

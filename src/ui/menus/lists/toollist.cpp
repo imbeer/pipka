@@ -19,7 +19,7 @@ ToolList<Model, Delegate>::ToolList(
     m_listView = new QListView(this);
     m_model = new Model(controller, this);
     m_delegate = new Delegate(this);
-
+    setBaseSize(w, h);
     initUi();
 }
 

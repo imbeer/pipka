@@ -22,14 +22,22 @@ void Window::initUi()
     centralWidget->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
 }
 
-void Window::setController(std::shared_ptr<PIPKA::CONTROL::Controller> &controller)
+void Window::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    for (const auto &menu : m_menus) {
+        menu->onWindowResize(event->size());
+    }
+}
+
+void Window::setController(std::shared_ptr<CONTROL::Controller> &controller)
 {
     const auto canvas = new CanvasWidget(controller);
     // centralWidget()->layout()->addWidget(canvas);
     setCentralWidget(canvas);
     canvas->setFocus();
     canvas->setFocusPolicy(Qt::StrongFocus);
-    const auto menu = std::make_shared<MainToolBar>(controller, 10, 10, 256, 1000, this);
+    const auto menu = std::make_shared<MainToolBar>(controller, 20, 20, 256, 1000, this);
     m_menus.push_back(menu);
     menu->show();
 }

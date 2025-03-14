@@ -3,10 +3,10 @@
 namespace PIPKA::UI {
 
 LayerList::LayerList(
-    std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+    std::shared_ptr<CONTROL::Controller> &controller,
     const int &w, const int &h,
     QWidget *parent)
-    : ToolList<LayerListModel, LayerItemDelegate>(controller, w, h, parent)
+    : ToolList(controller, w, h, parent)
 {
     connect(m_listView->selectionModel(), &QItemSelectionModel::selectionChanged,
         this, &LayerList::onItemSelected);

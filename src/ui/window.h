@@ -19,6 +19,7 @@ private:
 
 protected:
     // void moveEvent(QMoveEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     std::vector<std::shared_ptr<FloatingWidget>> m_menus;
