@@ -17,10 +17,10 @@ HSVAColor::HSVAColor(const Color rgbColor)
 // todo: needs testing
 void HSVAColor::fromRGB(Color rgbColor)
 {
-    const float alpha = hexToFloat(alpha(rgbColor));
-    const float red   = hexToFloat(red  (rgbColor));
-    const float green = hexToFloat(green(rgbColor));
-    const float blue  = hexToFloat(blue (rgbColor));
+    const float alpha = hexToFloat(COLOR::alpha(rgbColor));
+    const float red   = hexToFloat(COLOR::red  (rgbColor));
+    const float green = hexToFloat(COLOR::green(rgbColor));
+    const float blue  = hexToFloat(COLOR::blue (rgbColor));
 
     const float max = std::max(std::max(red, green), blue);
     const float min = std::min(std::min(red, green), blue);
