@@ -12,6 +12,22 @@ using Channel = std::uint8_t;
 
 namespace COLOR {
 
+class HSVAColor
+{
+public:
+    HSVAColor(float hue, float saturation, float value, float alpha);
+    explicit HSVAColor(Color rgbColor);
+    void fromRGB(Color rgbColor);
+    [[nodiscard]] Color toRGB() const;
+
+public:
+    /// 0.0 <= num <= 1.0
+    float hue {};
+    float saturation {};
+    float value {};
+    float alpha {};
+};
+
 [[nodiscard]] inline Color makeColor(
     const Channel &alpha,
     const Channel &red,
@@ -31,7 +47,7 @@ inline void setBlue (Color &color, const Channel &newBlue ) { color &= 0xFFFFFF0
 [[nodiscard]] inline Channel green(const Color &color) {return (color >>  8) & 0xFF;};
 [[nodiscard]] inline Channel blue (const Color &color) {return color & 0xFF;};
 
-[[nodiscard]] inline float   hexToFloat(const Color &color) {return static_cast<float>(color) / 0xFF;};
+[[nodiscard]] inline float   hexToFloat(const Channel &channel) {return static_cast<float>(channel) / 0xFF;};
 [[nodiscard]] inline Channel floatToHex(const float &color) {return std::clamp(static_cast<int>(color * 0xFF), 0, 0xFF);};
 
 }
