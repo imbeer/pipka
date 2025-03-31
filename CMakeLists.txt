@@ -46,6 +46,13 @@ set(PROJECT_SOURCES
         src/image/pixel/pixelmap.h
         src/control/operations/pixeloperation.cpp
         src/control/operations/pixeloperation.h
+        src/ui/menus/tools/colorselectorsquare.cpp
+        src/ui/menus/tools/colorselectorsquare.h
+        src/ui/menus/tools/colorselectorwidget.cpp
+        src/ui/menus/tools/colorselectorwidget.h
+        src/ui/menus/tools/colorselectorslider.cpp
+        src/ui/menus/tools/colorselectorslider.h
+        src/ui/palette.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

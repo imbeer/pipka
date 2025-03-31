@@ -22,11 +22,14 @@ void MainToolBar::onWindowResize(const QSize &newWindowSize)
 
 void MainToolBar::initUi()
 {
-    m_layerList = new LayerList(m_controller, 248, 500, this);
+    m_layerList = new LayerList(m_controller, 248, 40, this);
+    m_colorSelector = new ColorSelectorWidget(m_controller);
     auto layout = new QVBoxLayout(this); // not leak because set as layout.
     setLayout(layout);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(0, 28, 0, 0);
+    layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(0);
+    layout->addWidget(m_colorSelector);
     layout->addWidget(m_layerList);
 }
 
