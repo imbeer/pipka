@@ -43,7 +43,7 @@ protected:
 
 
 
-///
+/// IMPLEMENTATION
 template <typename Model, typename Delegate>
 ToolList<Model, Delegate>::ToolList(
     std::shared_ptr<CONTROL::Controller> &controller,

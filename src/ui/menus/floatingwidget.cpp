@@ -3,6 +3,8 @@
 #include <QGraphicsBlurEffect>
 #include <qpainter.h>
 
+#include "../palette.h"
+
 namespace PIPKA::UI {
 
 FloatingWidget::FloatingWidget(
@@ -20,8 +22,8 @@ void FloatingWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(0xFF2C2C2C));
-    painter.setBackground(QColor(0xFF2C2C2C));
+    painter.setBrush(Palette::BASE);
+    painter.setBackground(Palette::BASE);
     constexpr int radius = 20;
     painter.drawRoundedRect(this->rect(), radius, radius);
     // painter.fillRect(this->rect(),));
