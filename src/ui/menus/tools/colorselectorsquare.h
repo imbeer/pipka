@@ -20,7 +20,7 @@ public:
     void mouseMoveEvent     (QMouseEvent  *event) override;
     void paintEvent         (QPaintEvent *event)  override;
 
-    void calculateColorOnClick(double x, double y);
+    void calculateColorOnClick();
 
 signals:
     void colorSelected(float saturation, float value);

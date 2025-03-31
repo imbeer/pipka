@@ -8,9 +8,10 @@
 #include <QImage>
 
 #include "operations/versioncontrolsystem.h"
+#include "tools/brushes/brush.h"
 
 namespace PIPKA::CONTROL {
-
+// todo: add brush repository and set color;
 class Controller
 {
 public:
@@ -20,6 +21,7 @@ public:
     std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
 
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
+    void setColor(IMAGE::Color color) const;
 
     void createImage(const int &w, const int &h);
     void saveImage(const QString &path = "output.png") const;
@@ -68,6 +70,7 @@ private:
 private:
     std::shared_ptr<IMAGE::Image> m_image;
     std::shared_ptr<TOOLS::Tool> m_tool;
+    std::shared_ptr<TOOLS::BRUSH::Brush> m_brush;
     TOOLS::VersionControlPtr m_versionControlSystem;
     QMatrix3x3 m_transform;
     QMatrix3x3 m_i_transform;

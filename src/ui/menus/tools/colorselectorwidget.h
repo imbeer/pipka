@@ -18,7 +18,7 @@ public:
     void initUI();
 
 private:
-    void updateColor();
+    void updateColor() const;
 
     void saturationAndValueChanged(float saturation, float value);
     void alphaChanged(float alpha);

@@ -5,11 +5,11 @@
 
 namespace PIPKA::CONTROL::TOOLS {
 
-Rasterizer::Rasterizer(const VersionControlPtr &versionControlSystem)
-    : Tool(versionControlSystem)
-{
-    m_brush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
-}
+Rasterizer::Rasterizer(
+    const std::shared_ptr<BRUSH::Brush> &brush,
+    const VersionControlPtr &versionControlSystem)
+    : Tool(versionControlSystem), m_brush(brush)
+{ }
 
 void Rasterizer::action(
     const QVector3D &currentPoint,

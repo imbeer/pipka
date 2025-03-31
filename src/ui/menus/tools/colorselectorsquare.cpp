@@ -25,6 +25,7 @@ void ColorSelectorSquare::mousePressEvent(QMouseEvent *event)
     m_pressed = true;
     m_lastPos = event->position();
     update();
+    calculateColorOnClick();
 }
 
 void ColorSelectorSquare::mouseReleaseEvent(QMouseEvent *event)
@@ -37,6 +38,7 @@ void ColorSelectorSquare::mouseMoveEvent(QMouseEvent *event)
     if (!m_pressed) return;
     m_lastPos = event->position();
     update();
+    calculateColorOnClick();
 }
 
 void ColorSelectorSquare::paintEvent(QPaintEvent *event)
@@ -61,10 +63,12 @@ void ColorSelectorSquare::paintEvent(QPaintEvent *event)
     painter.drawEllipse(QRect(m_lastPos.x() - 5, m_lastPos.y() - 5, 10, 10));
 }
 
-void ColorSelectorSquare::calculateColorOnClick(const double x, const double y)
+void ColorSelectorSquare::calculateColorOnClick()
 {
     const int width = this->width();
     const int height = this->height();
+    const float x = m_lastPos.x();
+    const float y = m_lastPos.y();
     const float saturation = static_cast<float>(x) / width;
     const float value = 1 - static_cast<float>(y) / height;
     emit colorSelected(saturation, value);

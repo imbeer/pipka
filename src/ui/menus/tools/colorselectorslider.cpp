@@ -76,7 +76,7 @@ void ColorSelectorSlider::mouseMoveEvent(QMouseEvent *event)
 void ColorSelectorSlider::calculateValue()
 {
     m_value = mapPosition(m_position);
-    qDebug() << m_value;
+    // qDebug() << m_value;
     emit valueChanged(m_value);
 }
 

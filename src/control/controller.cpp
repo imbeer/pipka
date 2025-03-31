@@ -10,7 +10,13 @@ Controller::Controller()
     : m_image(nullptr)
 {
     m_versionControlSystem = std::make_shared<VERSIONCONTROL::VersionControlSystem>();
-    m_tool = std::make_shared<TOOLS::Rasterizer>(m_versionControlSystem);
+    m_brush = std::make_shared<TOOLS::BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
+    m_tool = std::make_shared<TOOLS::Rasterizer>(m_brush, m_versionControlSystem);
+}
+
+void Controller::setColor(const IMAGE::Color color) const
+{
+    m_brush->setColor(color);
 }
 
 void Controller::createImage(const int &w, const int &h)

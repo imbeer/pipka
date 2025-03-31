@@ -39,18 +39,19 @@ void ColorSelectorWidget::initUI()
         this, &ColorSelectorWidget::hueChanged);
 }
 
-void ColorSelectorWidget::updateColor()
+void ColorSelectorWidget::updateColor() const
 {
-    IMAGE::Color color = m_color.toRGB();
-    // m_controller->
+    const IMAGE::Color color = m_color.toRGB();
+    // qDebug() << QString::number(color, 16);
+    m_controller->setColor(color);
 }
 
 void ColorSelectorWidget::saturationAndValueChanged(float saturation, float value)
 {
     m_color.saturation = saturation;
     m_color.value = value;
+    // qDebug() << "saturation: " << m_color.saturation << ", value: " << m_color.value;
     updateColor();
-    //todo: call controller
 }
 
 void ColorSelectorWidget::alphaChanged(float alpha)
@@ -61,8 +62,8 @@ void ColorSelectorWidget::alphaChanged(float alpha)
 
 void ColorSelectorWidget::hueChanged(float hue)
 {
-    m_color.hue = hue;
-    m_gradientSquare->setHue(m_color.hue);
+    m_gradientSquare->setHue(hue);
+    m_color.hue = hue * 360;
     updateColor();
 }
 }

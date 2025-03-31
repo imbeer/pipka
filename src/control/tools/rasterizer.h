@@ -12,7 +12,9 @@ namespace PIPKA::CONTROL::TOOLS {
 class Rasterizer final : public Tool
 {    
 public:
-    explicit Rasterizer(const VersionControlPtr &versionControlSystem);
+    explicit Rasterizer(
+        const std::shared_ptr<BRUSH::Brush> &brush,
+        const VersionControlPtr &versionControlSystem);
 
     void action(const QVector3D &currentPoint,
                 const optional<QVector3D> &previousPoint,

@@ -10,6 +10,11 @@ Brush::Brush(
     : m_blend(blend), m_color(color)
 { }
 
+void Brush::setColor(const Color color)
+{
+    m_color = color;
+}
+
 void Brush::draw(
     std::shared_ptr<VERSIONCONTROL::PixelOperation> operation,
     const int centerX, const int centerY,

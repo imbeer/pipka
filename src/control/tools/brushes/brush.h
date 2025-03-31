@@ -18,6 +18,8 @@ public:
 
     virtual ~Brush() = default;
 
+    void setColor(Color color);
+
     virtual void draw(
         std::shared_ptr<VERSIONCONTROL::PixelOperation> operation,
         int centerX, int centerY,
