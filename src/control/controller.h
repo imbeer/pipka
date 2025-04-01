@@ -7,6 +7,7 @@
 #include <QMatrix4x4>
 #include <QImage>
 
+#include "transform.h"
 #include "operations/versioncontrolsystem.h"
 #include "tools/brushes/brush.h"
 
@@ -17,7 +18,7 @@ class Controller
 public:
     Controller();
 
-    [[nodiscard]] QMatrix3x3 transform() const {return m_mvp;};
+    [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
     std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
 
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
@@ -28,30 +29,19 @@ public:
     void clearActiveLayer() const;
     void addLayer();
 
-    void scaleUp();
-    void scaleDown();
-    void rotateLeft();
-    void rotateRight();
-    void moveLeft();
-    void moveRight();
-    void moveUp();
-    void moveDown();
+
 
     void handleClick(const double &x, const double &y, const double &pressure = 1);
     void handleRelease(const double &x, const double &y, const double &pressure = 1);
     void handleMove(const double &x, const double &y, const double &pressure = 1); /// mapped -1 to 1
 
-    QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1);
+    QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1) const;
 
-    void updateProjection(const float &viewPortRatio);
 
     void undo() const;
     void redo() const;
 
 private:
-    void updateTransform();
-    void updateFullMatrix();
-
     /// distance between points, where z is tablet pressure
     static float distance(const QVector3D &first, const QVector3D &second) { return
         std::pow(std::pow((first.x() - second.x()), 2)
@@ -69,24 +59,11 @@ private:
 
 private:
     std::shared_ptr<IMAGE::Image> m_image;
-    std::shared_ptr<TOOLS::Tool> m_tool;
+    std::shared_ptr<TOOLS::Tool> m_activeTool;
     std::shared_ptr<TOOLS::BRUSH::Brush> m_brush;
+    std::shared_ptr<Transform> m_transform;
     TOOLS::VersionControlPtr m_versionControlSystem;
-    QMatrix3x3 m_transform;
-    QMatrix3x3 m_i_transform;
 
-    QMatrix3x3 m_projection;
-    QMatrix3x3 m_i_projection;
-
-    QMatrix3x3 m_mvp;
-    QMatrix3x3 m_i_mvp;
-
-    float scaleX = 0.75f;
-    float scaleY = 0.75f;
-    float viewRatio = 1.0f;
-    float angle = 0.0f;
-    float moveX = 0.0f;
-    float moveY = 0.0f;
 
     bool m_pressed = false;
     std::optional<QVector3D> m_previousPoint;

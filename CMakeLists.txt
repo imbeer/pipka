@@ -53,6 +53,8 @@ set(PROJECT_SOURCES
         src/ui/menus/tools/colorselectorslider.cpp
         src/ui/menus/tools/colorselectorslider.h
         src/ui/palette.h
+        src/control/transform.cpp
+        src/control/transform.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

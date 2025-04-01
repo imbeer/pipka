@@ -32,9 +32,9 @@ void EventHandler::wheelEvent(QWheelEvent *event)
 {
     int delta = event->angleDelta().y(); // Get scroll amount
     if (delta > 0) {
-        m_controller->scaleUp();
+        m_controller->transform()->scaleUp();
     } else {
-        m_controller->scaleDown();
+        m_controller->transform()->scaleDown();
     }
 }
 
@@ -61,27 +61,27 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
     int key = event->key();
     switch (key) {
         case Qt::Key_R:
-            m_controller->rotateRight();
+            m_controller->transform()->rotateRight();
             break;
         case Qt::Key_Q:
-            m_controller->rotateLeft();
+            m_controller->transform()->rotateLeft();
             break;
         case Qt::Key_S:
             if (m_pressedKeys.count(Qt::Key_Control) > 0) {
                 qDebug() << "saving";
                 m_controller->saveImage();
             } else {
-                m_controller->moveUp();
+                m_controller->transform()->moveUp();
             }
             break;
         case Qt::Key_W:
-            m_controller->moveDown();
+            m_controller->transform()->moveDown();
             break;
         case Qt::Key_D:
-            m_controller->moveLeft();
+            m_controller->transform()->moveLeft();
             break;
         case Qt::Key_A:
-            m_controller->moveRight();
+            m_controller->transform()->moveRight();
             break;
         case Qt::Key_Backspace:
             m_controller->clearActiveLayer();

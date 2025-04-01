@@ -136,7 +136,7 @@ void CanvasWidget::initializeGL()
 void CanvasWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, width, height);
-    m_controller->updateProjection(static_cast<float>(width) / height);
+    m_controller->transform()->updateProjection(static_cast<float>(width) / height);
     update();
 }
 
@@ -153,7 +153,7 @@ void CanvasWidget::paintGL()
     if (m_texture && m_shaderProgram) {
         m_shaderProgram->bind();
         m_vao.bind();
-        m_shaderProgram->setUniformValue("uTransform", m_controller->transform());
+        m_shaderProgram->setUniformValue("uTransform", m_controller->transform()->m_mvp);
         // for (const auto &texture : m_textures) {
         m_texture->bind();
         // m_shaderProgram->setUniformValue("uTexture", 0); // Texture unit 0
