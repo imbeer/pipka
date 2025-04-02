@@ -31,8 +31,11 @@ void VersionControlSystem::redo()
     operation->apply();
 }
 
-void VersionControlSystem::addOperation(const std::shared_ptr<Operation> &operation)
+void VersionControlSystem::addOperation(std::shared_ptr<Operation> operation)
 {
+    if (operation == nullptr) {
+        return; // todo: why?
+    }
     if (!m_unDoneOperationStack.empty()) {
         m_unDoneOperationStack.clear();
     }
