@@ -11,7 +11,7 @@ Image::Image(
     : w(w), h(h)
 {
     m_layers = std::vector{
-        std::make_shared<Layer>(0, w, h, 0xff1e1e2e),
+        std::make_shared<Layer>(0, w, h, 0xffffffff),
     };
     connect(m_layers.at(0).get(), &Layer::pixelChanged, this, &Image::mergePixel);
     connect(m_layers.at(0).get(), &Layer::fullLayerChanged, this, &Image::mergeAllPixels);

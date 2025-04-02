@@ -142,7 +142,7 @@ void CanvasWidget::resizeGL(int width, int height)
 
 void CanvasWidget::paintGL()
 {
-    glClearColor(0.0, 0.0, 0.0, 1.0); // Set background color
+    glClearColor(0.26, 0.26, 0.26, 1.0); // Set background color
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glFlush();
 
