@@ -63,7 +63,7 @@ void ColorSelectorWidget::alphaChanged(float alpha)
 void ColorSelectorWidget::hueChanged(float hue)
 {
     m_gradientSquare->setHue(hue);
-    m_color.hue = hue * 360;
+    m_color.hue = std::clamp(hue * 360, 0.0f, 359.0f);
     updateColor();
 }
 }

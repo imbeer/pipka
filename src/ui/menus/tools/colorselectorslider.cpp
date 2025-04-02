@@ -86,6 +86,7 @@ float ColorSelectorSlider::mapPosition(float position) const
     position /= (this->width() - this->height());
     const float range = m_topLimit - m_bottomLimit;
     position = position * range + m_bottomLimit;
+    // std::clamp(position, m_bottomLimit, m_topLimit);
     return position;
 }
 }

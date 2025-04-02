@@ -14,6 +14,7 @@ public:
         QWidget *parent = nullptr);
 
     void setHue(float hue);
+    void setLastPos(QPointF position);
 
     void mousePressEvent  (QMouseEvent  *event) override;
     void mouseReleaseEvent  (QMouseEvent  *event) override;

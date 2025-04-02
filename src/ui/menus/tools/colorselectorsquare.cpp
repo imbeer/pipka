@@ -20,10 +20,17 @@ void ColorSelectorSquare::setHue(const float hue)
     update();
 }
 
+void ColorSelectorSquare::setLastPos(QPointF position)
+{
+    position.setY(std::clamp(position.y(), 0.0, 200.0));
+    position.setX(std::clamp(position.x(), 0.0, 200.0));
+    m_lastPos = position;
+}
+
 void ColorSelectorSquare::mousePressEvent(QMouseEvent *event)
 {
     m_pressed = true;
-    m_lastPos = event->position();
+    setLastPos(event->pos());
     update();
     calculateColorOnClick();
 }
@@ -36,7 +43,7 @@ void ColorSelectorSquare::mouseReleaseEvent(QMouseEvent *event)
 void ColorSelectorSquare::mouseMoveEvent(QMouseEvent *event)
 {
     if (!m_pressed) return;
-    m_lastPos = event->position();
+    setLastPos(event->pos());
     update();
     calculateColorOnClick();
 }
