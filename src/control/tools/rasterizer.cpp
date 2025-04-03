@@ -64,17 +64,27 @@ void Rasterizer::drawLine(
     int errorTerm = deltaX - deltaY;
     int totalSteps = std::max(deltaX, deltaY);
 
+    int drawIntervalCount = 0;
+    int drawInterval = BrushRepository::instance()->activeBrush()->drawInterval();
+
     for (int currentStep = 1; currentStep <= totalSteps; ++currentStep) {
+
         float interpolation = static_cast<float>(currentStep) / totalSteps;
         const float pressure = static_cast<float>(std::clamp(
             interpolation * (endPressure - startPressure) + startPressure,
             0.0, 1.0));
 
-        BrushRepository::instance()->activeBrush()->draw(
-            m_operation,
-            startX, startY,
-            interpolation, pressure,
-            0, 0);
+        if (drawIntervalCount == drawInterval) {
+            BrushRepository::instance()->activeBrush()->draw(
+                m_operation,
+                startX, startY,
+                interpolation, pressure,
+                0, 0);
+        }
+        ++drawIntervalCount;
+        if (drawIntervalCount > drawInterval) {
+            drawIntervalCount = 0;
+        }
 
         if (startX == endX && startY == endY) break;
 
@@ -87,6 +97,7 @@ void Rasterizer::drawLine(
             errorTerm += deltaX;
             startY += stepY;
         }
+
     }
 }
 

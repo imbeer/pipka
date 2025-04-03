@@ -17,8 +17,12 @@ public:
 
     virtual ~Brush() = default;
 
+    void setRadius(const int radius) { this->m_radius = radius; }
+    void setInterval(const int interval) {this->drawCallInterval = interval; }
     void setColor(Color color);
     void setBlend(IMAGE::COLOR::Blend *blend);
+    int drawInterval() const { return this->drawCallInterval; }
+    int radius() const { return this->m_radius; }
 
     virtual void draw(
         std::shared_ptr<VERSIONCONTROL::PixelOperation> operation,
@@ -32,14 +36,14 @@ public:
         int x, int y,
         float interpolation, float pressure);
 
-private:
+protected:
     IMAGE::COLOR::Blend *m_blend;
     /// Half of bounding square side where changes of layer were made.
     /// Will be useful to update only a part of texture later.
-    int radius = 1;
+    int m_radius = 1;
     /// Interval in steps (pixels) between brush calls during line.
     /// Use it for
-    int drawCallInterval = 1;
+    int drawCallInterval = 0;
     Color m_color = 0xFFFFFFFF;
 };
 

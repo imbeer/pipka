@@ -27,14 +27,11 @@ void ScrollBar::paintEvent(QPaintEvent *event)
     QStyleOptionSlider opt;
     initStyleOption(&opt);
 
-    const int pageStep = this->pageStep();
-
     if (this->maximum() == this->minimum()) {
         return;
     }
 
     const QRect handleRect = style()->subControlRect(QStyle::CC_ScrollBar, &opt, QStyle::SC_ScrollBarSlider, this);
-    const QRect fullRect = this->rect();
 
     painter.setPen(QPen(Palette::DEFAULT, 2));
     painter.setBrush(Palette::BASE);

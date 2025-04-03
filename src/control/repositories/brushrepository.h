@@ -3,6 +3,7 @@
 #include <memory>
 #include <qobject.h>
 
+#include "blendrepository.h"
 #include "repository.h"
 #include "../tools/brushes/brush.h"
 
@@ -19,9 +20,18 @@ public:
     BrushRepository();
     ~BrushRepository() override;
 
-    void addBrush();
-    void selectBrush(int index);
-    std::shared_ptr<BRUSH::Brush> activeBrush() {return m_activeBrush;};
+    template <class Brush>
+    void addBrush()
+    {
+        const auto newBrush = std::make_shared<Brush>(
+            BlendRepository::instance()->getBlend<IMAGE::COLOR::NormalBlend>(),
+            0xFFFFFFFF);
+        m_storage.push_back(newBrush);
+        selectBrush(m_storage.size() - 1);
+    }
+
+    std::shared_ptr<BRUSH::Brush> activeBrush() {return m_activeBrush;}
+    void selectBrush(int index);;
 
 signals:
     void brushSelected();

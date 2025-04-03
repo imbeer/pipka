@@ -38,12 +38,14 @@ set(PROJECT_SOURCES
         src/image/color/color.h src/image/color/color.cpp
         src/image/color/blend.h src/image/color/blend.cpp
 
+        src/control/tools/tool.h
         src/control/controller.h src/control/controller.cpp
         src/control/transform.h src/control/transform.cpp
-
-        src/control/tools/tool.h
         src/control/tools/rasterizer.h src/control/tools/rasterizer.cpp
+
         src/control/tools/brushes/brush.h src/control/tools/brushes/brush.cpp
+        src/control/tools/brushes/squarebrush.h src/control/tools/brushes/squarebrush.cpp
+
         src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
         src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
         src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
