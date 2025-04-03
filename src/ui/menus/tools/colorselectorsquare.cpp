@@ -12,6 +12,7 @@ ColorSelectorSquare::ColorSelectorSquare(
     QWidget(parent)
 {
     setFixedSize(200, 200);
+    setLastPos({200.0, 0.0});
 }
 
 void ColorSelectorSquare::setHue(const float hue)

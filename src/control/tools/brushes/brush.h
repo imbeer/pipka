@@ -10,7 +10,6 @@
 namespace PIPKA::CONTROL::TOOLS::BRUSH
 {
 class Brush {
-
 public:
     explicit Brush(
         const std::shared_ptr<IMAGE::COLOR::Blend> &blend,
@@ -27,7 +26,7 @@ public:
         float pressure,
         int deltaX, int deltaY);
 
-    [[nodiscard]] virtual Color getColorDifference(
+    [[nodiscard]] virtual Color calculateColors(
         const LayerPtr &layer,
         int x, int y,
         float interpolation, float pressure);

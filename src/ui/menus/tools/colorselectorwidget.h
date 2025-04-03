@@ -25,7 +25,7 @@ private:
     void hueChanged(float hue);
 
 private:
-    IMAGE::COLOR::HSVAColor m_color{0, 0, 0, 0};
+    IMAGE::COLOR::HSVAColor m_color{359, 1, 1, 1};
     std::shared_ptr<CONTROL::Controller> m_controller;
     ColorSelectorSquare *m_gradientSquare = nullptr;
     ColorSelectorSlider *m_alphaSlider = nullptr;

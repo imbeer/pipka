@@ -3,8 +3,6 @@
 
 #include "../image/image.h"
 #include "tools/tool.h"
-#include <QMatrix3x3>
-#include <QMatrix4x4>
 #include <QImage>
 
 #include "transform.h"
@@ -29,14 +27,11 @@ public:
     void clearActiveLayer() const;
     void addLayer();
 
-
-
     void handleClick(const double &x, const double &y, const double &pressure = 1);
     void handleRelease(const double &x, const double &y, const double &pressure = 1);
     void handleMove(const double &x, const double &y, const double &pressure = 1); /// mapped -1 to 1
 
-    QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1) const;
-
+    [[nodiscard]] QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1) const;
 
     void undo() const;
     void redo() const;

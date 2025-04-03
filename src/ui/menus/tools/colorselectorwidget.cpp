@@ -10,6 +10,7 @@ ColorSelectorWidget::ColorSelectorWidget(
     QWidget(parent), m_controller(controller)
 {
     initUI();
+    updateColor();
 }
 
 void ColorSelectorWidget::initUI()
@@ -42,7 +43,7 @@ void ColorSelectorWidget::initUI()
 void ColorSelectorWidget::updateColor() const
 {
     const IMAGE::Color color = m_color.toRGB();
-    // qDebug() << QString::number(color, 16);
+    // qDebug() << "from hsv:" << QString::number(color, 16);
     m_controller->setColor(color);
 }
 

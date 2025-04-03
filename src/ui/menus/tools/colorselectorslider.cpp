@@ -5,7 +5,9 @@
 
 #include "../../palette.h"
 
-namespace PIPKA::UI {
+namespace PIPKA::UI
+{
+
 ColorSelectorSlider::ColorSelectorSlider(
     const float bottomLimit,
     const float topLimit,
@@ -21,7 +23,7 @@ ColorSelectorSlider::ColorSelectorSlider(
 void ColorSelectorSlider::initUI()
 {
     setFixedSize(200, 14);
-    m_position = this->height();
+    m_position = width() - height() / 2;
 }
 
 void ColorSelectorSlider::paintEvent(QPaintEvent *event)
@@ -89,4 +91,5 @@ float ColorSelectorSlider::mapPosition(float position) const
     // std::clamp(position, m_bottomLimit, m_topLimit);
     return position;
 }
+
 }
