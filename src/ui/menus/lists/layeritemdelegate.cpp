@@ -19,7 +19,15 @@ void LayerItemDelegate::paint(
     const QModelIndex &index) const
 {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-    const QString text = index.data(Qt::DisplayRole).toString();
+
+    const QVariant data = index.data(Qt::DisplayRole);
+
+    if (!data.canConvert<QVariantMap>())
+        throw std::bad_cast();
+    QVariantMap dataMap = data.toMap();
+
+    const QString text = dataMap["text"].toString();
+    const bool isVisible = dataMap["isVisible"].toBool();
     const auto marginedRect = option.rect.adjusted(0, 5, 0, -5);
     painter->setPen(Qt::NoPen);
 
@@ -38,11 +46,20 @@ void LayerItemDelegate::paint(
     painter->setPen(Palette::WHITE);
     painter->setFont(QFont("Arial", 12, QFont::Bold));
     painter->drawText(
-        marginedRect.adjusted(10, 5, -10, -5),
+        marginedRect.adjusted(20, 5, -10, -5),
         Qt::AlignVCenter | Qt::AlignLeft,
         text);
-    painter->setBrush(Palette::WHITE);
-    painter->drawEllipse(getHideButtonRect(option));
+
+    // todo: icon render
+    if (isVisible) {
+        // qDebug() << "LayerItemDelegate::paint::isVisible";
+        static QPixmap openEyePixmap(":/opened_eye.png");
+        painter->drawPixmap(getHideButtonRect(option), openEyePixmap);
+    } else {
+        static QPixmap closedEyePixmap(":/closed_eye.png");
+        painter->drawPixmap(getHideButtonRect(option), closedEyePixmap);
+        // qDebug() << "LayerItemDelegate::paint::is not visible";
+    }
 }
 
 QSize LayerItemDelegate::sizeHint(
@@ -62,7 +79,7 @@ bool LayerItemDelegate::editorEvent(
 {
     if (event->type() == QEvent::MouseButtonPress) {
         if (const auto* mouseEvent = dynamic_cast<QMouseEvent*>(event);
-            getHideButtonRect(option).contains(mouseEvent->pos())) {
+            getClickableHideButtonRect(option).contains(mouseEvent->pos())) {
             emit hideButtonClicked(index);
             return true;
         }
@@ -72,7 +89,12 @@ bool LayerItemDelegate::editorEvent(
 
 QRect LayerItemDelegate::getHideButtonRect(const QStyleOptionViewItem &option)
 {
-    return option.rect.adjusted(195, 10, -20, -10);
+    return option.rect.adjusted(200, 14, -17, -13);
+}
+
+QRect LayerItemDelegate::getClickableHideButtonRect(const QStyleOptionViewItem &option)
+{
+    return getHideButtonRect(option).adjusted(-11, -14, 13, 11);
 }
 
 }

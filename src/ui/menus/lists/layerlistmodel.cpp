@@ -23,8 +23,12 @@ QVariant LayerListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_image->layerSize())
         return {};
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return m_image->layers()[index.row()]->name();
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        QVariantMap dataMap;
+        dataMap["text"] = m_image->layers()[index.row()]->name();
+        dataMap["isVisible"] = m_image->layers()[index.row()]->isVisible();
+        return dataMap;
+    }
     return {};
 }
 

@@ -29,10 +29,10 @@ public:
 
 private:
     static QRect getHideButtonRect(const QStyleOptionViewItem &option);
+    static QRect getClickableHideButtonRect(const QStyleOptionViewItem &option);
 
 signals:
     void hideButtonClicked(const QModelIndex& index);
-
 };
 
 }
