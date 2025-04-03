@@ -5,7 +5,7 @@ namespace PIPKA::CONTROL::TOOLS::BRUSH
 {
 
 Brush::Brush(
-    const std::shared_ptr<IMAGE::COLOR::Blend> &blend,
+    IMAGE::COLOR::Blend *blend,
     const Color color)
     : m_blend(blend), m_color(color)
 { }
@@ -13,6 +13,11 @@ Brush::Brush(
 void Brush::setColor(const Color color)
 {
     m_color = color;
+}
+
+void Brush::setBlend(IMAGE::COLOR::Blend *blend)
+{
+    m_blend = blend;
 }
 
 void Brush::draw(

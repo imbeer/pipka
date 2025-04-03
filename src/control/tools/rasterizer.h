@@ -13,7 +13,6 @@ class Rasterizer final : public Tool
 {    
 public:
     explicit Rasterizer(
-        const std::shared_ptr<BRUSH::Brush> &brush,
         const VersionControlPtr &versionControlSystem);
 
     void action(const QVector3D &currentPoint,
@@ -31,7 +30,7 @@ private:
         const QVector3D &end);
 
 private:
-    std::shared_ptr<BRUSH::Brush> m_brush;
+    // std::shared_ptr<BRUSH::Brush> m_brush;
     std::shared_ptr<VERSIONCONTROL::PixelOperation> m_operation;
 };
 

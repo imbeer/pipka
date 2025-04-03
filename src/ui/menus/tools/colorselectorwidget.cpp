@@ -46,7 +46,7 @@ void ColorSelectorWidget::updateColor() const
 {
     const IMAGE::Color color = m_color.toRGB();
     // qDebug() << "from hsv:" << QString::number(color, 16);
-    CONTROL::TOOLS::BrushRepository::instance()->setColor(color);
+    CONTROL::TOOLS::BrushRepository::instance()->activeBrush()->setColor(color);
 }
 
 void ColorSelectorWidget::saturationAndValueChanged(float saturation, float value)

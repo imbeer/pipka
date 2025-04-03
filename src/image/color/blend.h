@@ -22,9 +22,13 @@ protected:
     }
 };
 
-class ReplaceBlend : public Blend{
+class ReplaceBlend final : public Blend{
 public:
     Color blend(const Color &background, const Color &foreground) override;
+
+protected:
+    Channel channel(const float &bgChannel, const float &bgAlpha, const float &fgChannel,
+        const float &fgAlpha) override;
 };
 
 class NormalBlend final : public Blend{

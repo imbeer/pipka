@@ -12,12 +12,13 @@ namespace PIPKA::CONTROL::TOOLS::BRUSH
 class Brush {
 public:
     explicit Brush(
-        const std::shared_ptr<IMAGE::COLOR::Blend> &blend,
+        IMAGE::COLOR::Blend *blend,
         Color color = 0xFFFFFFFF);
 
     virtual ~Brush() = default;
 
     void setColor(Color color);
+    void setBlend(IMAGE::COLOR::Blend *blend);
 
     virtual void draw(
         std::shared_ptr<VERSIONCONTROL::PixelOperation> operation,
@@ -32,7 +33,7 @@ public:
         float interpolation, float pressure);
 
 private:
-    std::shared_ptr<IMAGE::COLOR::Blend> m_blend;
+    IMAGE::COLOR::Blend *m_blend;
     /// Half of bounding square side where changes of layer were made.
     /// Will be useful to update only a part of texture later.
     int radius = 1;

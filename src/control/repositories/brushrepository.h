@@ -1,8 +1,7 @@
 #ifndef BRUSHREPOSITORY_H
 #define BRUSHREPOSITORY_H
 #include <memory>
-#include <qvariant.h>
-#include <vector>
+#include <qobject.h>
 
 #include "repository.h"
 #include "../tools/brushes/brush.h"
@@ -10,7 +9,9 @@
 namespace PIPKA::CONTROL::TOOLS
 {
 
-class BrushRepository : public Repository<BrushRepository>
+using BrushStorage = std::vector<std::shared_ptr<BRUSH::Brush>>;
+
+class BrushRepository : public Repository<BrushRepository, BrushStorage>
 {
     Q_OBJECT
 
@@ -19,18 +20,14 @@ public:
     ~BrushRepository() override;
 
     void addBrush();
-    void setColor(Color color) const;
     void selectBrush(int index);
     std::shared_ptr<BRUSH::Brush> activeBrush() {return m_activeBrush;};
-    std::vector<std::shared_ptr<BRUSH::Brush>> brushes() {return m_brushes;};
 
 signals:
     void brushSelected();
 
 private:
-    friend class Repository<BrushRepository>;
     std::shared_ptr<BRUSH::Brush> m_activeBrush;
-    std::vector<std::shared_ptr<BRUSH::Brush>> m_brushes;
 };
 
 }

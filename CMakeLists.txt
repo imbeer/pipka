@@ -53,6 +53,8 @@ set(PROJECT_SOURCES
 
         src/control/repositories/repository.h
         src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp
+        src/control/repositories/blendrepository.cpp
+        src/control/repositories/blendrepository.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

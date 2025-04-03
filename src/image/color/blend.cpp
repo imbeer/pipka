@@ -27,6 +27,12 @@ Color ReplaceBlend::blend(const Color &background, const Color &foreground)
     return foreground; // maybe make a copy?
 }
 
+Channel ReplaceBlend::channel(const float &bgChannel, const float &bgAlpha, const float &fgChannel,
+    const float &fgAlpha)
+{
+    return fgChannel;
+}
+
 Channel NormalBlend::channel(
     const float &bgChannel, const float &bgAlpha,
     const float &fgChannel, const float &fgAlpha)

@@ -3,12 +3,13 @@
 
 #include <cmath>
 
+#include "../repositories/brushrepository.h"
+
 namespace PIPKA::CONTROL::TOOLS {
 
 Rasterizer::Rasterizer(
-    const std::shared_ptr<BRUSH::Brush> &brush,
     const VersionControlPtr &versionControlSystem)
-    : Tool(versionControlSystem), m_brush(brush)
+    : Tool(versionControlSystem)
 { }
 
 void Rasterizer::action(
@@ -24,7 +25,7 @@ void Rasterizer::action(
     if (!previousPoint.has_value()) {
         const int x = static_cast<int>(currentPoint.x());
         const int y = static_cast<int>(currentPoint.y());
-        m_brush->draw(
+        BrushRepository::instance()->activeBrush()->draw(
             m_operation,
             x, y,
             1, currentPoint.z(),
@@ -69,7 +70,7 @@ void Rasterizer::drawLine(
             interpolation * (endPressure - startPressure) + startPressure,
             0.0, 1.0));
 
-        m_brush->draw(
+        BrushRepository::instance()->activeBrush()->draw(
             m_operation,
             startX, startY,
             interpolation, pressure,

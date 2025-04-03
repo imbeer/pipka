@@ -4,7 +4,7 @@
 
 namespace PIPKA::CONTROL::TOOLS
 {
-template<class DerivedRepository>
+template<class DerivedRepository, class Storage>
 class Repository : protected QObject
 {
     // Q_OBJECT
@@ -13,6 +13,10 @@ private:
     Repository& operator=(const Repository&) = delete;
     Repository(Repository&&) = delete;
     Repository& operator=(Repository&&) = delete;
+
+protected:
+    explicit Repository(QObject* parent = nullptr) : QObject(parent) {}
+    virtual ~Repository() = default;
 
 public:
     static DerivedRepository* instance() {
@@ -26,12 +30,11 @@ public:
         m_instance.reset();
     }
 
-protected:
-    explicit Repository(QObject* parent = nullptr) : QObject(parent) {}
-    virtual ~Repository() = default;
+    Storage storage() { return m_storage; }
 
-private:
+protected:
     static std::unique_ptr<DerivedRepository> m_instance;
+    Storage m_storage;
 };
 
 }

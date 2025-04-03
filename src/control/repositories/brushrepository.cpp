@@ -1,12 +1,14 @@
 #include "brushrepository.h"
 
+#include "blendrepository.h"
+
 namespace PIPKA::CONTROL::TOOLS
 {
 
 /// some magic
 // todo: wtf is going on
 template<>
-std::unique_ptr<BrushRepository> Repository<BrushRepository>::m_instance = nullptr;
+std::unique_ptr<BrushRepository> Repository<BrushRepository, BrushStorage>::m_instance = nullptr;
 
 BrushRepository::BrushRepository()
 {
@@ -16,25 +18,21 @@ BrushRepository::BrushRepository()
 
 BrushRepository::~BrushRepository()
 {
-    // todo: save brushes
+    // todo: serialize brushes
 }
 
 void BrushRepository::addBrush()
 {
-    const auto newBrush = std::make_shared<BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
-    m_brushes.push_back(newBrush);
-    selectBrush(m_brushes.size() - 1);
-}
-
-void BrushRepository::setColor(const Color color) const
-{
-    assert(m_activeBrush != nullptr);
-    m_activeBrush->setColor(color);
+    const auto newBrush = std::make_shared<BRUSH::Brush>(
+        BlendRepository::instance()->getBlend<IMAGE::COLOR::NormalBlend>(),
+        0xFFFFFFFF);
+    m_storage.push_back(newBrush);
+    selectBrush(m_storage.size() - 1);
 }
 
 void BrushRepository::selectBrush(const int index)
 {
-    m_activeBrush = m_brushes.at(index);
+    m_activeBrush = m_storage.at(index);
     emit brushSelected();
 }
 
