@@ -3,7 +3,7 @@
 namespace PIPKA::UI {
 
 LayerList::LayerList(
-    std::shared_ptr<CONTROL::Controller> &controller,
+    std::shared_ptr<CONTROL::Controller> controller,
     const int &w, const int &h,
     QWidget *parent)
     : ToolList(controller, w, h, parent)

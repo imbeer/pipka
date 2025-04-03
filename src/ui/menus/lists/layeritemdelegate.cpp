@@ -46,7 +46,7 @@ void LayerItemDelegate::paint(
     painter->setPen(Palette::WHITE);
     painter->setFont(QFont("Arial", 12, QFont::Bold));
     painter->drawText(
-        marginedRect.adjusted(20, 5, -10, -5),
+        marginedRect.adjusted(5, 5, -10, -5),
         Qt::AlignVCenter | Qt::AlignLeft,
         text);
 
@@ -68,7 +68,7 @@ QSize LayerItemDelegate::sizeHint(
 {
     Q_UNUSED(option);
     Q_UNUSED(index);
-    return {235, 40};
+    return {230, 40};
 }
 
 bool LayerItemDelegate::editorEvent(
@@ -89,7 +89,9 @@ bool LayerItemDelegate::editorEvent(
 
 QRect LayerItemDelegate::getHideButtonRect(const QStyleOptionViewItem &option)
 {
-    return option.rect.adjusted(200, 14, -17, -13);
+    QRect rect(0, 0, 18, 13);
+    rect.moveTo(option.rect.x() + 182, option.rect.y() + 14);
+    return rect;
 }
 
 QRect LayerItemDelegate::getClickableHideButtonRect(const QStyleOptionViewItem &option)

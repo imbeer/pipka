@@ -11,7 +11,7 @@ class LayerList : public ToolList<LayerListModel, LayerItemDelegate>
     Q_OBJECT
 public:
     explicit LayerList(
-        std::shared_ptr<PIPKA::CONTROL::Controller> &m_controller,
+        std::shared_ptr<CONTROL::Controller> m_controller,
         const int &w = 248, const int &h = 500,
         QWidget *parent = nullptr);
 

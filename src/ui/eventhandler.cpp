@@ -104,6 +104,8 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
 
 void EventHandler::keyReleaseEvent(QKeyEvent *event)
 {
-    m_pressedKeys.erase(m_pressedKeys.find(event->key()));
+    if (auto it = m_pressedKeys.find(event->key()); it != m_pressedKeys.end()) {
+        m_pressedKeys.erase(it);
+    }
 }
 }

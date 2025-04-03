@@ -4,15 +4,15 @@
 #include <type_traits>
 #include <QListView>
 #include <QWidget>
-#include "layeritemdelegate.h"
-#include "layerlistmodel.h"
-
 #include <QVBoxLayout>
+
+#include "scrollbar.h"
 #include "../../../control/controller.h"
 
-namespace PIPKA::UI {
+namespace PIPKA::UI
+{
 
-template <typename Model, typename Delegate>
+template<typename Model, typename Delegate>
 class ToolList : public QWidget
 {
     static_assert(
@@ -22,57 +22,46 @@ class ToolList : public QWidget
         std::is_base_of_v<QAbstractItemDelegate, Delegate>,
         "Delegate is not a child class of QAbstractItemDelegate");
 
-    // Q_OBJECT
 public:
     explicit ToolList(
-        std::shared_ptr<CONTROL::Controller> &controller,
+        std::shared_ptr<CONTROL::Controller> controller,
         const int &w = 248, const int &h = 500,
-        QWidget *parent = nullptr);
+        QWidget *parent = nullptr)
+    {
+        m_controller = controller;
+        m_listView = new QListView(this);
+        m_model = new Model(controller, this);
+        m_delegate = new Delegate(this);
+        setMinimumSize(w, h);
+        initUi();
+    }
 
 private:
-    void initUi();
+    void initUi()
+    {
+        m_listView->setModel(m_model);
+        m_listView->setItemDelegate(m_delegate);
+        m_listView->setStyleSheet("QListView { background: transparent; }");
+        m_listView->setContentsMargins(0, 0, 0, 0);
+        m_listView->setSpacing(0);
+
+        m_listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        m_listView->setVerticalScrollBar(new ScrollBar(Qt::Vertical, m_listView));
+        m_listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        m_listView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        m_listView->setLayoutDirection(Qt::RightToLeft);
+        // m_listView->setSpacing(0);
+        // Layout
+        auto *layout = new QVBoxLayout(this);
+        layout->addWidget(m_listView);
+        setLayout(layout);
+    }
 
 protected:
     std::shared_ptr<CONTROL::Controller> m_controller;
     QListView *m_listView;
     Model *m_model;
     Delegate *m_delegate;
-
 };
-
-
-
-
-/// IMPLEMENTATION
-template <typename Model, typename Delegate>
-ToolList<Model, Delegate>::ToolList(
-    std::shared_ptr<CONTROL::Controller> &controller,
-    const int &w, const int &h,
-    QWidget *parent)
-    : QWidget{parent}, m_controller(controller)
-{
-    m_listView = new QListView(this);
-    m_model = new Model(controller, this);
-    m_delegate = new Delegate(this);
-    setMinimumSize(w, h);
-    initUi();
 }
-
-template <typename Model, typename Delegate>
-void ToolList<Model, Delegate>::initUi()
-{
-    m_listView->setModel(m_model);
-    m_listView->setItemDelegate(m_delegate);
-    m_listView->setStyleSheet("QListView { background: transparent; }");
-    m_listView->setContentsMargins(0, 0, 0, 0);
-    m_listView->setSpacing(0);
-
-    // Layout
-    auto *layout = new QVBoxLayout(this);
-    layout->addWidget(m_listView);
-    setLayout(layout);
-}
-
-}
-
 #endif // TOOLLIST_H

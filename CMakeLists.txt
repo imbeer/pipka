@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         src/ui/menus/maintoolbar.h src/ui/menus/maintoolbar.cpp
 
         src/ui/palette.h
+        src/ui/menus/lists/scrollbar.h  src/ui/menus/lists/scrollbar.cpp
         src/ui/menus/lists/toollist.h
         src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
         src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
@@ -54,8 +55,7 @@ set(PROJECT_SOURCES
 
         src/control/repositories/repository.h
         src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp
-        src/control/repositories/blendrepository.cpp
-        src/control/repositories/blendrepository.h
+        src/control/repositories/blendrepository.h src/control/repositories/blendrepository.cpp
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
