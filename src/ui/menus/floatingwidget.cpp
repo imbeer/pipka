@@ -21,10 +21,11 @@ FloatingWidget::FloatingWidget(
 void FloatingWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.setPen(Qt::NoPen);
     painter.setBrush(Palette::BASE);
     painter.setBackground(Palette::BASE);
-    constexpr int radius = 20;
+    constexpr int radius = 16;
     painter.drawRoundedRect(this->rect(), radius, radius);
     // painter.fillRect(this->rect(),));
 }
