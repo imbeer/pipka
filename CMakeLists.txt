@@ -15,46 +15,44 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGLWidgets)
 set(PROJECT_SOURCES
         src/main.cpp
 
-        src/ui/window.h src/ui/window.cpp
         src/ui/shaders/shaders.qrc
+
+        src/ui/window.h src/ui/window.cpp
         src/ui/canvaswidget.h src/ui/canvaswidget.cpp
         src/ui/eventhandler.h src/ui/eventhandler.cpp
 
         src/ui/menus/floatingwidget.h src/ui/menus/floatingwidget.cpp
         src/ui/menus/maintoolbar.h src/ui/menus/maintoolbar.cpp
 
+        src/ui/palette.h
         src/ui/menus/lists/toollist.h
         src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
         src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
         src/ui/menus/lists/layeritemdelegate.h src/ui/menus/lists/layeritemdelegate.cpp
 
-        src/image/layer.h src/image/layer.cpp
         src/image/image.h src/image/image.cpp
+        src/image/layer.h src/image/layer.cpp
+        src/image/pixel/pixelmap.h src/image/pixel/pixelmap.cpp
         src/image/color/color.h src/image/color/color.cpp
         src/image/color/blend.h src/image/color/blend.cpp
 
         src/control/controller.h src/control/controller.cpp
+        src/control/transform.h src/control/transform.cpp
 
         src/control/tools/tool.h
         src/control/tools/rasterizer.h src/control/tools/rasterizer.cpp
-        src/control/tools/brushes/brush.cpp
-        src/control/tools/brushes/brush.h
+        src/control/tools/brushes/brush.h src/control/tools/brushes/brush.cpp
+        src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
+        src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
+        src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
+
+        src/control/operations/versioncontrolsystem.h src/control/operations/versioncontrolsystem.cpp
         src/control/operations/operation.h
-        src/control/operations/versioncontrolsystem.cpp
-        src/control/operations/versioncontrolsystem.h
-        src/image/pixel/pixelmap.cpp
-        src/image/pixel/pixelmap.h
-        src/control/operations/pixeloperation.cpp
-        src/control/operations/pixeloperation.h
-        src/ui/menus/tools/colorselectorsquare.cpp
-        src/ui/menus/tools/colorselectorsquare.h
-        src/ui/menus/tools/colorselectorwidget.cpp
-        src/ui/menus/tools/colorselectorwidget.h
-        src/ui/menus/tools/colorselectorslider.cpp
-        src/ui/menus/tools/colorselectorslider.h
-        src/ui/palette.h
-        src/control/transform.cpp
-        src/control/transform.h
+        src/control/operations/pixeloperation.h src/control/operations/pixeloperation.cpp
+
+
+        src/control/repositories/repository.h
+        src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

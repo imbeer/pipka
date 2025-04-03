@@ -20,7 +20,7 @@ public:
     std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
 
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
-    void setColor(IMAGE::Color color) const;
+    // void setColor(IMAGE::Color color) const;
 
     void createImage(const int &w, const int &h);
     void saveImage(const QString &path = "output.png") const;

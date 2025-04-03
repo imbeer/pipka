@@ -4,19 +4,16 @@
 #include <qvector3d.h>
 #include <qvectornd.h>
 
+#include "repositories/brushrepository.h"
+
 namespace PIPKA::CONTROL {
 
 Controller::Controller()
     : m_image(nullptr)
 {
     m_versionControlSystem = std::make_shared<VERSIONCONTROL::VersionControlSystem>();
-    m_brush = std::make_shared<TOOLS::BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
-    m_activeTool = std::make_shared<TOOLS::Rasterizer>(m_brush, m_versionControlSystem);
-}
-
-void Controller::setColor(const IMAGE::Color color) const
-{
-    m_brush->setColor(color);
+    // m_brush = std::make_shared<TOOLS::BRUSH::Brush>(std::make_shared<IMAGE::COLOR::NormalBlend>(), 0xFFFFFFFF);
+    m_activeTool = std::make_shared<TOOLS::Rasterizer>(TOOLS::BrushRepository::instance()->activeBrush(), m_versionControlSystem);
 }
 
 void Controller::createImage(const int &w, const int &h)
