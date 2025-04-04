@@ -91,9 +91,9 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
             break;
         case Qt::Key_Z:
             if (m_pressedKeys.contains(Qt::Key_Control) && m_pressedKeys.contains(Qt::Key_Shift)) {
-                m_controller->redo();
+                m_controller->getVersionControl()->redo();
             } else if (m_pressedKeys.contains(Qt::Key_Control)) {
-                m_controller->undo();
+                m_controller->getVersionControl()->undo();
             }
             break;
         default:

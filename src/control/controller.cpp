@@ -43,10 +43,8 @@ void Controller::clearActiveLayer() const
 
 void Controller::addLayer()
 {
-    // m_image->pushBackLayer();
     m_image->pushBackLayer();
     m_activeLayerIndex = m_image->layerSize() - 1;
-    // m_image->layers()[m_activeLayerIndex]
 }
 
 void Controller::handleClick(const double &x, const double &y, const double &pressure)
@@ -65,7 +63,6 @@ void Controller::handleRelease(const double &x, const double &y, const double &p
     m_pressed = false;
     m_activeTool->release();
     m_previousPoint.reset();
-    // m_rasterizer.drawPoint(m_image->layers()[m_activeLayerIndex], getCoordinates(x, y, pressure));
 }
 
 void Controller::handleMove(const double &x, const double &y, const double &pressure)
@@ -74,7 +71,8 @@ void Controller::handleMove(const double &x, const double &y, const double &pres
     const QVector3D currentPoint = getCoordinates(x, y, pressure);
 
     if (isOutside(currentPoint)) {
-        m_previousPoint.reset();
+        m_activeTool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_previousPoint.emplace(currentPoint);
         return;
     }
 
@@ -100,19 +98,5 @@ QVector3D Controller::getCoordinates(const double &x, const double &y, const dou
 
     return {imageX, imageY, static_cast<float>(pressure)};
 }
-
-
-
-void Controller::undo() const
-{
-    m_versionControlSystem->undo();
-}
-
-void Controller::redo() const
-{
-    m_versionControlSystem->redo();
-}
-
-
 
 }

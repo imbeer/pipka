@@ -10,7 +10,7 @@
 #include "tools/brushes/brush.h"
 
 namespace PIPKA::CONTROL {
-// todo: add brush repository and set color;
+
 class Controller
 {
 public:
@@ -18,9 +18,9 @@ public:
 
     [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
     std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
+    TOOLS::VersionControlPtr getVersionControl() {return m_versionControlSystem;}
 
     void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
-    // void setColor(IMAGE::Color color) const;
 
     void createImage(const int &w, const int &h);
     void saveImage(const QString &path = "output.png") const;
@@ -33,8 +33,6 @@ public:
 
     [[nodiscard]] QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1) const;
 
-    void undo() const;
-    void redo() const;
 
 private:
     /// distance between points, where z is tablet pressure
