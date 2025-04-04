@@ -32,9 +32,11 @@ set(PROJECT_SOURCES
         src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
         src/ui/menus/lists/layeritemdelegate.h src/ui/menus/lists/layeritemdelegate.cpp
 
-        src/image/image.h src/image/image.cpp
-        src/image/layer.h src/image/layer.cpp
-        src/image/pixel/pixelmap.h src/image/pixel/pixelmap.cpp
+        src/image/pixel-structures/rectangle.h
+        src/image/pixel-structures/image.h src/image/pixel-structures/image.cpp
+        src/image/pixel-structures/layer.h src/image/pixel-structures/layer.cpp
+        src/image/pixel-structures/chunk.h src/image/pixel-structures/chunk.cpp
+        src/image/pixel-structures/pixelmap.h src/image/pixel-structures/pixelmap.cpp
         src/image/color/color.h src/image/color/color.cpp
         src/image/color/blend.h src/image/color/blend.cpp
 
