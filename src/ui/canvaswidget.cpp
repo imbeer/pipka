@@ -7,9 +7,9 @@ namespace PIPKA::UI {
 CanvasWidget::CanvasWidget(
     const std::shared_ptr<CONTROL::Controller> &controller,
     EventHandler *eventHandler,
-    QWidget *parent)
-    : QOpenGLWidget(parent),
-      m_controller(controller), m_shaderProgram(nullptr), m_eventHandler(eventHandler)
+    QWidget *parent) :
+    QOpenGLWidget(parent), m_controller(controller),
+    m_shaderProgram(nullptr), m_eventHandler(eventHandler)
 { }
 
 CanvasWidget::~CanvasWidget()
@@ -34,7 +34,7 @@ void CanvasWidget::initializeTextures()
         for (const auto &chunk : chunkRow) {
             auto texture = std::make_shared<QOpenGLTexture>(QOpenGLTexture::Target2D);
 
-            texture->setSize(chunk->rect.w, image->rect.h);
+            texture->setSize(chunk->rect.w, chunk->rect.h);
             texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
             texture->allocateStorage();
             texture->setMinMagFilters(
@@ -58,7 +58,7 @@ void CanvasWidget::updateTextureData(const int xInd, const int yInd)
 {
     const auto layer = m_controller->image()->mergedLayer();
     const auto texture = m_textures.at(yInd).at(xInd);
-    qDebug() << "called updateTextureData on:" << xInd << yInd;
+    // qDebug() << "called updateTextureData on:" << xInd << yInd;
     texture->setData(
         QOpenGLTexture::BGRA,
         QOpenGLTexture::UInt8,
@@ -70,16 +70,7 @@ void CanvasWidget::connectTextures()
 {
     const int chunksByX = m_controller->image()->mergedLayer()->chunks().at(0).size();
     const int chunksByY = m_controller->image()->mergedLayer()->chunks().size();
-    // for (const auto &chunkRow :  m_controller->getImage()->mergedLayer()->chunks()) {
-    //     for (const auto &chunk : chunkRow) {
-    //         connect(
-    //             chunk.get(),
-    //             &IMAGE::Chunk::updated,
-    //             this,
-    //             &CanvasWidget::updateTextureData);
-    //         qDebug() << "connected chunk: " << chunk.get();
-    //     }
-    // }
+
     for (int yInd = 0; yInd < chunksByY; ++yInd) {
         for (int xInd = 0; xInd < chunksByX; ++xInd) {
             connect(
@@ -87,7 +78,7 @@ void CanvasWidget::connectTextures()
                 &IMAGE::Chunk::updated,
                 this,
                 &CanvasWidget::updateTextureData);
-            qDebug() << "connected chunk: " << m_controller->image()->mergedLayer()->getChunk(xInd, yInd).get();
+            // qDebug() << "connected chunk: " << m_controller->image()->mergedLayer()->getChunk(xInd, yInd).get();
         }
     }
 }
@@ -164,16 +155,8 @@ void CanvasWidget::paintGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
 
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
     if (!m_shaderProgram)
         return;
-
 
     for (int yInd = 0; yInd < m_textures.size(); ++yInd) {
         for (int xInd = 0; xInd < m_textures[yInd].size(); ++xInd) {
@@ -181,8 +164,6 @@ void CanvasWidget::paintGL()
         }
     }
 
-    // m_vao.release();
-    // m_shaderProgram->release();
     glFlush();
 }
 
@@ -190,14 +171,17 @@ void CanvasWidget::renderChunk(const int xInd, const int yInd)
 {
     m_shaderProgram->bind();
     m_shaderProgram->setUniformValue("uTransform", m_controller->transform()->m_mvp);
+
     const auto texture = m_textures.at(yInd).at(xInd);
     const auto &rect = m_controller->image()->mergedLayer()->getChunk(xInd, yInd)->rect;
-    texture->bind();
+
     m_vao.bind();
     m_vertexBuffer.bind();
     m_indexBuffer.bind();
+    texture->bind();
     m_vertexBuffer.write(0, rect.vertices.data(), 20 * sizeof(GLfloat));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
     texture->release();
     m_vertexBuffer.release();
     m_indexBuffer.release();
@@ -226,6 +210,7 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
     m_eventHandler->mouseReleaseEvent(event);
 
 }
+
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_eventHandler->mouseMoveEvent(event);
@@ -250,8 +235,8 @@ void CanvasWidget::resizeEvent(QResizeEvent *event)
     const int newWidth = event->size().width();
     const int newHeight = event->size().height();
 
+    m_eventHandler->setSize(newWidth, newHeight);
     resizeGL(newWidth, newHeight);
 }
-
 
 }

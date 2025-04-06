@@ -38,10 +38,10 @@ struct Rectangle
 
     [[nodiscard]] std::array<float, 20> computeVertices(const Rectangle &biggerRectangle) const
     {
-        const float left   = 2.0f * (x - biggerRectangle.x) / biggerRectangle.w - 1.0f;
-        const float right  = 2.0f * ((x + w) - biggerRectangle.x) / biggerRectangle.w - 1.0f;
-        const float bottom = 2.0f * (y - biggerRectangle.y) / biggerRectangle.h - 1.0f;
-        const float top    = 2.0f * ((y + h) - biggerRectangle.y) / biggerRectangle.h - 1.0f;
+        const float left   = 2.0f * static_cast<float>(x - biggerRectangle.x) / biggerRectangle.w - 1.0f;
+        const float right  = 2.0f * static_cast<float>((x + w) - biggerRectangle.x) / biggerRectangle.w - 1.0f;
+        const float bottom = 2.0f * static_cast<float>(y - biggerRectangle.y) / biggerRectangle.h - 1.0f;
+        const float top    = 2.0f * static_cast<float>((y + h) - biggerRectangle.y) / biggerRectangle.h - 1.0f;
 
         return {
             // Positions        // Texture Coords

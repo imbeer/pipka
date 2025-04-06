@@ -1,7 +1,6 @@
 #include "controller.h"
 #include "tools/rasterizer.h"
 #include <qdebug.h>
-#include <qvector3d.h>
 #include <qvectornd.h>
 
 #include "repositories/brushrepository.h"

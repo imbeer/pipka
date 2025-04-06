@@ -11,8 +11,8 @@ std::unique_ptr<BrushRepository> Repository<BrushRepository, BrushStorage>::m_in
 BrushRepository::BrushRepository()
 {
     // todo: load brushes
-    addBrush<BRUSH::SquareBrush>();
     addBrush<BRUSH::Brush>();
+    addBrush<BRUSH::SquareBrush>();
 }
 
 BrushRepository::~BrushRepository()

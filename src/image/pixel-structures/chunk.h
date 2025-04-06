@@ -33,7 +33,7 @@ signals:
     void updated(int xInd, int yInd);
 
 public:
-    static constexpr int MAX_SIDE = 16;
+    static constexpr int MAX_SIDE = 64;
 
     const Rectangle rect;
     const Color initColor;

@@ -112,7 +112,7 @@ void Layer::drawRectangle(const int x, const int y, const int w, const int h, Co
 
 void Layer::update()
 {
-    qDebug() << "Layer::update" << m_updatedChunks.size();
+    // qDebug() << "Layer::update" << m_updatedChunks.size();
     for (const auto chunkPtr : m_updatedChunks) {
         chunkPtr->update();
     }
