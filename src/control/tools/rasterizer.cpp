@@ -67,7 +67,9 @@ void Rasterizer::drawLine(
 
     int drawIntervalCount = 0;
     int drawInterval = BrushRepository::instance()->activeBrush()->drawInterval();
-
+    if (totalSteps <= drawInterval) {
+        drawInterval = 0;
+    }
     for (int currentStep = 1; currentStep <= totalSteps; ++currentStep) {
 
         float interpolation = static_cast<float>(currentStep) / totalSteps;
