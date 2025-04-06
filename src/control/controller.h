@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "../image/image.h"
+#include "../image/pixel-structures/image.h"
 #include "tools/tool.h"
 #include <QImage>
 
@@ -16,23 +16,18 @@ class Controller
 public:
     Controller();
 
-    [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
-    std::shared_ptr<IMAGE::Image> getImage() {return m_image;};
-    TOOLS::VersionControlPtr getVersionControl() {return m_versionControlSystem;}
-
-    void setActiveLayerIndex(const int &index) {m_activeLayerIndex = index; qDebug() << index;};
-
     void createImage(const int &w, const int &h);
     void saveImage(const QString &path = "output.png") const;
     void clearActiveLayer() const;
-    void addLayer();
 
     void handleClick(const double &x, const double &y, const double &pressure = 1);
     void handleRelease(const double &x, const double &y, const double &pressure = 1);
     void handleMove(const double &x, const double &y, const double &pressure = 1); /// mapped -1 to 1
 
-    [[nodiscard]] QVector3D getCoordinates(const double &x, const double &y, const double &pressure = 1) const;
-
+    [[nodiscard]] QVector3D coordinates(const double &x, const double &y, const double &pressure = 1) const;
+    [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
+    std::shared_ptr<IMAGE::Image> image() {return m_image;};
+    TOOLS::VersionControlPtr versionControl() {return m_versionControlSystem;}
 
 private:
     /// distance between points, where z is tablet pressure
@@ -57,11 +52,8 @@ private:
     std::shared_ptr<Transform> m_transform;
     TOOLS::VersionControlPtr m_versionControlSystem;
 
-
     bool m_pressed = false;
     std::optional<QVector3D> m_previousPoint;
-
-    int m_activeLayerIndex = 0;
 };
 
 }

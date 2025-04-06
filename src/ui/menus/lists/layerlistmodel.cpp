@@ -7,7 +7,7 @@ LayerListModel::LayerListModel(
     QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_image = controller->getImage();
+    m_image = controller->image();
 
     connect(m_image.get(), &PIPKA::IMAGE::Image::layerAdded,
             this, &LayerListModel::onLayerAdded);

@@ -22,6 +22,9 @@ private:
     std::deque<std::shared_ptr<Operation>> m_doneOperationStack;
     std::deque<std::shared_ptr<Operation>> m_unDoneOperationStack;
 };
+
+using VersionControlPtr = std::shared_ptr<VERSIONCONTROL::VersionControlSystem>;
+
 }
 
 #endif //VERSIONCONTROLSYSTEM_H

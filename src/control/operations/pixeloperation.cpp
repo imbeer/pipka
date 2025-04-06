@@ -17,7 +17,7 @@ void PixelOperation::apply()
         const IMAGE::Color colorDifference = entry.second;
         m_layer->addPixelColor(x, y, colorDifference);
     }
-    m_layer->update(m_colorDifferences->getBoundingBox());
+    m_layer->update(); //  m_colorDifferences->getBoundingBox()
 }
 
 void PixelOperation::undo()
@@ -28,6 +28,6 @@ void PixelOperation::undo()
         const IMAGE::Color colorDifference = entry.second;
         m_layer->subtractPixelColor(x, y, colorDifference);
     }
-    m_layer->update(m_colorDifferences->getBoundingBox());
+    m_layer->update(); // m_colorDifferences->getBoundingBox()
 }
 }

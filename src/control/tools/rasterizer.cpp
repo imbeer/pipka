@@ -30,10 +30,11 @@ void Rasterizer::action(
             x, y,
             1, currentPoint.z(),
             0, 0);
-
+        layer->update();
         return;
     }
     drawLine(*previousPoint, currentPoint);
+    layer->update();
 }
 
 void Rasterizer::release()

@@ -38,23 +38,17 @@ void Controller::saveImage(const QString &path) const
 
 void Controller::clearActiveLayer() const
 {
-    m_image->layers()[m_activeLayerIndex]->clearLayer();
-}
-
-void Controller::addLayer()
-{
-    m_image->pushBackLayer();
-    m_activeLayerIndex = m_image->layerSize() - 1;
+    m_image->activeLayer()->clearLayer();
 }
 
 void Controller::handleClick(const double &x, const double &y, const double &pressure)
 {
     m_pressed = true;
-    const QVector3D currentPoint = getCoordinates(x, y, pressure);
+    const QVector3D currentPoint = coordinates(x, y, pressure);
 
     if (isOutside(currentPoint)) return;
 
-    m_activeTool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+    m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
     m_previousPoint.emplace(currentPoint);
 }
 
@@ -68,27 +62,27 @@ void Controller::handleRelease(const double &x, const double &y, const double &p
 void Controller::handleMove(const double &x, const double &y, const double &pressure)
 {
     if (!m_pressed) return;
-    const QVector3D currentPoint = getCoordinates(x, y, pressure);
+    const QVector3D currentPoint = coordinates(x, y, pressure);
 
     if (isOutside(currentPoint)) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
         m_previousPoint.emplace(currentPoint);
         return;
     }
 
     if (!m_previousPoint.has_value()) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
         m_previousPoint.emplace(currentPoint);
         return;
     }
 
     if (isFarEnough(currentPoint, *m_previousPoint)) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image->layers()[m_activeLayerIndex], m_image);
+        m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
         m_previousPoint.emplace(currentPoint);
     }
 }
 
-QVector3D Controller::getCoordinates(const double &x, const double &y, const double &pressure) const
+QVector3D Controller::coordinates(const double &x, const double &y, const double &pressure) const
 {
     const double normalizedX = x * m_transform->m_i_mvp(0, 0) + y * m_transform->m_i_mvp(0, 1) - 1 * m_transform->m_i_mvp(0, 2);
     const double normalizedY = x * m_transform->m_i_mvp(1, 0) + y * m_transform->m_i_mvp(1, 1) + 1 * m_transform->m_i_mvp(1, 2);

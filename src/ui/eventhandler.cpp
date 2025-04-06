@@ -87,13 +87,13 @@ void EventHandler::keyPressEvent(QKeyEvent *event)
             m_controller->clearActiveLayer();
             break;
         case Qt::Key_L:
-            m_controller->addLayer();
+            m_controller->image()->pushBackLayer();
             break;
         case Qt::Key_Z:
             if (m_pressedKeys.contains(Qt::Key_Control) && m_pressedKeys.contains(Qt::Key_Shift)) {
-                m_controller->getVersionControl()->redo();
+                m_controller->versionControl()->redo();
             } else if (m_pressedKeys.contains(Qt::Key_Control)) {
-                m_controller->getVersionControl()->undo();
+                m_controller->versionControl()->undo();
             }
             break;
         default:

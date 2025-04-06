@@ -20,18 +20,21 @@ class CanvasWidget : public QOpenGLWidget, protected QOpenGLFunctions
 public:
     explicit CanvasWidget(
         const std::shared_ptr<CONTROL::Controller> &controller,
+        EventHandler *eventHandler,
         QWidget *parent = nullptr);
     ~CanvasWidget() override;
 private:
     void initializeTextures();
+    void updateTextureData(int xInd, int yInd);
     // void addTexture(const int &index);
-    void updateTextureData(const int &x, const int &y);
-    void updateWholeTextureData();
+    // void updateWholeTextureData();
+    void connectTextures();
 
 protected:
     void initializeGL() override;
     void resizeGL(int width, int height) override;
     void paintGL() override;
+    void renderChunk(int xInd, int yInd);
 
 protected:
     // todo: slap event filter here
@@ -44,21 +47,14 @@ protected:
     void keyReleaseEvent  (QKeyEvent *event) override;
     void resizeEvent      (QResizeEvent *event) override;
 
-// qt draws one texture at a time. So basically I need vector<Texture> and then just bind them and draw.
-
 private:
-    EventHandler m_eventHandler;
-    std::shared_ptr<QOpenGLTexture> m_texture;
-    // QOpenGLTexture* m_texture;
-    // PIPKA::IMAGE::Layer m_layer;
-    // PIPKA::IMAGE::Image m_image;
-    std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
+    EventHandler *m_eventHandler;
+    std::vector<std::vector<std::shared_ptr<QOpenGLTexture>>> m_textures;
+    std::shared_ptr<CONTROL::Controller> m_controller;
     QOpenGLShaderProgram* m_shaderProgram;
     QOpenGLBuffer m_vertexBuffer;
     QOpenGLBuffer m_indexBuffer;
     QOpenGLVertexArrayObject m_vao;
-
-    // bool m_mousePressed;
 };
 
 }

@@ -18,13 +18,13 @@ void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelect
 {
     if (!selected.indexes().isEmpty()) {
         // QString selectedItem = m_model->data(selected.indexes().first(), Qt::DisplayRole).toString();
-        m_controller->setActiveLayerIndex(selected.indexes().first().row());
+        m_controller->image()->setActiveLayer(selected.indexes().first().row());
     }
 }
 
 void LayerList::onLayerHide(const QModelIndex &index) const
 {
-    m_controller->getImage()->layers().at(index.row())->flipVisible();
+    m_controller->image()->layers().at(index.row())->flipVisible();
 }
 
 // void LayerList::onLayerAdded(const int &index)

@@ -3,17 +3,16 @@
 
 #include <QVector3D>
 #include <utility>
-#include "../../image/layer.h"
-#include "../../image/image.h"
+#include "../../image/pixel-structures/layer.h"
+#include "../../image/pixel-structures/image.h"
 #include "../operations/versioncontrolsystem.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
 using std::optional, IMAGE::Color, IMAGE::Layer, IMAGE::Image;
-using LayerPtr = std::shared_ptr<Layer>;
-using ImagePtr = std::shared_ptr<Image>;
-using VersionControlPtr = std::shared_ptr<VERSIONCONTROL::VersionControlSystem>;
-
+using VERSIONCONTROL::VersionControlPtr;
+using IMAGE::ImagePtr;
+using IMAGE::LayerPtr;
 
 /// interface for all tools
 class Tool

@@ -2,8 +2,12 @@
 
 namespace PIPKA::IMAGE
 {
-Chunk::Chunk(const int x, const int y, const int w, const int h, int xInd, int yInd, const Color initColor) :
-    rect(x, y, w, h),
+Chunk::Chunk(
+    const int x, const int y,
+    const int w, const int h,
+    const int xInd, const int yInd,
+    const Color initColor, const Rectangle &layerRect) :
+    rect(x, y, w, h, layerRect),
     initColor(initColor),
     m_pixelBuffer(rect.bufferSize(), initColor),
     m_xInd(xInd), m_yInd(yInd)

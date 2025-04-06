@@ -35,7 +35,7 @@ public:
     };
 
 private:
-    std::shared_ptr<PIPKA::CONTROL::Controller> m_controller;
+    std::shared_ptr<CONTROL::Controller> m_controller;
     std::unordered_set<int> m_pressedKeys;
     int width;
     int height;
