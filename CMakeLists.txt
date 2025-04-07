@@ -31,6 +31,9 @@ set(PROJECT_SOURCES
         src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
         src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
         src/ui/menus/lists/layeritemdelegate.h src/ui/menus/lists/layeritemdelegate.cpp
+        src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
+        src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
+        src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
 
         src/image/pixel-structures/rectangle.h
         src/image/pixel-structures/image.h src/image/pixel-structures/image.cpp
@@ -48,18 +51,14 @@ set(PROJECT_SOURCES
         src/control/tools/brushes/brush.h src/control/tools/brushes/brush.cpp
         src/control/tools/brushes/squarebrush.h src/control/tools/brushes/squarebrush.cpp
 
-        src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
-        src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
-        src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
-
         src/control/operations/versioncontrolsystem.h src/control/operations/versioncontrolsystem.cpp
         src/control/operations/operation.h
         src/control/operations/pixeloperation.h src/control/operations/pixeloperation.cpp
 
-
         src/control/repositories/repository.h
         src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp
         src/control/repositories/blendrepository.h src/control/repositories/blendrepository.cpp
+        src/control/repositories/toolrepository.h src/control/repositories/toolrepository.cpp
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

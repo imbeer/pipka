@@ -11,23 +11,21 @@ PixelOperation::~PixelOperation()
 
 void PixelOperation::apply()
 {
-    for (const auto &entry: m_colorDifferences->getMap()) {
-        const int x = entry.first.first;
-        const int y = entry.first.second;
-        const IMAGE::Color colorDifference = entry.second;
+    for (const auto &[position, colorDifference] : m_colorDifferences->getMap()) {
+        const int x = position.first;
+        const int y = position.second;
         m_layer->addPixelColor(x, y, colorDifference);
     }
-    m_layer->update(); //  m_colorDifferences->getBoundingBox()
+    m_layer->update();
 }
 
 void PixelOperation::undo()
 {
-    for (const auto &entry: m_colorDifferences->getMap()) {
-        const int x = entry.first.first;
-        const int y = entry.first.second;
-        const IMAGE::Color colorDifference = entry.second;
+    for (const auto &[position, colorDifference] : m_colorDifferences->getMap()) {
+        const int x = position.first;
+        const int y = position.second;
         m_layer->subtractPixelColor(x, y, colorDifference);
     }
-    m_layer->update(); // m_colorDifferences->getBoundingBox()
+    m_layer->update();
 }
 }

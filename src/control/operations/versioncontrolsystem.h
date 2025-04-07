@@ -18,12 +18,12 @@ public:
 
     void addOperation(std::shared_ptr<Operation> operation);
 private:
-    const int maxOperations = 10;
+    const int maxOperations = 30;
     std::deque<std::shared_ptr<Operation>> m_doneOperationStack;
     std::deque<std::shared_ptr<Operation>> m_unDoneOperationStack;
 };
 
-using VersionControlPtr = std::shared_ptr<VERSIONCONTROL::VersionControlSystem>;
+using VersionControlPtr = std::shared_ptr<VersionControlSystem>;
 
 }
 
