@@ -5,7 +5,7 @@
 #include <utility>
 #include "../../image/pixel-structures/layer.h"
 #include "../../image/pixel-structures/image.h"
-#include "../operations/versioncontrolsystem.h"
+#include "../context/operations/versioncontrolsystem.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
@@ -17,8 +17,8 @@ using IMAGE::LayerPtr;
 /// interface for all tools
 class Tool
 {
-protected:
-    ~Tool() = default;
+public:
+    virtual ~Tool() = default;
 
 public:
     explicit Tool(VersionControlPtr versionControlSystem):

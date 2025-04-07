@@ -2,8 +2,8 @@
 #define PIXELOPERATION_H
 
 #include "operation.h"
-#include "../../image/pixel-structures/pixelmap.h"
-#include "../tools/tool.h"
+#include "../../../image/pixel-structures/pixelmap.h"
+#include "../../tools/tool.h"
 
 namespace PIPKA::CONTROL::VERSIONCONTROL
 {

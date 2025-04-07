@@ -5,6 +5,7 @@
 
 #include <qevent.h>
 #include <unordered_set>
+#include <QShortcut>
 
 namespace PIPKA::UI {
 
@@ -22,11 +23,10 @@ public:
     void mouseMoveEvent   (QMouseEvent  *event);
     void keyPressEvent    (QKeyEvent    *event);
     void keyReleaseEvent  (QKeyEvent    *event);
-    void resizeEvent      (QResizeEvent *event);
 
-    inline void setSize(const int &width, const int &height) {this->width = width; this->height = height;};
+    void setSize(const int &width, const int &height) {this->width = width; this->height = height;};
 
-    inline QVector3D getNormalizedClickVector(const QPointF &position, const double &pressure = 1)
+    QVector3D getNormalizedClickVector(const QPointF &position, const double &pressure = 1) const
     {
         return QVector3D(
             2.0 * position.x() / width - 1.0,

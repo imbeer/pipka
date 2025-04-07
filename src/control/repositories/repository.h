@@ -1,6 +1,8 @@
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
+
 #include <memory>
+#include <QObject>
 
 namespace PIPKA::CONTROL::TOOLS
 {

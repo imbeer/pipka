@@ -23,6 +23,8 @@ public:
         EventHandler *eventHandler,
         QWidget *parent = nullptr);
     ~CanvasWidget() override;
+    void callUpdate() {this->update();}
+
 private:
     void initializeTextures();
     void updateTextureData(int xInd, int yInd);
@@ -43,8 +45,6 @@ protected:
     void mousePressEvent  (QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent   (QMouseEvent *event) override;
-    void keyPressEvent    (QKeyEvent *event) override;
-    void keyReleaseEvent  (QKeyEvent *event) override;
     void resizeEvent      (QResizeEvent *event) override;
 
 private:

@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "tool.h"
-#include "../operations/pixeloperation.h"
+#include "../context/operations/pixeloperation.h"
 #include "brushes/brush.h"
 
 namespace PIPKA::CONTROL::TOOLS {

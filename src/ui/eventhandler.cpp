@@ -7,6 +7,7 @@ EventHandler::EventHandler(
     const int &width, const int &height)
 : m_controller(controller), width(width), height(height)
 {
+
 }
 
 void EventHandler::tabletEvent(QTabletEvent *event)

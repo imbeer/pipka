@@ -5,7 +5,7 @@
 #include "../tool.h"
 #include "../../../image/color/blend.h"
 #include "../../../image/color/color.h"
-#include "../../operations/pixeloperation.h"
+#include "../../context/operations/pixeloperation.h"
 
 namespace PIPKA::CONTROL::TOOLS::BRUSH
 {

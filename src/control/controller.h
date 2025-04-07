@@ -5,8 +5,8 @@
 #include "tools/tool.h"
 #include <QImage>
 
-#include "transform.h"
-#include "operations/versioncontrolsystem.h"
+#include "context/transform.h"
+#include "context/operations/versioncontrolsystem.h"
 #include "tools/brushes/brush.h"
 
 namespace PIPKA::CONTROL {
@@ -26,27 +26,20 @@ public:
 
     [[nodiscard]] QVector3D coordinates(const double &x, const double &y, const double &pressure = 1) const;
     [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
-    std::shared_ptr<IMAGE::Image> image() {return m_image;};
+    IMAGE::ImagePtr image() {return m_image;};
     TOOLS::VersionControlPtr versionControl() {return m_versionControlSystem;}
 
 private:
     /// distance between points, where z is tablet pressure
     static float distance(const QVector3D &first, const QVector3D &second) { return
-        std::pow(std::pow((first.x() - second.x()), 2)
-            + std::pow((first.y() - second.y()), 2), 0.5);
+        pow(pow((first.x() - second.x()), 2)
+            + pow((first.y() - second.y()), 2), 0.5);
     }
 
     static bool isFarEnough(const QVector3D &first, const QVector3D &second) { return distance(first, second) >= 1; }
 
-    [[nodiscard]] bool isOutside(const QVector3D &point) const { return (
-        point.x() < 0
-        || point.y() < 0
-        || point.x() >= m_image->width()
-        || point.y() >= m_image->height());
-    };
-
 private:
-    std::shared_ptr<IMAGE::Image> m_image;
+    IMAGE::ImagePtr m_image;
     std::shared_ptr<TOOLS::Tool> m_activeTool;
     std::shared_ptr<TOOLS::BRUSH::Brush> m_brush;
     std::shared_ptr<Transform> m_transform;

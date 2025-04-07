@@ -1,6 +1,9 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
+#include <array>
+#include <QVector3D>
+
 struct Rectangle
 {
     Rectangle(
@@ -26,6 +29,10 @@ struct Rectangle
     [[nodiscard]] bool contains(const int pointX, const int pointY) const
     {
         return pointX >= x && pointY >= y && pointX < x + w && pointY < y + h;
+    }
+    [[nodiscard]] bool contains(const QVector3D &point) const
+    {
+        return point.x() >= x && point.y() >= y && point.x() < x + w && point.y() < y + h;
     }
 
     [[nodiscard]] int maxX() const { return x + w; }

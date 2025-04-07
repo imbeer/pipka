@@ -3,7 +3,8 @@
 namespace PIPKA::CONTROL
 {
 
-Transform::Transform(std::shared_ptr<IMAGE::Image> image) :
+Transform::Transform(const std::shared_ptr<IMAGE::Image> &image) :
+    QObject(nullptr),
     m_image(image)
 { }
 
@@ -42,6 +43,7 @@ void Transform::updateFullMatrix()
 {
     m_mvp = m_projection * m_transform;
     m_i_mvp = m_i_transform * m_i_projection;
+    emit updated();
 }
 
 void Transform::moveLeft()

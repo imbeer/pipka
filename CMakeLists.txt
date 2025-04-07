@@ -45,15 +45,15 @@ set(PROJECT_SOURCES
 
         src/control/tools/tool.h
         src/control/controller.h src/control/controller.cpp
-        src/control/transform.h src/control/transform.cpp
+        src/control/context/transform.h src/control/context/transform.cpp
         src/control/tools/rasterizer.h src/control/tools/rasterizer.cpp
 
         src/control/tools/brushes/brush.h src/control/tools/brushes/brush.cpp
         src/control/tools/brushes/squarebrush.h src/control/tools/brushes/squarebrush.cpp
 
-        src/control/operations/versioncontrolsystem.h src/control/operations/versioncontrolsystem.cpp
-        src/control/operations/operation.h
-        src/control/operations/pixeloperation.h src/control/operations/pixeloperation.cpp
+        src/control/context/operations/versioncontrolsystem.h src/control/context/operations/versioncontrolsystem.cpp
+        src/control/context/operations/operation.h
+        src/control/context/operations/pixeloperation.h src/control/context/operations/pixeloperation.cpp
 
         src/control/repositories/repository.h
         src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp

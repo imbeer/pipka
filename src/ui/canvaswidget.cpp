@@ -10,7 +10,13 @@ CanvasWidget::CanvasWidget(
     QWidget *parent) :
     QOpenGLWidget(parent), m_controller(controller),
     m_shaderProgram(nullptr), m_eventHandler(eventHandler)
-{ }
+{
+    connect(
+        m_controller->transform().get(),
+        &CONTROL::Transform::updated,
+        this,
+        &CanvasWidget::callUpdate);
+}
 
 CanvasWidget::~CanvasWidget()
 {
@@ -78,7 +84,6 @@ void CanvasWidget::connectTextures()
                 &IMAGE::Chunk::updated,
                 this,
                 &CanvasWidget::updateTextureData);
-            // qDebug() << "connected chunk: " << m_controller->image()->mergedLayer()->getChunk(xInd, yInd).get();
         }
     }
 }
@@ -214,18 +219,6 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_eventHandler->mouseMoveEvent(event);
-}
-
-void CanvasWidget::keyPressEvent(QKeyEvent *event)
-{
-    m_eventHandler->keyPressEvent(event);
-    update();
-}
-
-void CanvasWidget::keyReleaseEvent(QKeyEvent *event)
-{
-    m_eventHandler->keyReleaseEvent(event);
-    // update();
 }
 
 void CanvasWidget::resizeEvent(QResizeEvent *event)

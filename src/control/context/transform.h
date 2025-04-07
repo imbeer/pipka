@@ -4,14 +4,15 @@
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 
-#include "../image/pixel-structures/image.h"
+#include "../../image/pixel-structures/image.h"
 
 namespace PIPKA::CONTROL
 {
 
-class Transform {
+class Transform : public QObject{
+    Q_OBJECT
 public:
-    explicit Transform(std::shared_ptr<IMAGE::Image> image);
+    explicit Transform(const std::shared_ptr<IMAGE::Image> &image);
 
     void scaleUp();
     void scaleDown();
@@ -25,6 +26,9 @@ public:
     void updateProjection(const float &viewPortRatio);
     void updateTransform();
     void updateFullMatrix();
+
+signals:
+    void updated();
 
 public:
     QMatrix3x3 m_mvp;
