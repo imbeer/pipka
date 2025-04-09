@@ -1,8 +1,6 @@
 #include "rasterizer.h"
 #include <qdebug.h>
-
 #include <cmath>
-
 #include "../repositories/brushrepository.h"
 
 namespace PIPKA::CONTROL::TOOLS {
@@ -15,9 +13,9 @@ Rasterizer::Rasterizer(
 void Rasterizer::action(
     const QVector3D &currentPoint,
     const optional<QVector3D> &previousPoint,
-    const LayerPtr &layer,
     const ImagePtr &image)
 {
+    const auto &layer = image->activeLayer();
     if (m_operation == nullptr || m_operation->getLayer() == nullptr) {
         m_operation = std::make_shared<VERSIONCONTROL::PixelOperation>(layer);
     }

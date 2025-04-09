@@ -34,7 +34,6 @@ public:
     virtual void action(
         const QVector3D &currentPoint,
         const optional<QVector3D> &previousPoint,
-        const LayerPtr &layer,
         const ImagePtr &image) = 0;
 
     /// finalizes action when mouse relises.

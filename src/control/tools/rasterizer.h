@@ -1,11 +1,8 @@
 #ifndef RASTERIZER_H
 #define RASTERIZER_H
 
-#include <QVector3D>
-
 #include "tool.h"
 #include "../context/operations/pixeloperation.h"
-#include "brushes/brush.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
@@ -17,7 +14,6 @@ public:
 
     void action(const QVector3D &currentPoint,
                 const optional<QVector3D> &previousPoint,
-                const LayerPtr &layer,
                 const ImagePtr &image) override;
 
     void release() override;
@@ -25,6 +21,7 @@ public:
 
 private:
     /// brazenham line rasterization
+    /// maybe todo: implement custom brute-force algorithm with float interval to allow antialiasing on brush level
     void drawLine(
         const QVector3D &start,
         const QVector3D &end);

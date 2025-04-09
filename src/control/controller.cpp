@@ -47,7 +47,7 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 
     if (image()->rect.contains(currentPoint)) return;
 
-    m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
+    m_activeTool->action(currentPoint, m_previousPoint, m_image);
     m_previousPoint.emplace(currentPoint);
 }
 
@@ -64,13 +64,13 @@ void Controller::handleMove(const double &x, const double &y, const double &pres
     const QVector3D currentPoint = coordinates(x, y, pressure);
 
     if (!m_previousPoint.has_value()) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
+        m_activeTool->action(currentPoint, m_previousPoint, m_image);
         m_previousPoint.emplace(currentPoint);
         return;
     }
 
     if (isFarEnough(currentPoint, *m_previousPoint)) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image->activeLayer(), m_image);
+        m_activeTool->action(currentPoint, m_previousPoint, m_image);
         m_previousPoint.emplace(currentPoint);
     }
 }
