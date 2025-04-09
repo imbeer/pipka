@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "../image/pixel-structures/image.h"
+#include "../image/pixel-structure/image.h"
 #include "tools/tool.h"
 #include <QImage>
 

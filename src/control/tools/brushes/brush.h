@@ -32,7 +32,7 @@ public:
         int deltaX, int deltaY);
 
     [[nodiscard]] virtual Color calculateColors(
-        const LayerPtr &layer,
+        const IMAGE::UnchunkedLayerPtr &layer,
         int x, int y,
         float interpolation, float pressure);
 

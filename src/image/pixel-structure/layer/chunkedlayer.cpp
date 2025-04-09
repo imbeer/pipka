@@ -1,23 +1,17 @@
-#include "layer.h"
+#include "chunkedlayer.h"
 
 #include <qdebug.h>
-#include "../../control/repositories/blendrepository.h"
 
 namespace PIPKA::IMAGE {
 
-Layer::Layer(
-    const int index,
-    const Color color,
+ChunkedLayer::ChunkedLayer(
     const Rectangle &rectangle) :
-    m_rect(rectangle),
-    defaultColor(color)
+    Layer(rectangle)
 {
     splitToChunks();
-    blend = CONTROL::TOOLS::BlendRepository::instance()->getBlend<COLOR::NormalBlend>();
-    m_name = "Layer " + QString::number(index);
 }
 
-void Layer::splitToChunks()
+void ChunkedLayer::splitToChunks()
 {
     const int numMaxSizedChunksInWidth = width() / Chunk::MAX_SIDE;
     const int lastChunkInWidth = width() % Chunk::MAX_SIDE;
@@ -49,7 +43,7 @@ void Layer::splitToChunks()
                 chunkX, chunkY,
                 chunkWidth, chunkHeight,
                 xInd, yInd,
-                defaultColor, m_rect);
+                0xffffffff, m_rect);
             chunkRow.push_back(chunk);
         }
         if (!chunkRow.empty()) {
@@ -58,7 +52,7 @@ void Layer::splitToChunks()
     }
 }
 
-ChunkPtr Layer::getChunkOfPoint(const int pointX, const int pointY)
+ChunkPtr ChunkedLayer::getChunkOfPoint(const int pointX, const int pointY)
 {
     const int xInd = pointX / Chunk::MAX_SIDE;
     const int yInd = pointY / Chunk::MAX_SIDE;
@@ -66,18 +60,18 @@ ChunkPtr Layer::getChunkOfPoint(const int pointX, const int pointY)
     return m_chunks.at(yInd).at(xInd);
 }
 
-ChunkPtr Layer::getChunk(const int xInd, const int yInd)
+ChunkPtr ChunkedLayer::getChunk(const int xInd, const int yInd)
 {
     return m_chunks.at(yInd).at(xInd);
 }
 
-Color Layer::getColor(const int x, const int y)
+Color ChunkedLayer::getColor(const int x, const int y)
 {
     if (!m_rect.contains(x, y)) return 0;
     return getChunkOfPoint(x, y)->getPixel(x, y);
 }
 
-void Layer::setPixel(const int x, const int y, const Color color)
+void ChunkedLayer::setPixel(const int x, const int y, const Color color)
 {
     if (!m_rect.contains(x, y)) return;
     const auto chunk = getChunkOfPoint(x, y);
@@ -85,7 +79,7 @@ void Layer::setPixel(const int x, const int y, const Color color)
     addChunkToUpdate(chunk);
 }
 
-void Layer::addPixelColor(const int x, const int y, const Color colorDifference)
+void ChunkedLayer::addPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
     const auto chunk = getChunkOfPoint(x, y);
@@ -93,7 +87,7 @@ void Layer::addPixelColor(const int x, const int y, const Color colorDifference)
     addChunkToUpdate(chunk);
 }
 
-void Layer::subtractPixelColor(const int x, const int y, const Color colorDifference)
+void ChunkedLayer::subtractPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
     const auto chunk = getChunkOfPoint(x, y);
@@ -101,16 +95,7 @@ void Layer::subtractPixelColor(const int x, const int y, const Color colorDiffer
     addChunkToUpdate(chunk);
 }
 
-void Layer::drawRectangle(const int x, const int y, const int w, const int h, Color *pixelBuffer)
-{
-    for (int xInd = 0; xInd < w; ++xInd) {
-        for (int yInd = 0; yInd < h; ++yInd) {
-            setPixel(x + xInd, y + yInd, pixelBuffer[xInd + yInd * w]);
-        }
-    }
-}
-
-void Layer::update()
+void ChunkedLayer::update()
 {
     // qDebug() << "Layer::update" << m_updatedChunks.size();
     for (const auto chunkPtr : m_updatedChunks) {
@@ -119,7 +104,7 @@ void Layer::update()
     m_updatedChunks.clear();
 }
 
-void Layer::clearLayer()
+void ChunkedLayer::clearLayer()
 {
     for (auto &chunkRow : m_chunks) {
         for (auto &chunk : chunkRow) {
@@ -130,17 +115,7 @@ void Layer::clearLayer()
     update();
 }
 
-void Layer::flipVisible()
-{
-    visibleFlag = !visibleFlag;
-}
-
-void Layer::setVisible(const bool flag)
-{
-    visibleFlag = flag;
-}
-
-void Layer::addChunkToUpdate(const ChunkPtr &chunk)
+void ChunkedLayer::addChunkToUpdate(const ChunkPtr &chunk)
 {
     Chunk *chunkPtr = chunk.get();
     if (!m_updatedChunks.contains(chunkPtr)) {

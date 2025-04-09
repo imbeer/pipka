@@ -1,7 +1,7 @@
 #include "rasterizer.h"
 #include <qdebug.h>
 #include <cmath>
-#include "../repositories/brushrepository.h"
+#include "../repository/brushrepository.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
@@ -17,7 +17,7 @@ void Rasterizer::action(
 {
     const auto &layer = image->activeLayer();
     if (m_operation == nullptr || m_operation->getLayer() == nullptr) {
-        m_operation = std::make_shared<VERSIONCONTROL::PixelOperation>(layer);
+        m_operation = std::make_shared<VERSIONCONTROL::PixelOperation>(image, layer);
     }
 
     if (!previousPoint.has_value()) {
@@ -28,11 +28,11 @@ void Rasterizer::action(
             x, y,
             1, currentPoint.z(),
             0, 0);
-        layer->update();
+        image->mergedLayer()->update();
         return;
     }
     drawLine(*previousPoint, currentPoint);
-    layer->update();
+    image->mergedLayer()->update();
 }
 
 void Rasterizer::release()

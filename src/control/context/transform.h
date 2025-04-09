@@ -4,7 +4,7 @@
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 
-#include "../../image/pixel-structures/image.h"
+#include "../../image/pixel-structure/image.h"
 
 namespace PIPKA::CONTROL
 {

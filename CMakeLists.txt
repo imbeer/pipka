@@ -35,11 +35,15 @@ set(PROJECT_SOURCES
         src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
         src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
 
-        src/image/pixel-structures/rectangle.h
-        src/image/pixel-structures/image.h src/image/pixel-structures/image.cpp
-        src/image/pixel-structures/layer.h src/image/pixel-structures/layer.cpp
-        src/image/pixel-structures/chunk.h src/image/pixel-structures/chunk.cpp
-        src/image/pixel-structures/pixelmap.h src/image/pixel-structures/pixelmap.cpp
+        src/image/pixel-structure/rectangle.h
+
+        src/image/pixel-structure/layer/layer.h
+        src/image/pixel-structure/layer/chunkedlayer.h src/image/pixel-structure/layer/chunkedlayer.cpp
+        src/image/pixel-structure/layer/unchunkedlayer.h src/image/pixel-structure/layer/unchunkedlayer.cpp
+
+        src/image/pixel-structure/image.h src/image/pixel-structure/image.cpp
+        src/image/pixel-structure/chunk.h src/image/pixel-structure/chunk.cpp
+        src/image/pixel-structure/pixelmap.h src/image/pixel-structure/pixelmap.cpp
         src/image/color/color.h src/image/color/color.cpp
         src/image/color/blend.h src/image/color/blend.cpp
 
@@ -55,10 +59,11 @@ set(PROJECT_SOURCES
         src/control/context/operations/operation.h
         src/control/context/operations/pixeloperation.h src/control/context/operations/pixeloperation.cpp
 
-        src/control/repositories/repository.h
-        src/control/repositories/brushrepository.h src/control/repositories/brushrepository.cpp
-        src/control/repositories/blendrepository.h src/control/repositories/blendrepository.cpp
-        src/control/repositories/toolrepository.h src/control/repositories/toolrepository.cpp
+        src/control/repository/repository.h
+        src/control/repository/brushrepository.h src/control/repository/brushrepository.cpp
+        src/control/repository/blendrepository.h src/control/repository/blendrepository.cpp
+        src/control/repository/toolrepository.h src/control/repository/toolrepository.cpp
+
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -25,7 +25,6 @@ public:
     const void *data() const { return m_pixelBuffer.data(); }
     void update()
     {
-        // qDebug() << "updating chunk" << m_xInd << m_yInd ;
         emit updated(m_xInd, m_yInd);
     }
 

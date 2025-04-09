@@ -2,8 +2,10 @@
 
 namespace PIPKA::CONTROL::VERSIONCONTROL
 {
-PixelOperation::PixelOperation(const TOOLS::LayerPtr &layer)
-    : Operation(), m_colorDifferences(std::make_shared<IMAGE::PIXELMAP::PixelMap>()), m_layer(layer)
+PixelOperation::PixelOperation(
+    const IMAGE::ImagePtr &image,
+    const IMAGE::UnchunkedLayerPtr &layer)
+    : Operation(), m_colorDifferences(std::make_shared<IMAGE::PIXELMAP::PixelMap>()), m_layer(layer), m_image(image)
 { }
 
 PixelOperation::~PixelOperation()
@@ -16,7 +18,7 @@ void PixelOperation::apply()
         const int y = position.second;
         m_layer->addPixelColor(x, y, colorDifference);
     }
-    m_layer->update();
+    m_image->mergedLayer()->update();
 }
 
 void PixelOperation::undo()
@@ -26,6 +28,6 @@ void PixelOperation::undo()
         const int y = position.second;
         m_layer->subtractPixelColor(x, y, colorDifference);
     }
-    m_layer->update();
+    m_image->mergedLayer()->update();
 }
 }

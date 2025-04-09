@@ -39,7 +39,7 @@ void Brush::draw(
 }
 
 Color Brush::calculateColors(
-    const LayerPtr &layer,
+    const IMAGE::UnchunkedLayerPtr &layer,
     const int x, const int y,
     float interpolation, const float pressure)
 {

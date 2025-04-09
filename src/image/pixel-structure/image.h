@@ -1,7 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "layer.h"
+#include "layer/chunkedlayer.h"
+#include "layer/unchunkedlayer.h"
 #include <vector>
 
 namespace PIPKA::IMAGE {
@@ -21,14 +22,16 @@ public:
     int height() const {return rect.h;}
     float ratio() const {return static_cast<float>(rect.w) / rect.h;}
     int layerSize() const {return m_layers.size();}
-    std::vector<std::shared_ptr<Layer>> layers() {return m_layers;}
-    LayerPtr mergedLayer() const { return m_mergedLayer; }
-    LayerPtr activeLayer() const { return m_activeLayer; }
+    std::vector<std::shared_ptr<UnchunkedLayer>> layers() {return m_layers;}
+    ChunkedLayerPtr mergedLayer() const { return m_mergedChunkedLayer; }
+    UnchunkedLayerPtr activeLayer() const { return m_activeLayer; }
 
 private:
     Color renderPixel(int pointX, int pointY) const;
     void mergeChunk(int xInd, int yInd) const;
-    void connectLayer(const LayerPtr &layer);
+    void mergePixel(int x, int y) const;
+    void mergeRectangle(Rectangle rectangle) const;
+    void connectLayer(const UnchunkedLayerPtr &layer);
 
 signals:
     void layerAdded(int index);
@@ -37,9 +40,10 @@ public:
     const Rectangle rect;
 
 private:
-    std::vector<LayerPtr> m_layers;
-    LayerPtr m_activeLayer;
-    LayerPtr m_mergedLayer;
+    std::vector<UnchunkedLayerPtr> m_layers;
+    UnchunkedLayerPtr m_activeLayer;
+    ChunkedLayerPtr m_mergedChunkedLayer;
+    UnchunkedLayerPtr m_mergedUnChunkedLayer;
 };
 
 using ImagePtr = std::shared_ptr<Image>;

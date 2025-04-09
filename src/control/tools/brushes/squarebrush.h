@@ -20,7 +20,7 @@ public:
         int deltaX, int deltaY) override;
 
     [[nodiscard]] Color calculateColors(
-        const LayerPtr &layer,
+        const IMAGE::UnchunkedLayerPtr &layer,
         int x, int y,
         float interpolation,
         float pressure) override;

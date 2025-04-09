@@ -35,7 +35,7 @@ void SquareBrush::draw(
 }
 
 Color SquareBrush::calculateColors(
-    const LayerPtr &layer,
+    const IMAGE::UnchunkedLayerPtr &layer,
     int x, int y,
     float interpolation,
     float pressure)

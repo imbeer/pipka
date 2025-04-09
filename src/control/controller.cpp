@@ -3,7 +3,7 @@
 #include <qdebug.h>
 #include <qvectornd.h>
 
-#include "repositories/brushrepository.h"
+#include "repository/brushrepository.h"
 
 namespace PIPKA::CONTROL {
 

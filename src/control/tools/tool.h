@@ -3,16 +3,14 @@
 
 #include <QVector3D>
 #include <utility>
-#include "../../image/pixel-structures/layer.h"
-#include "../../image/pixel-structures/image.h"
+#include "../../image/pixel-structure/image.h"
 #include "../context/operations/versioncontrolsystem.h"
 
 namespace PIPKA::CONTROL::TOOLS {
 
-using std::optional, IMAGE::Color, IMAGE::Layer, IMAGE::Image;
+using std::optional, IMAGE::Color, IMAGE::ChunkedLayer, IMAGE::Image;
 using VERSIONCONTROL::VersionControlPtr;
 using IMAGE::ImagePtr;
-using IMAGE::LayerPtr;
 
 /// interface for all tools
 class Tool
@@ -29,7 +27,8 @@ public:
     /// happens every frame when mouse moved and when mouse pressed.
     /// example: if raster -> new line.
     /// params:
-    /// QVector3D = (x, y, pressure)
+    /// @param currentPoint (x, y, pressure)
+    /// @param previousPoint (x, y, pressure)
     /// if there are no previous point, must start a new action.
     virtual void action(
         const QVector3D &currentPoint,
