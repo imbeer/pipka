@@ -16,7 +16,7 @@ void Rasterizer::action(
     const ImagePtr &image)
 {
     const auto &layer = image->activeLayer();
-    if (m_operation == nullptr || m_operation->getLayer() == nullptr) {
+    if (m_operation == nullptr || m_operation->layer() == nullptr) {
         m_operation = std::make_shared<VERSIONCONTROL::PixelOperation>(image, layer);
     }
 

@@ -1,6 +1,7 @@
 #ifndef TEMPORARYPIXELBUFFER_H
 #define TEMPORARYPIXELBUFFER_H
 #include <limits>
+
 #include "rectangle.h"
 #include "../color/color.h"
 
@@ -15,7 +16,7 @@ public:
     bool hasPixelOnCoordinate(int x, int y) const;
     void putPixel(int x, int y, Color color);
     Rectangle boundingBox() const { return {minX, minY, maxX - minX, maxY - minY}; }
-    std::vector<Color> data() const { return m_pixelBuffer; };
+    std::vector<Color> data() const { return m_pixelBuffer; }
 
 private:
     std::vector<Color> m_pixelBuffer;

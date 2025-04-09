@@ -84,7 +84,7 @@ void Image::mergePixel(int x, int y) const
     m_mergedUnChunkedLayer-> setPixel(x, y, color);
 }
 
-void Image::mergeRectangle(const Rectangle rectangle) const
+void Image::mergeRectangle(const Rectangle &rectangle) const
 {
     for (int x = rectangle.x; x <= rectangle.x + rectangle.w; ++x) {
         for (int y = rectangle.y; y <= rectangle.y + rectangle.h; ++y) {
@@ -95,15 +95,8 @@ void Image::mergeRectangle(const Rectangle rectangle) const
 
 void Image::connectLayer(const UnchunkedLayerPtr &layer)
 {
-    // for (auto &chunks : layer->chunks()) {
-        // for (auto &chunkPtr : chunks) {
-            // connect(
-                // chunkPtr.get(), &Chunk::updated,
-                // this, &Image::mergeChunk);
-        // }
-    // }
-    connect(layer.get(), &UnchunkedLayer::pixelUpdated, this, &Image::mergePixel);
-    connect(layer.get(), &UnchunkedLayer::rectangleUpdated, this, &Image::mergeRectangle);
+    // connect(layer.get(), &UnchunkedLayer::pixelUpdated, this, &Image::mergePixel);
+    // connect(layer.get(), &UnchunkedLayer::rectangleUpdated, this, &Image::mergeRectangle);
 }
 }
 

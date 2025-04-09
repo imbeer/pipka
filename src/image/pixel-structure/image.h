@@ -26,11 +26,13 @@ public:
     ChunkedLayerPtr mergedLayer() const { return m_mergedChunkedLayer; }
     UnchunkedLayerPtr activeLayer() const { return m_activeLayer; }
 
-private:
-    Color renderPixel(int pointX, int pointY) const;
+public:
     void mergeChunk(int xInd, int yInd) const;
     void mergePixel(int x, int y) const;
-    void mergeRectangle(Rectangle rectangle) const;
+    void mergeRectangle(const Rectangle &rectangle) const;
+
+private:
+    Color renderPixel(int pointX, int pointY) const;
     void connectLayer(const UnchunkedLayerPtr &layer);
 
 signals:

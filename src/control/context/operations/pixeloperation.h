@@ -15,7 +15,8 @@ public:
     ~PixelOperation() override;
     void apply() override;
     void undo() override;
-    IMAGE::UnchunkedLayerPtr getLayer() const {return m_layer;}
+    IMAGE::UnchunkedLayerPtr layer() const {return m_layer;}
+    IMAGE::ImagePtr image() const {return m_image;}
     std::shared_ptr<IMAGE::PIXELMAP::TemporaryPixelBuffer> getBuffer() const {return m_pixelBuffer;}
 
 private:
