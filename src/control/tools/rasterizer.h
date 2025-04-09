@@ -25,6 +25,9 @@ private:
     void drawLine(
         const QVector3D &start,
         const QVector3D &end);
+    static void checkUpdatedChunks(
+        const IMAGE::ChunkedLayerPtr &layer,
+        const QVector3D &currentPoint);
 
 private:
     // std::shared_ptr<BRUSH::Brush> m_brush;

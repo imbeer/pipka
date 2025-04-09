@@ -25,11 +25,11 @@ public:
     ChunkPtr getChunkOfPoint(int pointX, int pointY);
     ChunkPtr getChunk(int xInd, int yInd);
     const std::vector<std::vector<ChunkPtr>> &chunks() const { return m_chunks; }
+    std::set<Chunk *> &chunksToUpdate() {return m_updatedChunks;}
     Color getColor(int x, int y) override;
     void setPixel(int x, int y, Color color) override;
     void addPixelColor(int x, int y, Color colorDifference) override;
     void subtractPixelColor(int x, int y, Color colorDifference) override;
-
     void update();
     void clearLayer() override;
 

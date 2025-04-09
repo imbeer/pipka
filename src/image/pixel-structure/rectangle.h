@@ -3,6 +3,7 @@
 
 #include <array>
 #include <QVector3D>
+#include <QDebug>
 
 struct Rectangle
 {
@@ -33,6 +34,27 @@ struct Rectangle
     [[nodiscard]] bool contains(const QVector3D &point) const
     {
         return point.x() >= x && point.y() >= y && point.x() < x + w && point.y() < y + h;
+    }
+
+    [[nodiscard]] float distance(const QVector3D &point) const
+    {
+        if (contains(point))
+            return -1.0f;
+
+        const float halfWidth = w * 0.5f;
+        const float halfHeight = h * 0.5f;
+
+        const float centerX = x + halfWidth;
+        const float centerY = y + halfHeight;
+
+        const float distanceX = std::abs(point.x() - centerX) - halfWidth;
+        const float distanceY = std::abs(point.y() - centerY) - halfHeight;
+
+        if (distanceX > 0.0f && distanceY > 0.0f) {
+            return std::sqrt(distanceX * distanceX + distanceY * distanceY);
+        } else {
+            return std::max(distanceX, distanceY);
+        }
     }
 
     [[nodiscard]] int maxX() const { return x + w; }

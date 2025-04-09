@@ -68,6 +68,8 @@ void Rasterizer::drawLine(
     if (totalSteps <= drawInterval) {
         drawInterval = 0;
     }
+    QVector3D currentPoint = start;
+
     for (int currentStep = 1; currentStep <= totalSteps; ++currentStep) {
 
         float interpolation = static_cast<float>(currentStep) / totalSteps;
@@ -82,6 +84,9 @@ void Rasterizer::drawLine(
                 interpolation, pressure,
                 0, 0);
         }
+
+        checkUpdatedChunks(m_operation->image()->mergedLayer(), currentPoint);
+
         ++drawIntervalCount;
         if (drawIntervalCount > drawInterval) {
             drawIntervalCount = 0;
@@ -99,8 +104,22 @@ void Rasterizer::drawLine(
             startY += stepY;
         }
 
+        currentPoint.setX(startX);
+        currentPoint.setY(startY);
     }
 }
 
-
+void Rasterizer::checkUpdatedChunks(const IMAGE::ChunkedLayerPtr &layer, const QVector3D &currentPoint)
+{
+    std::set<IMAGE::Chunk *> updatedChunks;
+    for (auto &chunk : layer->chunksToUpdate()) {
+        if (chunk->rect.distance(currentPoint) >= BrushRepository::instance()->activeBrush()->radius()) {
+            chunk->update();
+            updatedChunks.insert(chunk);
+        }
+    }
+    for (auto &chunk : updatedChunks) {
+        layer->chunksToUpdate().erase(chunk);
+    }
+}
 }
