@@ -13,7 +13,7 @@ class EventHandler
 {
 public:
     EventHandler(
-        const std::shared_ptr<PIPKA::CONTROL::Controller> &controller,
+        const std::shared_ptr<CONTROL::Controller> &controller,
         const int &width, const int &height);
 
     void tabletEvent      (QTabletEvent *event);
@@ -28,10 +28,10 @@ public:
 
     QVector3D getNormalizedClickVector(const QPointF &position, const double &pressure = 1) const
     {
-        return QVector3D(
-            2.0 * position.x() / width - 1.0,
-            1.0 - 2.0 * position.y() / height,
-            pressure);
+        return {
+            static_cast<float>(2.0 * position.x() / width - 1.0),
+            static_cast<float>(1.0 - 2.0 * position.y() / height),
+            static_cast<float>(pressure)};
     };
 
 private:
