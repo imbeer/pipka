@@ -43,7 +43,7 @@ set(PROJECT_SOURCES
 
         src/image/pixel-structure/image.h src/image/pixel-structure/image.cpp
         src/image/pixel-structure/chunk.h src/image/pixel-structure/chunk.cpp
-        src/image/pixel-structure/pixelmap.h src/image/pixel-structure/pixelmap.cpp
+        src/image/pixel-structure/temporarypixelbuffer.h src/image/pixel-structure/temporarypixelbuffer.cpp
         src/image/color/color.h src/image/color/color.cpp
         src/image/color/blend.h src/image/color/blend.cpp
 

@@ -7,7 +7,7 @@ SquareBrush::SquareBrush(
     Color color) :
     Brush(blend, color)
 {
-    m_radius = 2;
+    m_radius = 0;
     drawCallInterval = 2;
 }
 
@@ -18,7 +18,7 @@ void SquareBrush::draw(
     float pressure,
     int deltaX, int deltaY)
 {
-    const auto colorDifferences = operation->getMap();
+    const auto colorDifferences = operation->getBuffer();
     const auto layer = operation->getLayer();
 
     for (int x = centerX - m_radius; x <= centerX + m_radius; x++) {

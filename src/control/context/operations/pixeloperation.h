@@ -2,7 +2,7 @@
 #define PIXELOPERATION_H
 
 #include "operation.h"
-#include "../../../image/pixel-structure/pixelmap.h"
+#include "../../../image/pixel-structure/temporarypixelbuffer.h"
 #include "../../tools/tool.h"
 
 namespace PIPKA::CONTROL::VERSIONCONTROL
@@ -16,10 +16,10 @@ public:
     void apply() override;
     void undo() override;
     IMAGE::UnchunkedLayerPtr getLayer() const {return m_layer;}
-    std::shared_ptr<IMAGE::PIXELMAP::PixelMap> getMap() const {return m_colorDifferences;}
+    std::shared_ptr<IMAGE::PIXELMAP::TemporaryPixelBuffer> getBuffer() const {return m_pixelBuffer;}
 
 private:
-    std::shared_ptr<IMAGE::PIXELMAP::PixelMap> m_colorDifferences;
+    std::shared_ptr<IMAGE::PIXELMAP::TemporaryPixelBuffer> m_pixelBuffer;
     IMAGE::UnchunkedLayerPtr m_layer;
     IMAGE::ImagePtr m_image;
 };

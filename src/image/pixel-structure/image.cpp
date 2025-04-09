@@ -86,8 +86,8 @@ void Image::mergePixel(int x, int y) const
 
 void Image::mergeRectangle(const Rectangle rectangle) const
 {
-    for (int x = rectangle.x; x < rectangle.x + rectangle.w; ++x) {
-        for (int y = rectangle.y; y < rectangle.y + rectangle.h; ++y) {
+    for (int x = rectangle.x; x <= rectangle.x + rectangle.w; ++x) {
+        for (int y = rectangle.y; y <= rectangle.y + rectangle.h; ++y) {
             mergePixel(x, y);
         }
     }

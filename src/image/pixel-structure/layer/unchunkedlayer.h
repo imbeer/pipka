@@ -23,6 +23,8 @@ public:
     void setPixel(int x, int y, Color color) override;
     void addPixelColor(int x, int y, Color colorDifference) override;
     void subtractPixelColor(int x, int y, Color colorDifference) override;
+    void addRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
+    void subtractRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
     std::vector<Color> data() const {return m_pixelBuffer; }
 
     bool isVisible() const {return visibleFlag;}

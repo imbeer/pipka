@@ -27,7 +27,7 @@ void Brush::draw(
     const float pressure,
     int deltaX, int deltaY)
 {
-    const auto colorDifferences = operation->getMap();
+    const auto colorDifferences = operation->getBuffer();
     if (colorDifferences->hasPixelOnCoordinate(centerX, centerY)) {
         return; /// already drawn there
     }

@@ -4,7 +4,7 @@
 
 namespace PIPKA::IMAGE
 {
-UnchunkedLayer::UnchunkedLayer(int index, Color color, const Rectangle &rectangle) :
+UnchunkedLayer::UnchunkedLayer(const int index, const Color color, const Rectangle &rectangle) :
     Layer(rectangle),
     defaultColor(color), m_pixelBuffer(m_rect.bufferSize(), defaultColor)
 {
@@ -12,14 +12,14 @@ UnchunkedLayer::UnchunkedLayer(int index, Color color, const Rectangle &rectangl
     m_name = "Layer " + QString::number(index);
 }
 
-Color UnchunkedLayer::getColor(int x, int y)
+Color UnchunkedLayer::getColor(const int x, const int y)
 {
     if (!m_rect.contains(x, y)) return 0;
     const int index = m_rect.bufferIndex(x, y);
     return m_pixelBuffer.at(index);
 }
 
-void UnchunkedLayer::setPixel(int x, int y, Color color)
+void UnchunkedLayer::setPixel(const int x, const int y, const Color color)
 {
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
@@ -27,7 +27,7 @@ void UnchunkedLayer::setPixel(int x, int y, Color color)
     emit pixelUpdated(x, y);
 }
 
-void UnchunkedLayer::addPixelColor(int x, int y, Color colorDifference)
+void UnchunkedLayer::addPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
@@ -35,12 +35,33 @@ void UnchunkedLayer::addPixelColor(int x, int y, Color colorDifference)
     emit pixelUpdated(x, y);
 }
 
-void UnchunkedLayer::subtractPixelColor(int x, int y, Color colorDifference)
+void UnchunkedLayer::subtractPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) -= colorDifference;
     emit pixelUpdated(x, y);
+}
+
+void UnchunkedLayer::addRectangle(const Rectangle &rectangle, const Color *pixelBuffer)
+{
+    for (int x = rectangle.x; x <= rectangle.w + rectangle.x; ++x) {
+        for (int y = rectangle.y; y <= rectangle.h + rectangle.y; ++y) {
+            m_pixelBuffer[m_rect.bufferIndex(x, y)] += pixelBuffer[m_rect.bufferIndex(x, y)];
+        }
+    }
+    emit rectangleUpdated(rectangle);
+}
+
+void UnchunkedLayer::subtractRectangle(const Rectangle &rectangle, const Color *pixelBuffer)
+{
+    for (int x = rectangle.x; x <= rectangle.w + rectangle.x; ++x) {
+        for (int y = rectangle.y; y <= rectangle.h + rectangle.y; ++y) {
+            // subtractPixelColor(x, y, pixelBuffer[rectangle.bufferIndex(x, y)]);
+            m_pixelBuffer[m_rect.bufferIndex(x, y)] -= pixelBuffer[m_rect.bufferIndex(x, y)];
+        }
+    }
+    emit rectangleUpdated(rectangle);
 }
 
 void UnchunkedLayer::flipVisible()
