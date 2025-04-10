@@ -4,6 +4,7 @@ namespace PIPKA::IMAGE::PIXELMAP
 {
 TemporaryPixelBuffer::TemporaryPixelBuffer(const Rectangle rectangle) :
     m_pixelBuffer(rectangle.bufferSize(), 0x00000000),
+    m_indexBuffer(0),
     m_fullRectangle(rectangle)
 { }
 
@@ -21,6 +22,7 @@ void TemporaryPixelBuffer::putPixel(int x, int y, const Color color)
     if (!m_fullRectangle.contains(x, y)) return;
     const int index = m_fullRectangle.bufferIndex(x, y);
     m_pixelBuffer[index] = color;
+    m_indexBuffer.push_back({{x, y}, color});
     minX = std::min(x, minX);
     minY = std::min(y, minY);
     maxX = std::max(x, maxX);

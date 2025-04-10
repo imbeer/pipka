@@ -7,7 +7,7 @@ SquareBrush::SquareBrush(
     Color color) :
     Brush(blend, color)
 {
-    m_radius = 50;
+    m_radius = 100;
     drawCallInterval = 10;
 }
 

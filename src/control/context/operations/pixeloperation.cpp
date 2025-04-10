@@ -13,18 +13,30 @@ PixelOperation::~PixelOperation()
 
 void PixelOperation::apply()
 {
-    const auto rectangle = m_pixelBuffer->boundingBox();
-    m_layer->addRectangle(rectangle, m_pixelBuffer->data().data());
-    m_image->mergeRectangle(rectangle);
+    for (auto &[position, color] : m_pixelBuffer->pixels()) {
+        m_layer->addPixelColor(position.first, position.second, color);
+        m_image->mergePixel(position.first, position.second);
+    }
+    // const auto rectangle = m_pixelBuffer->boundingBox();
+    // m_layer->addRectangle(rectangle, m_pixelBuffer->data().data());
+    // m_image->mergeRectangle(rectangle);
     m_image->mergedLayer()->update();
 }
 
 void PixelOperation::undo()
 {
-    const auto rectangle = m_pixelBuffer->boundingBox();
-
-    m_layer->subtractRectangle(rectangle, m_pixelBuffer->data().data());
-    m_image->mergeRectangle(rectangle);
+    for (auto &[position, color] : m_pixelBuffer->pixels()) {
+        m_layer->subtractPixelColor(position.first, position.second, color);
+        m_image->mergePixel(position.first, position.second);
+    }
+    // const auto rectangle = m_pixelBuffer->boundingBox();
+    // m_layer->subtractRectangle(rectangle, m_pixelBuffer->data().data());
+    // m_image->mergeRectangle(rectangle);
     m_image->mergedLayer()->update();
+}
+
+void PixelOperation::prepare()
+{
+    m_pixelBuffer->clearPixelBuffer();
 }
 }

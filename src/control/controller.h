@@ -4,6 +4,7 @@
 #include "../image/pixel-structure/image.h"
 #include "tools/tool.h"
 #include <QImage>
+#include <QObject>
 
 #include "context/transform.h"
 #include "context/operations/versioncontrolsystem.h"
@@ -11,8 +12,9 @@
 
 namespace PIPKA::CONTROL {
 
-class Controller
+class Controller : public QObject
 {
+    Q_OBJECT
 public:
     Controller();
 
@@ -28,6 +30,8 @@ public:
     [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
     IMAGE::ImagePtr image() {return m_image;};
     TOOLS::VersionControlPtr versionControl() {return m_versionControlSystem;}
+signals:
+    void updated();
 
 private:
     /// distance between points, where z is tablet pressure

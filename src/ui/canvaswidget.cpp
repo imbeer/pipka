@@ -8,14 +8,18 @@ CanvasWidget::CanvasWidget(
     const std::shared_ptr<CONTROL::Controller> &controller,
     EventHandler *eventHandler,
     QWidget *parent) :
-    QOpenGLWidget(parent), m_controller(controller),
-    m_shaderProgram(nullptr), m_eventHandler(eventHandler)
+    QOpenGLWidget(parent), m_eventHandler(eventHandler),
+    m_controller(controller), m_shaderProgram(nullptr)
 {
     connect(
         m_controller->transform().get(),
         &CONTROL::Transform::updated,
         this,
         &CanvasWidget::callUpdate);
+    // connect(m_controller.get(),
+    //     &CONTROL::Controller::updated,
+    //     this,
+    //     &CanvasWidget::callUpdate);
 }
 
 CanvasWidget::~CanvasWidget()

@@ -7,8 +7,10 @@
 
 namespace PIPKA::CONTROL {
 
-Controller::Controller()
-    : m_image(nullptr), m_transform(nullptr)
+Controller::Controller() :
+    QObject(nullptr),
+    m_image(nullptr),
+    m_transform(nullptr)
 {
     m_versionControlSystem = std::make_shared<VERSIONCONTROL::VersionControlSystem>();
     m_activeTool = std::make_shared<TOOLS::Rasterizer>(m_versionControlSystem);
@@ -49,6 +51,7 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 
     m_activeTool->action(currentPoint, m_previousPoint, m_image);
     m_previousPoint.emplace(currentPoint);
+    emit updated();
 }
 
 void Controller::handleRelease(const double &x, const double &y, const double &pressure)
@@ -56,6 +59,7 @@ void Controller::handleRelease(const double &x, const double &y, const double &p
     m_pressed = false;
     m_activeTool->release();
     m_previousPoint.reset();
+    emit updated();
 }
 
 void Controller::handleMove(const double &x, const double &y, const double &pressure)
@@ -73,6 +77,7 @@ void Controller::handleMove(const double &x, const double &y, const double &pres
         m_activeTool->action(currentPoint, m_previousPoint, m_image);
         m_previousPoint.emplace(currentPoint);
     }
+    emit updated();
 }
 
 QVector3D Controller::coordinates(const double &x, const double &y, const double &pressure) const

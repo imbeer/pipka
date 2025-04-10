@@ -16,7 +16,7 @@ public:
     void redo();
 
 
-    void addOperation(std::shared_ptr<Operation> operation);
+    void addOperation(const std::shared_ptr<Operation> &operation);
 private:
     const int maxOperations = 30;
     std::deque<std::shared_ptr<Operation>> m_doneOperationStack;

@@ -12,6 +12,7 @@ public:
     virtual ~Operation() = default;
     virtual void apply() = 0;
     virtual void undo() = 0;
+    virtual void prepare() = 0;
 
 };
 }
