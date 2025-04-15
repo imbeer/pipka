@@ -1,6 +1,6 @@
 #include "temporarypixelbuffer.h"
 
-namespace PIPKA::IMAGE::PIXELMAP
+namespace PIPKA::IMAGE::BUFFER
 {
 TemporaryPixelBuffer::TemporaryPixelBuffer(const Rectangle rectangle) :
     m_pixelBuffer(rectangle.bufferSize(), 0x00000000),

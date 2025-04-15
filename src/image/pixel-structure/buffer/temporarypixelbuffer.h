@@ -1,10 +1,10 @@
 #ifndef TEMPORARYPIXELBUFFER_H
 #define TEMPORARYPIXELBUFFER_H
 #include <limits>
-#include "rectangle.h"
-#include "../color/color.h"
+#include "../rectangle.h"
+#include "../../color/color.h"
 
-namespace PIPKA::IMAGE::PIXELMAP
+namespace PIPKA::IMAGE::BUFFER
 {
 
 class TemporaryPixelBuffer

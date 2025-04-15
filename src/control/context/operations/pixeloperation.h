@@ -2,12 +2,13 @@
 #define PIXELOPERATION_H
 
 #include "operation.h"
-#include "../../../image/pixel-structure/temporarypixelbuffer.h"
+#include "../../../image/pixel-structure/buffer/temporarypixelbuffer.h"
 #include "../../tools/tool.h"
 
 namespace PIPKA::CONTROL::VERSIONCONTROL
 {
 class PixelOperation : public Operation{
+
 public:
     explicit PixelOperation(
         const IMAGE::ImagePtr &image,
@@ -16,14 +17,16 @@ public:
     void apply() override;
     void undo() override;
     void prepare() override;
-    IMAGE::UnchunkedLayerPtr layer() const {return m_layer;}
-    IMAGE::ImagePtr image() const {return m_image;}
-    std::shared_ptr<IMAGE::PIXELMAP::TemporaryPixelBuffer> getBuffer() const {return m_pixelBuffer;}
+    [[nodiscard]] IMAGE::UnchunkedLayerPtr layer() const {return m_layer;}
+    [[nodiscard]] IMAGE::ImagePtr image() const {return m_image;}
+    [[nodiscard]] std::shared_ptr<IMAGE::BUFFER::TemporaryPixelBuffer> getBuffer() const {return m_pixelBuffer;}
 
 private:
-    std::shared_ptr<IMAGE::PIXELMAP::TemporaryPixelBuffer> m_pixelBuffer;
+    std::shared_ptr<IMAGE::BUFFER::TemporaryPixelBuffer> m_pixelBuffer;
     IMAGE::UnchunkedLayerPtr m_layer;
     IMAGE::ImagePtr m_image;
+
+    static std::map<IMAGE::UnchunkedLayer *, std::vector<PixelVersion>> m_imageVersions;
 };
 }
 #endif //PIXELOPERATION_H

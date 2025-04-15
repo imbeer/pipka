@@ -5,8 +5,14 @@ namespace PIPKA::CONTROL::VERSIONCONTROL
 PixelOperation::PixelOperation(
     const IMAGE::ImagePtr &image,
     const IMAGE::UnchunkedLayerPtr &layer)
-    : Operation(), m_pixelBuffer(std::make_shared<IMAGE::PIXELMAP::TemporaryPixelBuffer>(layer->m_rect)), m_layer(layer), m_image(image)
-{ }
+    : Operation(), m_pixelBuffer(std::make_shared<IMAGE::BUFFER::TemporaryPixelBuffer>(layer->m_rect)), m_layer(layer), m_image(image)
+{
+    if (m_imageVersions.contains(layer.get())) {
+        // todo: map of version buffers
+    } else {
+        // m_imageVersions[layer.get()] = std::vector<PixelVersion>();
+    }
+}
 
 PixelOperation::~PixelOperation()
 { }

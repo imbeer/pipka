@@ -6,7 +6,7 @@
 #include "../chunk.h"
 #include "layer.h"
 #include "../../color/color.h"
-#include "../temporarypixelbuffer.h"
+#include "../buffer/temporarypixelbuffer.h"
 
 namespace PIPKA::IMAGE {
 
