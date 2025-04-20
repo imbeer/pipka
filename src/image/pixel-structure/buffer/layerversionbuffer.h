@@ -14,18 +14,23 @@ using PixelVersion = std::uint64_t;
 class LayerVersionBuffer
 {
 public:
-    LayerVersionBuffer(const Rectangle &rectangle);
-    void incrementVersion() { ++maxVersion; } // todo: check if overflow.
-    bool isPixelUpdated(int x, int y) const
+    explicit LayerVersionBuffer(const Rectangle &rectangle);
+    void incrementVersion() { m_maxVersion++; } // todo: check if overflow.
+
+    [[nodiscard]] bool isPixelUpdated(const int x, const int y) const
     {
-        if (m_rectangle.contains(x, y)) return true;
-        return maxVersion == m_versions[m_rectangle.bufferIndex(x, y)];
+        return (!m_rect.contains(x, y) || m_maxVersion == m_versions[m_rect.bufferIndex(x, y)]);
+    }
+
+    void updatePixel(const int x, const int y)
+    {
+        m_versions.at(m_rect.bufferIndex(x, y))++;
     }
 
 private:
     std::vector<PixelVersion> m_versions;
-    PixelVersion maxVersion;
-    Rectangle m_rectangle;
+    PixelVersion m_maxVersion;
+    Rectangle m_rect;
 };
 
 }

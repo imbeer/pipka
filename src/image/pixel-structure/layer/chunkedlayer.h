@@ -22,8 +22,8 @@ private:
 
 public:
 
-    ChunkPtr getChunkOfPoint(int pointX, int pointY);
-    ChunkPtr getChunk(int xInd, int yInd);
+    ChunkPtr chunkOfPoint(int pointX, int pointY);
+    ChunkPtr chunk(int xInd, int yInd);
     const std::vector<std::vector<ChunkPtr>> &chunks() const { return m_chunks; }
     std::set<Chunk *> &chunksToUpdate() {return m_updatedChunks;}
     Color getColor(int x, int y) override;

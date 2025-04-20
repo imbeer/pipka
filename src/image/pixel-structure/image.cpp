@@ -68,7 +68,7 @@ Color Image::renderPixel(const int pointX, const int pointY) const
 void Image::mergeChunk(const int xInd, const int yInd) const
 {
     // todo: add profiling here.
-    const auto chunkToUpdate = m_mergedChunkedLayer->getChunk(xInd, yInd);
+    const auto chunkToUpdate = m_mergedChunkedLayer->chunk(xInd, yInd);
     for (int x = chunkToUpdate->rect.x; x < chunkToUpdate->rect.x + chunkToUpdate->rect.w; ++x) {
         for (int y = chunkToUpdate->rect.y; y < chunkToUpdate->rect.y + chunkToUpdate->rect.h; ++y) {
             chunkToUpdate->setPixel(x, y, renderPixel(x, y));

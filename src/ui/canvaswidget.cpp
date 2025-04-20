@@ -72,7 +72,7 @@ void CanvasWidget::updateTextureData(const int xInd, const int yInd)
     texture->setData(
         QOpenGLTexture::BGRA,
         QOpenGLTexture::UInt8,
-        layer->getChunk(xInd, yInd)->data());
+        layer->chunk(xInd, yInd)->data());
     update();
 }
 
@@ -84,7 +84,7 @@ void CanvasWidget::connectTextures()
     for (int yInd = 0; yInd < chunksByY; ++yInd) {
         for (int xInd = 0; xInd < chunksByX; ++xInd) {
             connect(
-                m_controller->image()->mergedLayer()->getChunk(xInd, yInd).get(),
+                m_controller->image()->mergedLayer()->chunk(xInd, yInd).get(),
                 &IMAGE::Chunk::updated,
                 this,
                 &CanvasWidget::updateTextureData);
@@ -182,7 +182,7 @@ void CanvasWidget::renderChunk(const int xInd, const int yInd)
     m_shaderProgram->setUniformValue("uTransform", m_controller->transform()->m_mvp);
 
     const auto texture = m_textures.at(yInd).at(xInd);
-    const auto &rect = m_controller->image()->mergedLayer()->getChunk(xInd, yInd)->rect;
+    const auto &rect = m_controller->image()->mergedLayer()->chunk(xInd, yInd)->rect;
 
     m_vao.bind();
     m_vertexBuffer.bind();

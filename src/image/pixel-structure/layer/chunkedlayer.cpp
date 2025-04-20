@@ -52,7 +52,7 @@ void ChunkedLayer::splitToChunks()
     }
 }
 
-ChunkPtr ChunkedLayer::getChunkOfPoint(const int pointX, const int pointY)
+ChunkPtr ChunkedLayer::chunkOfPoint(const int pointX, const int pointY)
 {
     const int xInd = pointX / Chunk::MAX_SIDE;
     const int yInd = pointY / Chunk::MAX_SIDE;
@@ -60,7 +60,7 @@ ChunkPtr ChunkedLayer::getChunkOfPoint(const int pointX, const int pointY)
     return m_chunks.at(yInd).at(xInd);
 }
 
-ChunkPtr ChunkedLayer::getChunk(const int xInd, const int yInd)
+ChunkPtr ChunkedLayer::chunk(const int xInd, const int yInd)
 {
     return m_chunks.at(yInd).at(xInd);
 }
@@ -68,13 +68,13 @@ ChunkPtr ChunkedLayer::getChunk(const int xInd, const int yInd)
 Color ChunkedLayer::getColor(const int x, const int y)
 {
     if (!m_rect.contains(x, y)) return 0;
-    return getChunkOfPoint(x, y)->getPixel(x, y);
+    return chunkOfPoint(x, y)->getPixel(x, y);
 }
 
 void ChunkedLayer::setPixel(const int x, const int y, const Color color)
 {
     if (!m_rect.contains(x, y)) return;
-    const auto chunk = getChunkOfPoint(x, y);
+    const auto chunk = chunkOfPoint(x, y);
     chunk->setPixel(x, y, color);
     addChunkToUpdate(chunk);
 }
@@ -82,7 +82,7 @@ void ChunkedLayer::setPixel(const int x, const int y, const Color color)
 void ChunkedLayer::addPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
-    const auto chunk = getChunkOfPoint(x, y);
+    const auto chunk = chunkOfPoint(x, y);
     chunk->setPixel(x, y, chunk->getPixel(x, y) + colorDifference);
     addChunkToUpdate(chunk);
 }
@@ -90,7 +90,7 @@ void ChunkedLayer::addPixelColor(const int x, const int y, const Color colorDiff
 void ChunkedLayer::subtractPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
-    const auto chunk = getChunkOfPoint(x, y);
+    const auto chunk = chunkOfPoint(x, y);
     chunk->setPixel(x, y, chunk->getPixel(x, y) - colorDifference);
     addChunkToUpdate(chunk);
 }

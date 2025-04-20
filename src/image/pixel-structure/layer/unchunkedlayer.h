@@ -4,6 +4,7 @@
 #include "layer.h"
 
 #include "../../color/blend.h"
+#include "../buffer/layerversionbuffer.h"
 
 namespace PIPKA::IMAGE
 {
@@ -26,6 +27,7 @@ public:
     void addRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
     void subtractRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
     std::vector<Color> data() const {return m_pixelBuffer; }
+    std::shared_ptr<BUFFER::LayerVersionBuffer> versions() { return m_versions; }
 
     bool isVisible() const {return visibleFlag;}
     void flipVisible();
@@ -42,6 +44,7 @@ private:
     bool visibleFlag = true;
     const Color defaultColor;
     std::vector<Color> m_pixelBuffer;
+    std::shared_ptr<BUFFER::LayerVersionBuffer> m_versions;
 
 public:
     COLOR::Blend *blend;
