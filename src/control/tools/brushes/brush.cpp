@@ -32,9 +32,10 @@ void Brush::draw(
         return; /// already drawn there
     }
 
-    const auto layer = operation->layer();
+    const auto image     = operation->image();
+    const auto layer     = operation->layer();
     const auto colorDifference = calculateColors(layer, centerX, centerY, interpolation, pressure);
-    layer->addPixelColor(centerX, centerY, colorDifference);
+    image->addPixelColor(centerX, centerY, colorDifference, layer);
     colorDifferences->putPixel(centerX, centerY, colorDifference);
 }
 

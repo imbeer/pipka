@@ -15,9 +15,10 @@ PixelOperation::~PixelOperation()
 
 void PixelOperation::apply()
 {
+    m_layer->versions()->incrementVersion();
     for (auto &[position, color] : m_pixelBuffer->pixels()) {
-        m_layer->addPixelColor(position.first, position.second, color);
-        m_image->mergePixel(position.first, position.second);
+        m_image->addPixelColor(position.first, position.second, color, m_layer);
+        // m_image->mergePixel(position.first, position.second);
     }
     // const auto rectangle = m_pixelBuffer->boundingBox();
     // m_layer->addRectangle(rectangle, m_pixelBuffer->data().data());
@@ -27,9 +28,10 @@ void PixelOperation::apply()
 
 void PixelOperation::undo()
 {
+    m_layer->versions()->incrementVersion();
     for (auto &[position, color] : m_pixelBuffer->pixels()) {
-        m_layer->subtractPixelColor(position.first, position.second, color);
-        m_image->mergePixel(position.first, position.second);
+        m_image->subtractPixelColor(position.first, position.second, color, m_layer);
+        // m_image->mergePixel(position.first, position.second);
     }
     // const auto rectangle = m_pixelBuffer->boundingBox();
     // m_layer->subtractRectangle(rectangle, m_pixelBuffer->data().data());

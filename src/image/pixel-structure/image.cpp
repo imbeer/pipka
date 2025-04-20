@@ -15,7 +15,7 @@ Image::Image(int w, int h) : rect(0, 0, w, h)
     qDebug() << m_layers.size();
     m_activeLayer = m_layers[0];
     m_mergedChunkedLayer = std::make_shared<ChunkedLayer>(rect);
-    m_mergedUnChunkedLayer = std::make_shared<UnchunkedLayer>(0, 0xffffffff, rect);
+    m_fullBuffer = std::make_shared<UnchunkedLayer>(0, 0xffffffff, rect);
     // connect(m_layers.at(0).get(), &Layer::pixelChanged, this, &Image::mergePixel);
     // connect(m_layers.at(0).get(), &Layer::fullLayerChanged, this, &Image::mergeAllPixels);
     // m_mergedImage = m_layers.at(0)->pixels();
@@ -46,12 +46,30 @@ QImage Image::toQImage() const
     const int h = height();
 
     auto image = QImage(
-        reinterpret_cast<const uchar*>(m_mergedUnChunkedLayer->data().data()),
+        reinterpret_cast<const uchar*>(m_fullBuffer->data().data()),
         w, h,
         w * sizeof(Color),
         QImage::Format_ARGB32);
     image.mirror(false, true);
-    return QImage();
+    return image;
+}
+
+void Image::setPixel(int x, int y, Color color, const UnchunkedLayerPtr &layer) const
+{
+    (layer != nullptr? layer : activeLayer())->setPixel(x, y, color);
+    mergePixel(x, y);
+}
+
+void Image::addPixelColor(int x, int y, Color colorDifference, const UnchunkedLayerPtr &layer) const
+{
+    (layer != nullptr? layer : activeLayer())->addPixelColor(x, y, colorDifference);
+    mergePixel(x, y);
+}
+
+void Image::subtractPixelColor(int x, int y, Color colorDifference, const UnchunkedLayerPtr &layer) const
+{
+    (layer != nullptr? layer : activeLayer())->subtractPixelColor(x, y, colorDifference);
+    mergePixel(x, y);
 }
 
 Color Image::renderPixel(const int pointX, const int pointY) const
@@ -81,7 +99,7 @@ void Image::mergePixel(int x, int y) const
 {
     const auto color = renderPixel(x, y);
     m_mergedChunkedLayer  -> setPixel(x, y, color);
-    m_mergedUnChunkedLayer-> setPixel(x, y, color);
+    m_fullBuffer-> setPixel(x, y, color);
 }
 
 void Image::mergeRectangle(const Rectangle &rectangle) const
@@ -91,12 +109,13 @@ void Image::mergeRectangle(const Rectangle &rectangle) const
             mergePixel(x, y);
         }
     }
+    m_mergedChunkedLayer->update();
 }
 
 void Image::connectLayer(const UnchunkedLayerPtr &layer)
 {
     // connect(layer.get(), &UnchunkedLayer::pixelUpdated, this, &Image::mergePixel);
-    // connect(layer.get(), &UnchunkedLayer::rectangleUpdated, this, &Image::mergeRectangle);
+    connect(layer.get(), &UnchunkedLayer::rectangleUpdated, this, &Image::mergeRectangle);
 }
 }
 

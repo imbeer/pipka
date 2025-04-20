@@ -28,8 +28,7 @@ void SquareBrush::draw(
                 continue; /// already drawn there
             }
             const auto colorDifference = calculateColors(layer, x, y, interpolation, pressure);
-            layer->addPixelColor(x, y, colorDifference);
-            image->mergePixel(x, y);
+            image->addPixelColor(x, y, colorDifference, layer);
             colorDifferences->putPixel(x, y, colorDifference);
         }
     }

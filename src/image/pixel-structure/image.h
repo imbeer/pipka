@@ -22,6 +22,10 @@ public:
     int height() const {return rect.h;}
     float ratio() const {return static_cast<float>(rect.w) / rect.h;}
     int layerSize() const {return m_layers.size();}
+
+    void setPixel(int x, int y, Color color, const UnchunkedLayerPtr &layer = nullptr) const;
+    void addPixelColor(int x, int y, Color colorDifference, const UnchunkedLayerPtr &layer = nullptr) const;
+    void subtractPixelColor(int x, int y, Color colorDifference, const UnchunkedLayerPtr &layer = nullptr) const;
     std::vector<std::shared_ptr<UnchunkedLayer>> layers() {return m_layers;}
     ChunkedLayerPtr mergedLayer() const { return m_mergedChunkedLayer; }
     UnchunkedLayerPtr activeLayer() const { return m_activeLayer; }
@@ -45,7 +49,7 @@ private:
     std::vector<UnchunkedLayerPtr> m_layers;
     UnchunkedLayerPtr m_activeLayer;
     ChunkedLayerPtr m_mergedChunkedLayer;
-    UnchunkedLayerPtr m_mergedUnChunkedLayer;
+    UnchunkedLayerPtr m_fullBuffer;
 };
 
 using ImagePtr = std::shared_ptr<Image>;

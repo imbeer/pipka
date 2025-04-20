@@ -28,7 +28,7 @@ void UnchunkedLayer::setPixel(const int x, const int y, const Color color)
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) = color;
     m_versions->updatePixel(x, y);
-    emit pixelUpdated(x, y);
+    // emit pixelUpdated(x, y);
 }
 
 void UnchunkedLayer::addPixelColor(const int x, const int y, const Color colorDifference)
@@ -37,7 +37,7 @@ void UnchunkedLayer::addPixelColor(const int x, const int y, const Color colorDi
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) += colorDifference;
     m_versions->updatePixel(x, y);
-    emit pixelUpdated(x, y);
+    // emit pixelUpdated(x, y);
 }
 
 void UnchunkedLayer::subtractPixelColor(const int x, const int y, const Color colorDifference)
@@ -46,7 +46,7 @@ void UnchunkedLayer::subtractPixelColor(const int x, const int y, const Color co
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) -= colorDifference;
     m_versions->updatePixel(x, y);
-    emit pixelUpdated(x, y);
+    // emit pixelUpdated(x, y);
 }
 
 void UnchunkedLayer::addRectangle(const Rectangle &rectangle, const Color *pixelBuffer)
