@@ -7,7 +7,7 @@
 namespace PIPKA::CONTROL::TOOLS
 {
 template<class DerivedRepository, class Storage>
-class Repository : protected QObject
+class Repository : public QObject
 {
     // Q_OBJECT
 private:
@@ -21,7 +21,7 @@ protected:
     virtual ~Repository() = default;
 
 public:
-    static DerivedRepository* instance() {
+    static DerivedRepository *instance() {
         if (!m_instance) {
             m_instance.reset(new DerivedRepository());
         }

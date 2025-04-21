@@ -15,18 +15,18 @@ namespace PIPKA::UI
 template<typename Model, typename Delegate>
 class ToolList : public QWidget
 {
-    static_assert(
-        std::is_base_of_v<QAbstractItemModel, Model>,
-        "Model is not a child class of QAbstractItemModel");
-    static_assert(
-        std::is_base_of_v<QAbstractItemDelegate, Delegate>,
-        "Delegate is not a child class of QAbstractItemDelegate");
+    // static_assert(
+    //     std::is_base_of_v<QAbstractItemModel, Model>,
+    //     "Model is not a child class of QAbstractItemModel");
+    // static_assert(
+    //     std::is_base_of_v<QAbstractItemDelegate, Delegate>,
+    //     "Delegate is not a child class of QAbstractItemDelegate");
 
 public:
     explicit ToolList(
         std::shared_ptr<CONTROL::Controller> controller,
         const int &w = 248, const int &h = 500,
-        QWidget *parent = nullptr)
+        QWidget *parent = nullptr) : QWidget(parent)
     {
         m_controller = controller;
         m_listView = new QListView(this);
@@ -56,6 +56,9 @@ private:
         layout->addWidget(m_listView);
         setLayout(layout);
     }
+protected:
+
+    virtual void onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const = 0;
 
 protected:
     std::shared_ptr<CONTROL::Controller> m_controller;

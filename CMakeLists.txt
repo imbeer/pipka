@@ -33,7 +33,7 @@ set(PROJECT_SOURCES
         src/ui/menus/lists/toollist.h
         src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
         src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
-        src/ui/menus/lists/layeritemdelegate.h src/ui/menus/lists/layeritemdelegate.cpp
+        src/ui/menus/lists/listitemdelegate.h src/ui/menus/lists/listitemdelegate.cpp
         src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
         src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
         src/ui/menus/tools/colorselectorslider.h src/ui/menus/tools/colorselectorslider.cpp
@@ -68,6 +68,12 @@ set(PROJECT_SOURCES
         src/control/repository/toolrepository.h src/control/repository/toolrepository.cpp
         src/image/pixel-structure/buffer/layerversionbuffer.cpp
         src/image/pixel-structure/buffer/layerversionbuffer.h
+        src/ui/menus/lists/brushlistmodel.cpp
+        src/ui/menus/lists/brushlistmodel.h
+        src/ui/menus/lists/brushitemdelegate.cpp
+        src/ui/menus/lists/brushitemdelegate.h
+        src/ui/menus/lists/brushlist.cpp
+        src/ui/menus/lists/brushlist.h
 
 )
 

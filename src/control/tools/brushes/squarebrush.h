@@ -24,6 +24,9 @@ public:
         int x, int y,
         float interpolation,
         float pressure) override;
+
+    QString name() const override {return "Square brush";}
+
 };
 
 }

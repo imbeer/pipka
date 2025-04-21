@@ -1,4 +1,4 @@
-#include "layeritemdelegate.h"
+#include "listitemdelegate.h"
 
 #include <QEvent>
 #include <QMouseEvent>
@@ -9,11 +9,11 @@
 
 namespace PIPKA::UI {
 
-LayerItemDelegate::LayerItemDelegate(QObject *parent)
-    : QAbstractItemDelegate(parent)
+ListItemDelegate::ListItemDelegate(QObject *parent) :
+    QAbstractItemDelegate(parent)
 {}
 
-void LayerItemDelegate::paint(
+void ListItemDelegate::paint(
     QPainter *painter,
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const
@@ -52,17 +52,17 @@ void LayerItemDelegate::paint(
 
     // todo: icon render
     if (isVisible) {
-        // qDebug() << "LayerItemDelegate::paint::isVisible";
+        // qDebug() << "ListItemDelegate::paint::isVisible";
         static QPixmap openEyePixmap(":/opened_eye.png");
-        painter->drawPixmap(getHideButtonRect(option), openEyePixmap);
+        painter->drawPixmap(buttonRectangle(option), openEyePixmap);
     } else {
         static QPixmap closedEyePixmap(":/closed_eye.png");
-        painter->drawPixmap(getHideButtonRect(option), closedEyePixmap);
-        // qDebug() << "LayerItemDelegate::paint::is not visible";
+        painter->drawPixmap(buttonRectangle(option), closedEyePixmap);
+        // qDebug() << "ListItemDelegate::paint::is not visible";
     }
 }
 
-QSize LayerItemDelegate::sizeHint(
+QSize ListItemDelegate::sizeHint(
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const
 {
@@ -71,7 +71,7 @@ QSize LayerItemDelegate::sizeHint(
     return {230, 40};
 }
 
-bool LayerItemDelegate::editorEvent(
+bool ListItemDelegate::editorEvent(
     QEvent* event,
     QAbstractItemModel* model,
     const QStyleOptionViewItem& option,
@@ -79,24 +79,24 @@ bool LayerItemDelegate::editorEvent(
 {
     if (event->type() == QEvent::MouseButtonPress) {
         if (const auto* mouseEvent = dynamic_cast<QMouseEvent*>(event);
-            getClickableHideButtonRect(option).contains(mouseEvent->pos())) {
-            emit hideButtonClicked(index);
+            clickableButtonRectangle(option).contains(mouseEvent->pos())) {
+            emit buttonClicked(index);
             return true;
         }
     }
     return false;
 }
 
-QRect LayerItemDelegate::getHideButtonRect(const QStyleOptionViewItem &option)
+QRect ListItemDelegate::buttonRectangle(const QStyleOptionViewItem &option)
 {
     QRect rect(0, 0, 18, 13);
     rect.moveTo(option.rect.x() + 182, option.rect.y() + 14);
     return rect;
 }
 
-QRect LayerItemDelegate::getClickableHideButtonRect(const QStyleOptionViewItem &option)
+QRect ListItemDelegate::clickableButtonRectangle(const QStyleOptionViewItem &option)
 {
-    return getHideButtonRect(option).adjusted(-11, -14, 13, 11);
+    return buttonRectangle(option).adjusted(-11, -14, 13, 11);
 }
 
 }

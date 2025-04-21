@@ -1,12 +1,14 @@
 #ifndef LAYERLIST_H
 #define LAYERLIST_H
 
-#include "layeritemdelegate.h"
+#include "listitemdelegate.h"
 #include "layerlistmodel.h"
 #include "toollist.h"
 
-namespace PIPKA::UI {
-class LayerList : public ToolList<LayerListModel, LayerItemDelegate>
+namespace PIPKA::UI
+{
+
+class LayerList : public ToolList<LayerListModel, ListItemDelegate>
 {
     Q_OBJECT
 public:
@@ -16,9 +18,9 @@ public:
         QWidget *parent = nullptr);
 
 private slots:
-    void onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const;
+    void onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const override;
     void onLayerHide(const QModelIndex& index) const;
-    // void onLayerAdded(const int &index);
+    // void onAdded(const int &index);
 
 };
 

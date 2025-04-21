@@ -104,6 +104,7 @@ void Image::mergePixel(int x, int y) const
 
 void Image::mergeRectangle(const Rectangle &rectangle) const
 {
+    // todo: get chunks to future async update
     for (int x = rectangle.x; x <= rectangle.x + rectangle.w; ++x) {
         for (int y = rectangle.y; y <= rectangle.y + rectangle.h; ++y) {
             mergePixel(x, y);

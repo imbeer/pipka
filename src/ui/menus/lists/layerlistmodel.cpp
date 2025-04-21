@@ -4,13 +4,13 @@ namespace PIPKA::UI {
 
 LayerListModel::LayerListModel(
     const std::shared_ptr<CONTROL::Controller> &controller,
-    QObject *parent)
-    : QAbstractListModel(parent)
+    QObject *parent) :
+    QAbstractListModel(parent)
 {
     m_image = controller->image();
 
-    connect(m_image.get(), &PIPKA::IMAGE::Image::layerAdded,
-            this, &LayerListModel::onLayerAdded);
+    connect(m_image.get(), &IMAGE::Image::layerAdded,
+            this, &LayerListModel::onAdded);
 }
 
 int LayerListModel::rowCount(const QModelIndex &parent) const
@@ -47,7 +47,7 @@ Qt::ItemFlags LayerListModel::flags(const QModelIndex &index) const
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 }
 
-void LayerListModel::onLayerAdded(const int index) {
+void LayerListModel::onAdded(const int index) {
     beginInsertRows(QModelIndex(), index, index);
     endInsertRows();
 }

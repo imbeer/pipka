@@ -21,13 +21,14 @@ public:
     ~BrushRepository() override;
 
     template <class Brush>
-    void addBrush()
+    void addBrush(IMAGE::COLOR::Blend *blendMode = BlendRepository::instance()->getBlend<IMAGE::COLOR::NormalBlend>())
     {
         const auto newBrush = std::make_shared<Brush>(
-            BlendRepository::instance()->getBlend<IMAGE::COLOR::NormalBlend>(),
+            blendMode,
             0xFFFFFFFF);
         m_storage.push_back(newBrush);
         selectBrush(m_storage.size() - 1);
+        emit brushAdded(m_storage.size() - 1);
     }
 
     std::shared_ptr<BRUSH::Brush> activeBrush() {return m_activeBrush;}
@@ -35,6 +36,7 @@ public:
 
 signals:
     void brushSelected();
+    void brushAdded(int index);
 
 private:
     std::shared_ptr<BRUSH::Brush> m_activeBrush;

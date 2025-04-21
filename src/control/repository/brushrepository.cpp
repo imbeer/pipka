@@ -26,4 +26,5 @@ void BrushRepository::selectBrush(const int index)
     emit brushSelected();
 }
 
+
 }

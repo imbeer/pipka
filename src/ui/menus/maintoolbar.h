@@ -3,6 +3,7 @@
 
 #include "floatingwidget.h"
 #include "lists/layerlist.h"
+#include "lists/brushlist.h"
 #include "../../control/controller.h"
 #include "tools/colorselectorwidget.h"
 
@@ -24,6 +25,7 @@ private:
 private:
     std::shared_ptr<CONTROL::Controller> m_controller;
     LayerList *m_layerList;
+    BrushList *m_brushList;
     ColorSelectorWidget *m_colorSelector;
     const int m_yMargin;
     const int m_xMargin;

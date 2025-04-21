@@ -24,12 +24,14 @@ void MainToolBar::initUi()
 {
     m_colorSelector = new ColorSelectorWidget(m_controller);
     m_layerList = new LayerList(m_controller, 248, 40, this);
+    m_brushList = new BrushList(m_controller, 248, 40, this);
     const auto layout = new QVBoxLayout(this);
     setLayout(layout);
     layout->setContentsMargins(0, 28, 0, 0);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(0);
     layout->addWidget(m_colorSelector);
+    layout->addWidget(m_brushList);
     layout->addWidget(m_layerList);
 }
 

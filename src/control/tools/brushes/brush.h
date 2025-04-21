@@ -36,6 +36,8 @@ public:
         int x, int y,
         float interpolation, float pressure);
 
+    virtual QString name() const {return "Brush";}
+
 protected:
     IMAGE::COLOR::Blend *m_blend;
     /// Half of bounding square side where changes of layer were made.

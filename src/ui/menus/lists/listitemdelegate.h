@@ -6,12 +6,12 @@
 
 namespace PIPKA::UI {
 
-class LayerItemDelegate : public QAbstractItemDelegate
+class ListItemDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 
 public:
-    explicit LayerItemDelegate(QObject *parent = nullptr);
+    explicit ListItemDelegate(QObject *parent = nullptr);
 
     void paint(
         QPainter *painter,
@@ -27,12 +27,12 @@ public:
         const QStyleOptionViewItem& option,
         const QModelIndex& index) override;
 
-private:
-    static QRect getHideButtonRect(const QStyleOptionViewItem &option);
-    static QRect getClickableHideButtonRect(const QStyleOptionViewItem &option);
+protected:
+    static QRect buttonRectangle(const QStyleOptionViewItem &option);
+    static QRect clickableButtonRectangle(const QStyleOptionViewItem &option);
 
 signals:
-    void hideButtonClicked(const QModelIndex& index);
+    void buttonClicked(const QModelIndex& index);
 };
 
 }
