@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>closed_eye.png</file>
         <file>opened_eye.png</file>
+        <file>brush.png</file>
     </qresource>
 </RCC>
