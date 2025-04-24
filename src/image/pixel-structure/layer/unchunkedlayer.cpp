@@ -27,7 +27,7 @@ void UnchunkedLayer::setPixel(const int x, const int y, const Color color)
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) = color;
-    m_versions->updatePixel(x, y);
+    m_versions->incrementPixelVersion(x, y);
     // emit pixelUpdated(x, y);
 }
 
@@ -36,7 +36,7 @@ void UnchunkedLayer::addPixelColor(const int x, const int y, const Color colorDi
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) += colorDifference;
-    m_versions->updatePixel(x, y);
+    m_versions->incrementPixelVersion(x, y);
     // emit pixelUpdated(x, y);
 }
 
@@ -45,7 +45,7 @@ void UnchunkedLayer::subtractPixelColor(const int x, const int y, const Color co
     if (!m_rect.contains(x, y)) return;
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) -= colorDifference;
-    m_versions->updatePixel(x, y);
+    // m_versions->incrementPixelVersion(x, y);
     // emit pixelUpdated(x, y);
 }
 
@@ -54,6 +54,7 @@ void UnchunkedLayer::addRectangle(const Rectangle &rectangle, const Color *pixel
     for (int x = rectangle.x; x <= rectangle.w + rectangle.x; ++x) {
         for (int y = rectangle.y; y <= rectangle.h + rectangle.y; ++y) {
             m_pixelBuffer[m_rect.bufferIndex(x, y)] += pixelBuffer[m_rect.bufferIndex(x, y)];
+            m_versions->incrementPixelVersion(x, y);
         }
     }
     emit rectangleUpdated(rectangle);
@@ -65,6 +66,7 @@ void UnchunkedLayer::subtractRectangle(const Rectangle &rectangle, const Color *
         for (int y = rectangle.y; y <= rectangle.h + rectangle.y; ++y) {
             // subtractPixelColor(x, y, pixelBuffer[rectangle.bufferIndex(x, y)]);
             m_pixelBuffer[m_rect.bufferIndex(x, y)] -= pixelBuffer[m_rect.bufferIndex(x, y)];
+            m_versions->decrementPixelVersion(x, y);
         }
     }
     emit rectangleUpdated(rectangle);

@@ -15,14 +15,19 @@ class LayerVersionBuffer
 {
 public:
     explicit LayerVersionBuffer(const Rectangle &rectangle);
-    void incrementVersion() { m_maxVersion++; } // todo: check if overflow.
+    void incrementTotalVersion() { m_maxVersion++; } // todo: check if overflow.
 
     [[nodiscard]] bool isPixelUpdated(const int x, const int y) const
     {
         return (!m_rect.contains(x, y) || m_maxVersion == m_versions[m_rect.bufferIndex(x, y)]);
     }
 
-    void updatePixel(const int x, const int y)
+    void incrementPixelVersion(const int x, const int y)
+    {
+        m_versions.at(m_rect.bufferIndex(x, y))++;
+    }
+
+    void decrementPixelVersion(const int x, const int y)
     {
         m_versions.at(m_rect.bufferIndex(x, y))++;
     }

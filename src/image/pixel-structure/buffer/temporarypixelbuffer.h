@@ -12,11 +12,11 @@ class TemporaryPixelBuffer
 public:
     explicit TemporaryPixelBuffer(const Rectangle rectangle);
     ~TemporaryPixelBuffer();
-    bool hasPixelOnCoordinate(int x, int y) const;
     void putPixel(int x, int y, Color color);
-    Rectangle boundingBox() const { return {minX, minY, maxX - minX, maxY - minY}; }
-    std::vector<Color> data() const { return m_pixelBuffer; }
-    std::vector<std::pair<std::pair<int, int>, Color> > pixels() const { return m_indexBuffer; }
+    [[nodiscard]] bool hasPixelOnCoordinate(int x, int y) const;
+    [[nodiscard]] Rectangle boundingBox() const { return {minX, minY, maxX - minX, maxY - minY}; }
+    [[nodiscard]] std::vector<Color> data() const { return m_pixelBuffer; }
+    [[nodiscard]] std::vector<std::pair<std::pair<int, int>, Color> > pixels() const { return m_indexBuffer; }
     void clearPixelBuffer() { m_pixelBuffer.clear(); }
 
 private:

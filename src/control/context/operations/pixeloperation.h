@@ -11,7 +11,7 @@ class PixelOperation : public Operation{
 
 public:
     explicit PixelOperation(
-        const IMAGE::ImagePtr &image,
+        IMAGE::ImagePtr image,
         const IMAGE::UnchunkedLayerPtr &layer);
     ~PixelOperation() override;
     void apply() override;
