@@ -53,6 +53,7 @@ Color Brush::calculateColors(
 
     paintColor = m_blend->blend(baseColor, paintColor);
     paintColor -= baseColor;
+    // qDebug() << QString::number(paintColor, 16);
     return paintColor;
 }
 }

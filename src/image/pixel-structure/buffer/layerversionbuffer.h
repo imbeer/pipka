@@ -19,17 +19,20 @@ public:
 
     [[nodiscard]] bool isPixelUpdated(const int x, const int y) const
     {
-        return (!m_rect.contains(x, y) || m_maxVersion == m_versions[m_rect.bufferIndex(x, y)]);
+        if (!m_rect.contains(x, y)) {
+            return true; /// do not draw here, there is no such point on layer
+        }
+        return m_maxVersion <= m_versions[m_rect.bufferIndex(x, y)];
     }
 
     void incrementPixelVersion(const int x, const int y)
     {
-        m_versions.at(m_rect.bufferIndex(x, y))++;
+        m_versions[m_rect.bufferIndex(x, y)] = m_maxVersion;
     }
 
     void decrementPixelVersion(const int x, const int y)
     {
-        m_versions.at(m_rect.bufferIndex(x, y))++;
+        m_versions[m_rect.bufferIndex(x, y)] = m_maxVersion;
     }
 
 private:

@@ -43,7 +43,7 @@ void PixelOperation::undo()
 
 void PixelOperation::prepare()
 {
-    m_layer->versions()->incrementTotalVersion();
-    m_pixelBuffer->clearPixelBuffer();
+    // m_layer->versions()->incrementTotalVersion();
+    // m_pixelBuffer->clearPixelBuffer();
 }
 }

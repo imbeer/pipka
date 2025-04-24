@@ -34,9 +34,9 @@ void UnchunkedLayer::setPixel(const int x, const int y, const Color color)
 void UnchunkedLayer::addPixelColor(const int x, const int y, const Color colorDifference)
 {
     if (!m_rect.contains(x, y)) return;
+    m_versions->incrementPixelVersion(x, y);
     const int index = m_rect.bufferIndex(x, y);
     m_pixelBuffer.at(index) += colorDifference;
-    m_versions->incrementPixelVersion(x, y);
     // emit pixelUpdated(x, y);
 }
 
