@@ -12,6 +12,7 @@ public:
         float topLimit,
         QWidget* parent = nullptr);
 
+    void setValue(float value);
 signals:
     void valueChanged(float value);
 

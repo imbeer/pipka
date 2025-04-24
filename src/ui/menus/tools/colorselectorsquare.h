@@ -23,6 +23,8 @@ public:
 
     void calculateColorOnClick();
 
+    void setColor(IMAGE::COLOR::HSVAColor color);
+
 signals:
     void colorSelected(float saturation, float value);
 

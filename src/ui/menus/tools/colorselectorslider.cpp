@@ -75,6 +75,12 @@ void ColorSelectorSlider::mouseMoveEvent(QMouseEvent *event)
     update();
 }
 
+void ColorSelectorSlider::setValue(const float value)
+{
+    m_position = (value - m_bottomLimit) / (m_topLimit - m_bottomLimit) * (width() - height()) + height() / 2;
+    update();
+}
+
 void ColorSelectorSlider::calculateValue()
 {
     m_value = mapPosition(m_position);
@@ -87,9 +93,9 @@ float ColorSelectorSlider::mapPosition(float position) const
     position -= this->height() / 2;
     position /= (this->width() - this->height());
     const float range = m_topLimit - m_bottomLimit;
-    position = position * range + m_bottomLimit;
+    const float value = position * range + m_bottomLimit;
     // std::clamp(position, m_bottomLimit, m_topLimit);
-    return position;
+    return value;
 }
 
 }

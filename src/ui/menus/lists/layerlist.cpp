@@ -12,6 +12,7 @@ LayerList::LayerList(
         this, &LayerList::onItemSelected);
     connect(m_delegate, &ListItemDelegate::buttonClicked,
         this, &LayerList::onLayerHide);
+    m_listView->selectionModel()->setCurrentIndex(m_model->index(0, 0), QItemSelectionModel::Select);
 }
 
 void LayerList::onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const

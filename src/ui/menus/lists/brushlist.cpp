@@ -15,6 +15,7 @@ BrushList::BrushList(
         this, &BrushList::onItemSelected);
     // connect(m_delegate, &ListItemDelegate::buttonClicked,
         // this, &BrushList::onLayerHide);
+    m_listView->selectionModel()->setCurrentIndex(m_model->index(0, 0), QItemSelectionModel::Select);
 }
 
 void BrushList::onItemSelected(const QItemSelection &selected, const QItemSelection &itemSelection) const

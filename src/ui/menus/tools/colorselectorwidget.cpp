@@ -40,6 +40,10 @@ void ColorSelectorWidget::initUI()
     connect(
         m_hueSlider, &ColorSelectorSlider::valueChanged,
         this, &ColorSelectorWidget::hueChanged);
+
+    connect(
+        CONTROL::TOOLS::BrushRepository::instance(), &CONTROL::TOOLS::BrushRepository::brushSelected,
+        this, &ColorSelectorWidget::brushChanged);
 }
 
 void ColorSelectorWidget::updateColor() const
@@ -47,6 +51,14 @@ void ColorSelectorWidget::updateColor() const
     const IMAGE::Color color = m_color.toRGB();
     // qDebug() << "from hsv:" << QString::number(color, 16);
     CONTROL::TOOLS::BrushRepository::instance()->activeBrush()->setColor(color);
+}
+
+void ColorSelectorWidget::brushChanged()
+{
+    m_color = IMAGE::COLOR::HSVAColor(CONTROL::TOOLS::BrushRepository::instance()->activeBrush()->color());
+    m_gradientSquare->setColor(m_color);
+    m_alphaSlider->setValue(m_color.alpha);
+    m_hueSlider->setValue(m_color.hue / 360);
 }
 
 void ColorSelectorWidget::saturationAndValueChanged(float saturation, float value)

@@ -81,4 +81,14 @@ void ColorSelectorSquare::calculateColorOnClick()
     const float value = 1 - static_cast<float>(y) / height;
     emit colorSelected(saturation, value);
 }
+
+void ColorSelectorSquare::setColor(IMAGE::COLOR::HSVAColor color)
+{
+    m_hue = color.hue / 360;
+    float x = color.saturation * width();
+    float y = (1 - color.value) * height();
+    setLastPos({x, y});
+    update();
+}
+
 }

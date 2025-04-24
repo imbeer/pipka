@@ -20,6 +20,7 @@ public:
 private:
     void updateColor() const;
 
+    void brushChanged();
     void saturationAndValueChanged(float saturation, float value);
     void alphaChanged(float alpha);
     void hueChanged(float hue);

@@ -20,6 +20,7 @@ public:
     void setRadius(const int radius) { this->m_radius = radius; }
     void setInterval(const int interval) {this->drawCallInterval = interval; }
     void setColor(Color color);
+    [[nodiscard]] Color color() const { return m_color; }
     void setBlend(IMAGE::COLOR::Blend *blend);
     int drawInterval() const { return this->drawCallInterval; }
     int radius() const { return this->m_radius; }
