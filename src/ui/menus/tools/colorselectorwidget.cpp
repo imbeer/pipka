@@ -17,11 +17,12 @@ ColorSelectorWidget::ColorSelectorWidget(
 
 void ColorSelectorWidget::initUI()
 {
+    setFixedSize(QSize(248, 280));
     this->setLayout(new QVBoxLayout());
     const auto layout = this->layout();
     layout->setSpacing(5);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setAlignment(Qt::AlignCenter);
+    layout->setAlignment(Qt::AlignCenter | Qt::AlignAbsolute);
     m_gradientSquare = new ColorSelectorSquare(this);
     m_alphaSlider = new ColorSelectorSlider(0, 1, this);
     m_hueSlider = new ColorSelectorSlider(0, 1, this);

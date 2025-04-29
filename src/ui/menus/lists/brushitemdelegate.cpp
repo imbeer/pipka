@@ -40,7 +40,7 @@ void BrushItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     painter->setPen(Palette::WHITE);
     painter->setFont(QFont("Arial", 12, QFont::Bold));
     painter->drawText(
-        marginedRect.adjusted(5, 5, -10, -5),
+        marginedRect.adjusted(3, 5, -10, -5),
         Qt::AlignVCenter | Qt::AlignLeft,
         text);
 

@@ -98,8 +98,8 @@ void Image::mergeChunk(const int xInd, const int yInd) const
 void Image::mergePixel(int x, int y) const
 {
     const auto color = renderPixel(x, y);
-    m_mergedChunkedLayer  -> setPixel(x, y, color);
-    m_fullBuffer-> setPixel(x, y, color);
+    m_mergedChunkedLayer->setPixel(x, y, color);
+    m_fullBuffer->setPixel(x, y, color);
 }
 
 void Image::mergeRectangle(const Rectangle &rectangle) const

@@ -10,7 +10,7 @@ public:
     Splitter(
         QWidget *parent = nullptr,
         int width = 256, // длина линии
-        int height = 52, // margin
+        int height = 26, // margin
         int thickness = 1); // толщина линии
 
 

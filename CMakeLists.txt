@@ -76,6 +76,10 @@ set(PROJECT_SOURCES
         src/ui/menus/lists/brushlist.h
         src/ui/menus/elements/splitter.cpp
         src/ui/menus/elements/splitter.h
+        src/ui/menus/elements/topbar.cpp
+        src/ui/menus/elements/topbar.h
+        src/ui/menus/elements/buttons/iconbutton.cpp
+        src/ui/menus/elements/buttons/iconbutton.h
 
 )
 

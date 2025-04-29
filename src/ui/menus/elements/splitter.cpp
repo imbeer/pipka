@@ -12,7 +12,7 @@ Splitter::Splitter(
     const int thickness) :
 QWidget(parent), m_thickness(thickness)
 {
-    setMinimumSize(QSize(width, height));
+    setFixedSize(QSize(width, height));
 }
 
 void Splitter::paintEvent(QPaintEvent *event)

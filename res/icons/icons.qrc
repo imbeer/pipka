@@ -3,5 +3,9 @@
         <file>closed_eye.png</file>
         <file>opened_eye.png</file>
         <file>brush.png</file>
+        <file>plus.png</file>
+        <file>save.png</file>
+        <file>menu_burger.png</file>
+        <file>hide_menu.png</file>
     </qresource>
 </RCC>
