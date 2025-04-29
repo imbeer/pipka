@@ -74,6 +74,8 @@ set(PROJECT_SOURCES
         src/ui/menus/lists/brushitemdelegate.h
         src/ui/menus/lists/brushlist.cpp
         src/ui/menus/lists/brushlist.h
+        src/ui/menus/elements/splitter.cpp
+        src/ui/menus/elements/splitter.h
 
 )
 

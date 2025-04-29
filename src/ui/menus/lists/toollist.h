@@ -25,7 +25,7 @@ class ToolList : public QWidget
 public:
     explicit ToolList(
         std::shared_ptr<CONTROL::Controller> controller,
-        const int &w = 248, const int &h = 500,
+        const int &w = 248, const int &h = 200,
         QWidget *parent = nullptr) : QWidget(parent)
     {
         m_controller = controller;
@@ -53,6 +53,7 @@ private:
         // m_listView->setSpacing(0);
         // Layout
         auto *layout = new QVBoxLayout(this);
+        // todo: add button
         layout->addWidget(m_listView);
         setLayout(layout);
     }

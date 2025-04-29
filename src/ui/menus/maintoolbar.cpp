@@ -2,6 +2,8 @@
 
 #include <QVBoxLayout>
 
+#include "elements/splitter.h"
+
 namespace PIPKA::UI {
 
 MainToolBar::MainToolBar(
@@ -31,8 +33,11 @@ void MainToolBar::initUi()
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(0);
     layout->addWidget(m_colorSelector);
+    layout->addWidget(new Splitter(this));
     layout->addWidget(m_brushList);
+    layout->addWidget(new Splitter(this));
     layout->addWidget(m_layerList);
+    layout->addWidget(new Splitter(this));
 }
 
 }
