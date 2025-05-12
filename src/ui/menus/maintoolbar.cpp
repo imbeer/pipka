@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 
 #include "elements/splitter.h"
+#include "elements/buttons/menubutton.h"
 
 namespace PIPKA::UI {
 
@@ -21,18 +22,21 @@ MainToolBar::MainToolBar(
 void MainToolBar::onWindowResize(const QSize &newWindowSize)
 {
     const int h = newWindowSize.height() - 2 * m_yMargin;
-    resize(width(), h);
+    m_prefferedHeight = h;
+    if (!m_isCollapsed) {
+        resize(width(), h);
+    }
 }
 
-void MainToolBar::collapse()
+void MainToolBar::switchCollapseState()
 {
     if (m_isCollapsed) {
         m_isCollapsed = false;
-        m_box->show();
+        m_currentMenu->show();
         resize(m_fullWidth, m_prefferedHeight);
     } else {
         m_isCollapsed = true;
-        m_box->hide();
+        m_currentMenu->hide();
         resize(m_fullWidth, m_topBar->height());
     }
 }
@@ -42,10 +46,19 @@ void MainToolBar::save() const
     m_controller->saveImage();
 }
 
-void MainToolBar::swapMenu()
+void MainToolBar::switchCurrentMenu()
 {
-    // todo: change menu to files
-    return;
+    if (m_currentMenu == m_toolMenu) {
+        m_currentMenu = m_fileMenu;
+        m_toolMenu->hide();
+    } else {
+        m_currentMenu = m_toolMenu;
+        m_fileMenu->hide();
+    }
+    m_currentMenu->show();
+    if (m_isCollapsed) {
+        switchCollapseState();
+    }
 }
 
 void MainToolBar::initUi()
@@ -55,9 +68,9 @@ void MainToolBar::initUi()
     m_brushList = new BrushList(m_controller, 248, 40, this);
     m_topBar = new TopBar(this);
 
-    connect(m_topBar, &TopBar::hideMenu, this, &MainToolBar::collapse);
+    connect(m_topBar, &TopBar::hideMenu, this, &MainToolBar::switchCollapseState);
     connect(m_topBar, &TopBar::save, this, &MainToolBar::save);
-    connect(m_topBar, &TopBar::changeMenu, this, &MainToolBar::swapMenu);
+    connect(m_topBar, &TopBar::changeMenu, this, &MainToolBar::switchCurrentMenu);
 
     const auto layout = new QVBoxLayout(this);
     setLayout(layout);
@@ -65,13 +78,47 @@ void MainToolBar::initUi()
     layout->setAlignment(Qt::AlignTop | Qt::AlignCenter);
     layout->setSpacing(0);
 
-    m_box = new QWidget(this);
-    const auto innerLayout = new QVBoxLayout(m_box);
+    initToolMenuUi();
+    initFileMenuUi();
+
+    m_currentMenu = m_toolMenu;
+    m_fileMenu->hide();
+
+    layout->addWidget(m_topBar);
+    layout->addWidget(m_toolMenu);
+    layout->addWidget(m_fileMenu);
+}
+
+void MainToolBar::initFileMenuUi()
+{
+    m_fileMenu = new QWidget(this);
+    const auto innerLayout = new QVBoxLayout(m_fileMenu);
+    innerLayout->setContentsMargins(16, 0, 16, 0);
+    innerLayout->setAlignment(Qt::AlignTop | Qt::AlignCenter | Qt::AlignAbsolute);
+    innerLayout->setSpacing(10);
+    innerLayout->addWidget(m_topBar);
+    m_fileMenu->setLayout(innerLayout);
+
+    const auto openButton = new MenuButton(230, 30, 10, "Open", m_fileMenu);
+    const auto saveButton = new MenuButton(230, 30, 10, "Save", m_fileMenu);
+    const auto newButton = new MenuButton(230, 30, 10, "New", m_fileMenu);
+
+    innerLayout->addWidget(new Splitter(this));
+    innerLayout->addWidget(openButton);
+    innerLayout->addWidget(saveButton);
+    innerLayout->addWidget(newButton);
+    innerLayout->addWidget(new Splitter(this));
+}
+
+void MainToolBar::initToolMenuUi()
+{
+    m_toolMenu = new QWidget(this);
+    const auto innerLayout = new QVBoxLayout(m_toolMenu);
     innerLayout->setContentsMargins(0, 0, 0, 0);
     innerLayout->setAlignment(Qt::AlignTop | Qt::AlignCenter | Qt::AlignAbsolute);
     innerLayout->setSpacing(0);
     innerLayout->addWidget(m_topBar);
-    m_box->setLayout(innerLayout);
+    m_toolMenu->setLayout(innerLayout);
 
     innerLayout->addWidget(new Splitter(this));
     innerLayout->addWidget(m_colorSelector);
@@ -80,9 +127,6 @@ void MainToolBar::initUi()
     innerLayout->addWidget(new Splitter(this));
     innerLayout->addWidget(m_layerList);
     innerLayout->addWidget(new Splitter(this));
-
-    layout->addWidget(m_topBar);
-    layout->addWidget(m_box);
 }
 
 }

@@ -44,7 +44,7 @@ void ListItemDelegate::paint(
     }
 
     painter->setPen(Palette::WHITE);
-    painter->setFont(QFont("Arial", 12, QFont::Bold));
+    painter->setFont(Palette::MENUFONT);
     painter->drawText(
         marginedRect.adjusted(5, 5, -10, -5),
         Qt::AlignVCenter | Qt::AlignLeft,

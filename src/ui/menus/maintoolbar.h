@@ -5,9 +5,7 @@
 #include "lists/layerlist/layerlist.h"
 #include "lists/brushlist/brushlist.h"
 #include "../../control/controller.h"
-
 #include "elements/topbar.h"
-
 #include "tools/colorselectorwidget.h"
 
 namespace PIPKA::UI {
@@ -22,12 +20,14 @@ public:
         QWidget *parent = nullptr);
     void onWindowResize(const QSize &newWindowSize) override;
 
-    void collapse();
+    void switchCollapseState();
     void save() const;
-    void swapMenu();
+    void switchCurrentMenu();
 
 private:
     void initUi();
+    void initFileMenuUi();
+    void initToolMenuUi();
 
 private:
     std::shared_ptr<CONTROL::Controller> m_controller;
@@ -39,7 +39,9 @@ private:
     const int m_xMargin;
     const int m_fullWidth;
     int m_prefferedHeight;
-    QWidget *m_box;
+    QWidget *m_toolMenu;
+    QWidget *m_fileMenu;
+    QWidget *m_currentMenu;
     bool m_isCollapsed{false};
 };
 

@@ -80,6 +80,8 @@ set(PROJECT_SOURCES
         src/ui/menus/elements/topbar.h
         src/ui/menus/elements/buttons/iconbutton.cpp
         src/ui/menus/elements/buttons/iconbutton.h
+        src/ui/menus/elements/buttons/menubutton.cpp
+        src/ui/menus/elements/buttons/menubutton.h
 
 )
 
