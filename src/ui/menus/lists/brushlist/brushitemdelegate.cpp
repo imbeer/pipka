@@ -2,7 +2,7 @@
 
 #include <QPainter>
 #include <QPainterPath>
-#include "../../palette.h"
+#include "../../../palette.h"
 
 namespace PIPKA::UI
 {

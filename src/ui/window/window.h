@@ -4,8 +4,8 @@
 #include <QMainWindow>
 
 #include "eventhandler.h"
-#include "../control/controller.h"
-#include "menus/floatingwidget.h"
+#include "../../control/controller.h"
+#include "../menus/floatingwidget.h"
 
 namespace PIPKA::UI {
 

@@ -21,9 +21,9 @@ set(PROJECT_SOURCES
         res/icons/icons.qrc
         res/shaders/shaders.qrc
 
-        src/ui/window.h src/ui/window.cpp
-        src/ui/canvaswidget.h src/ui/canvaswidget.cpp
-        src/ui/eventhandler.h src/ui/eventhandler.cpp
+        src/ui/window/window.h src/ui/window/window.cpp
+        src/ui/window/canvaswidget.h src/ui/window/canvaswidget.cpp
+        src/ui/window/eventhandler.h src/ui/window/eventhandler.cpp
 
         src/ui/menus/floatingwidget.h src/ui/menus/floatingwidget.cpp
         src/ui/menus/maintoolbar.h src/ui/menus/maintoolbar.cpp
@@ -31,8 +31,8 @@ set(PROJECT_SOURCES
         src/ui/palette.h
         src/ui/menus/lists/scrollbar.h  src/ui/menus/lists/scrollbar.cpp
         src/ui/menus/lists/toollist.h
-        src/ui/menus/lists/layerlist.h src/ui/menus/lists/layerlist.cpp
-        src/ui/menus/lists/layerlistmodel.h src/ui/menus/lists/layerlistmodel.cpp
+        src/ui/menus/lists/layerlist/layerlist.h src/ui/menus/lists/layerlist/layerlist.cpp
+        src/ui/menus/lists/layerlist/layerlistmodel.h src/ui/menus/lists/layerlist/layerlistmodel.cpp
         src/ui/menus/lists/listitemdelegate.h src/ui/menus/lists/listitemdelegate.cpp
         src/ui/menus/tools/colorselectorsquare.h src/ui/menus/tools/colorselectorsquare.cpp
         src/ui/menus/tools/colorselectorwidget.h src/ui/menus/tools/colorselectorwidget.cpp
@@ -68,12 +68,12 @@ set(PROJECT_SOURCES
         src/control/repository/toolrepository.h src/control/repository/toolrepository.cpp
         src/image/pixel-structure/buffer/layerversionbuffer.cpp
         src/image/pixel-structure/buffer/layerversionbuffer.h
-        src/ui/menus/lists/brushlistmodel.cpp
-        src/ui/menus/lists/brushlistmodel.h
-        src/ui/menus/lists/brushitemdelegate.cpp
-        src/ui/menus/lists/brushitemdelegate.h
-        src/ui/menus/lists/brushlist.cpp
-        src/ui/menus/lists/brushlist.h
+        src/ui/menus/lists/brushlist/brushlistmodel.cpp
+        src/ui/menus/lists/brushlist/brushlistmodel.h
+        src/ui/menus/lists/brushlist/brushitemdelegate.cpp
+        src/ui/menus/lists/brushlist/brushitemdelegate.h
+        src/ui/menus/lists/brushlist/brushlist.cpp
+        src/ui/menus/lists/brushlist/brushlist.h
         src/ui/menus/elements/splitter.cpp
         src/ui/menus/elements/splitter.h
         src/ui/menus/elements/topbar.cpp

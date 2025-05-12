@@ -1,20 +1,18 @@
-#ifndef LAYERLISTMODEL_H
-#define LAYERLISTMODEL_H
+#ifndef BRUSHLISTMODEL_H
+#define BRUSHLISTMODEL_H
 
 #include <QAbstractListModel>
-#include <QObject>
-
-#include "../../../control/controller.h"
+#include "../../../../control/controller.h"
 
 namespace PIPKA::UI {
 
-class LayerListModel : public QAbstractListModel
-{
+class BrushListModel : public QAbstractListModel {
     Q_OBJECT
 public:
-    explicit LayerListModel(
+    // explicit BrushListModel(QObject *parent = nullptr);
+    explicit BrushListModel(
         const std::shared_ptr<CONTROL::Controller> &controller,
-        QObject *parent = nullptr);
+        QObject *parent);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -23,11 +21,8 @@ public:
 
 private:
     void onAdded(int index);
-
-private:
-    std::shared_ptr<IMAGE::Image> m_image;
 };
 
 }
 
-#endif // LAYERLISTMODEL_H
+#endif //BRUSHLISTMODEL_H

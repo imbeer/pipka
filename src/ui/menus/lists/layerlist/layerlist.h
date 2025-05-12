@@ -1,9 +1,9 @@
 #ifndef LAYERLIST_H
 #define LAYERLIST_H
 
-#include "listitemdelegate.h"
+#include "../listitemdelegate.h"
 #include "layerlistmodel.h"
-#include "toollist.h"
+#include "../toollist.h"
 
 namespace PIPKA::UI
 {

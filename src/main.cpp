@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "ui/window.h"
+#include "ui/window/window.h"
 #include "control/controller.h"
 
 int main(int argc, char *argv[])

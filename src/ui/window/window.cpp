@@ -2,7 +2,7 @@
 
 #include "canvaswidget.h"
 // #include "menus/floatingwidget.h"
-#include "menus/maintoolbar.h"
+#include "../menus/maintoolbar.h"
 
 #include <QBoxLayout>
 

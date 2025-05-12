@@ -2,7 +2,7 @@
 #define BRUSHLIST_H
 #include "brushitemdelegate.h"
 #include "brushlistmodel.h"
-#include "toollist.h"
+#include "../toollist.h"
 
 namespace PIPKA::UI
 {

@@ -1,5 +1,5 @@
 #include "brushlistmodel.h"
-#include "../../../control/repository/brushrepository.h"
+#include "../../../../control/repository/brushrepository.h"
 
 namespace PIPKA::UI {
 

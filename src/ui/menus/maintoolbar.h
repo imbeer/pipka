@@ -2,8 +2,8 @@
 #define MAINTOOLBAR_H
 
 #include "floatingwidget.h"
-#include "lists/layerlist.h"
-#include "lists/brushlist.h"
+#include "lists/layerlist/layerlist.h"
+#include "lists/brushlist/brushlist.h"
 #include "../../control/controller.h"
 
 #include "elements/topbar.h"

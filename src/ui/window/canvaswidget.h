@@ -8,7 +8,7 @@
 #include <QtOpenGL/QOpenGLBuffer>
 #include <QtOpenGL/QOpenGLVertexArrayObject>
 
-#include "../control/controller.h"
+#include "../../control/controller.h"
 #include "eventhandler.h"
 
 namespace PIPKA::UI {

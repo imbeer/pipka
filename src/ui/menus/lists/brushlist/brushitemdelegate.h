@@ -1,7 +1,7 @@
 #ifndef BRUSHITEMDELEGATE_H
 #define BRUSHITEMDELEGATE_H
 
-#include "listitemdelegate.h"
+#include "../listitemdelegate.h"
 
 namespace PIPKA::UI
 {
