@@ -17,7 +17,7 @@ ColorSelectorWidget::ColorSelectorWidget(
 
 void ColorSelectorWidget::initUI()
 {
-    setFixedSize(QSize(248, 280));
+    setFixedSize(QSize(256, 280));
     this->setLayout(new QVBoxLayout());
     const auto layout = this->layout();
     layout->setSpacing(5);

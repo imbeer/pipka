@@ -15,7 +15,7 @@ namespace PIPKA::UI {
 class MainToolBar : public FloatingWidget
 {
 public:
-    MainToolBar(
+    explicit MainToolBar(
         const std::shared_ptr<CONTROL::Controller> &m_controller,
         const int &x = 10, const int &y = 10,
         const int &w = 256, const int &h = 1000,
@@ -37,8 +37,10 @@ private:
     ColorSelectorWidget *m_colorSelector;
     const int m_yMargin;
     const int m_xMargin;
+    const int m_fullWidth;
+    int m_prefferedHeight;
     QWidget *m_box;
-    bool m_isCollapsed;
+    bool m_isCollapsed{false};
 };
 
 }

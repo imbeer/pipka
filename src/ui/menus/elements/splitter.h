@@ -7,10 +7,10 @@ namespace PIPKA::UI {
 class Splitter : public QWidget {
 
 public:
-    Splitter(
+    explicit Splitter(
         QWidget *parent = nullptr,
         int width = 256, // длина линии
-        int height = 26, // margin
+        int height = 12, // margin
         int thickness = 1); // толщина линии
 
 

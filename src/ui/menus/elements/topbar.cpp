@@ -16,20 +16,21 @@ TopBar::TopBar(QWidget *parent) :
 void TopBar::initUI()
 {
     const auto layout = new QHBoxLayout(this);
+    setFixedHeight(48);
     setLayout(layout);
 
     const auto changeMenuButton = new IconButton(
-        60, 60,
+        60, 36,
         18, 14, m_changeMenuPixmap, this);
     connect(changeMenuButton, &IconButton::pressed, this, [=]{ emit changeMenu();});
 
     const auto hideMenuButton = new IconButton(
-       60, 60,
+       60, 36,
        18, 14, m_hideMenuPixmap, this);
     connect(hideMenuButton, &IconButton::pressed, this, [=]{ emit hideMenu();});
 
     const auto saveButton = new IconButton(
-       60, 60,
+       60, 36,
        18, 14, m_savePixmap, this);
     connect(saveButton, &IconButton::pressed, this, [=]{ emit save();});
 

@@ -10,9 +10,11 @@ MainToolBar::MainToolBar(
     const std::shared_ptr<CONTROL::Controller> &controller,
     const int &x, const int &y,
     const int &w, const int &h,
-    QWidget *parent)
-    : FloatingWidget(x, y, w, h, parent), m_controller{controller}, m_xMargin(x), m_yMargin(y)
+    QWidget *parent) :
+    FloatingWidget(x, y, w, h, parent), m_controller{controller},
+    m_xMargin(x), m_yMargin(y), m_fullWidth(w), m_prefferedHeight(h)
 {
+    setFixedWidth(w);
     initUi();
 }
 
@@ -27,13 +29,11 @@ void MainToolBar::collapse()
     if (m_isCollapsed) {
         m_isCollapsed = false;
         m_box->show();
-        update();
-
+        resize(m_fullWidth, m_prefferedHeight);
     } else {
         m_isCollapsed = true;
         m_box->hide();
-        update();
-        // resize(m_topBar->width(), m_topBar->height());
+        resize(m_fullWidth, m_topBar->height());
     }
 }
 
