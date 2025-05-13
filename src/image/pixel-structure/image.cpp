@@ -41,18 +41,13 @@ QImage *Image::toQImage() const
     const int w = width();
     const int h = height();
 
-    const std::vector<Color> buffer = m_fullBuffer->pixelBuffer();
-    const Color *data = buffer.data();
-    const auto *image_buffer = reinterpret_cast<const uchar *>(data);
-
     auto image = new QImage(
-        image_buffer,
+        reinterpret_cast<const uchar *>(m_fullBuffer->pixelBuffer().data()),
         w, h,
         w * sizeof(Color),
         QImage::Format_ARGB32);
     image->mirror(false, true);
     return image;
-    // return image;
 }
 
 void Image::setPixel(int x, int y, Color color, const UnchunkedLayerPtr &layer) const
