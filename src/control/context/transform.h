@@ -12,7 +12,7 @@ namespace PIPKA::CONTROL
 class Transform : public QObject{
     Q_OBJECT
 public:
-    explicit Transform(const std::shared_ptr<IMAGE::Image> &image);
+    explicit Transform(const IMAGE::ImagePtr &image);
 
     void scaleUp();
     void scaleDown();
@@ -22,8 +22,9 @@ public:
     void moveRight();
     void moveUp();
     void moveDown();
+    void setImage(const IMAGE::ImagePtr &image);
 
-    void updateProjection(const float &viewPortRatio);
+    void updateProjection(const float &viewportRatio);
     void updateTransform();
     void updateFullMatrix();
 

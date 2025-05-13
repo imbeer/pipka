@@ -22,6 +22,7 @@ public:
 
     void switchCollapseState();
     void save() const;
+    void create() const;
     void switchCurrentMenu();
 
 private:

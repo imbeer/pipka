@@ -6,6 +6,8 @@
 
 #include <QBoxLayout>
 
+#include "../palette.h"
+
 namespace PIPKA::UI {
 
 Window::Window(QWidget *parent)
@@ -33,6 +35,7 @@ void Window::setController(std::shared_ptr<CONTROL::Controller> &controller)
 
 void Window::initUi()
 {
+    setFont(Palette::MENUFONT);
     const auto centralWidget = new QWidget(); /// not leak, because set as central widget
     setCentralWidget(centralWidget);
     setMinimumSize(800, 500);

@@ -3,7 +3,7 @@
 namespace PIPKA::CONTROL
 {
 
-Transform::Transform(const std::shared_ptr<IMAGE::Image> &image) :
+Transform::Transform(const IMAGE::ImagePtr &image) :
     QObject(nullptr),
     m_image(image)
 { }
@@ -70,13 +70,16 @@ void Transform::moveDown()
     updateTransform();
 }
 
-
-void Transform::updateProjection(const float &viewPortRatio)
+void Transform::setImage(const IMAGE::ImagePtr &image)
 {
-    viewRatio = viewPortRatio;
+    m_image = image;
+    updateTransform();
+}
 
+void Transform::updateProjection(const float &viewportRatio)
+{
     /// first row
-    m_projection(0, 0) = 1 / viewPortRatio;
+    m_projection(0, 0) = 1 / viewportRatio;
     m_projection(0, 1) = 0.0f;
     m_projection(0, 2) = 0.0f;
     /// second row
@@ -89,7 +92,7 @@ void Transform::updateProjection(const float &viewPortRatio)
     m_projection(2, 2) = 1.0f;
 
     /// first row
-    m_i_projection(0, 0) = viewPortRatio;
+    m_i_projection(0, 0) = viewportRatio;
     m_i_projection(0, 1) = 0.0f;
     m_i_projection(0, 2) = 0.0f;
     /// second row

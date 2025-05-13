@@ -11,15 +11,12 @@ CanvasWidget::CanvasWidget(
     QOpenGLWidget(parent), m_eventHandler(eventHandler),
     m_controller(controller), m_shaderProgram(nullptr)
 {
+    connect(m_controller.get(), &CONTROL::Controller::imageCreated, this, &CanvasWidget::initializeTextures);
     connect(
         m_controller->transform().get(),
         &CONTROL::Transform::updated,
         this,
         &CanvasWidget::callUpdate);
-    // connect(m_controller.get(),
-    //     &CONTROL::Controller::updated,
-    //     this,
-    //     &CanvasWidget::callUpdate);
 }
 
 CanvasWidget::~CanvasWidget()
@@ -37,6 +34,7 @@ CanvasWidget::~CanvasWidget()
 
 void CanvasWidget::initializeTextures()
 {
+    m_textures.clear();
     const auto image = m_controller->image();
 
     for (const auto &chunkRow : m_controller->image()->mergedLayer()->chunks()) {
@@ -62,6 +60,9 @@ void CanvasWidget::initializeTextures()
         m_textures.push_back(textureRow);
     }
     connectTextures();
+    if (m_controller->transform()) {
+        m_controller->transform()->updateProjection(static_cast<float>(width()) / height());
+    }
 }
 
 void CanvasWidget::updateTextureData(const int xInd, const int yInd)
@@ -150,8 +151,11 @@ void CanvasWidget::initializeGL()
 void CanvasWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, width, height);
-    m_controller->transform()->updateProjection(static_cast<float>(width) / height);
-    update();
+    if (m_controller->transform()) {
+        m_controller->transform()->updateProjection(static_cast<float>(width) / height);
+    } else {
+        update();
+    }
 }
 
 void CanvasWidget::paintGL()

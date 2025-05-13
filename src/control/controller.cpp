@@ -18,16 +18,21 @@ Controller::Controller() :
 
 void Controller::createImage(const int &w, const int &h)
 {
-    if (!m_image) {
-        m_image = std::make_shared<IMAGE::Image>(w, h);
-    } else {
-        qDebug() << "image already exists";
+    if (m_image) {
+        qDebug() << "Destroying image.";
+        // todo: something for save
+        // saveImage();
     }
 
-    m_transform = std::make_shared<Transform>(m_image);
-
-    m_transform->updateTransform();
+    m_image = std::make_shared<IMAGE::Image>(w, h);
+    if (!m_transform) {
+        m_transform = std::make_shared<Transform>(m_image);
+        m_transform->updateTransform();
+    } else {
+        m_transform->setImage(m_image);
+    }
     m_transform->updateProjection(1);
+    emit imageCreated();
 }
 
 void Controller::saveImage(const QString &path) const

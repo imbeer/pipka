@@ -32,6 +32,7 @@ public:
     TOOLS::VersionControlPtr versionControl() {return m_versionControlSystem;}
 signals:
     void updated();
+    void imageCreated();
 
 private:
     /// distance between points, where z is tablet pressure

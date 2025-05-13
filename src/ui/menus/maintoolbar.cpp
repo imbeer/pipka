@@ -6,6 +6,8 @@
 #include "elements/buttons/menubutton.h"
 #include <QFileDialog>
 
+#include "elements/dialogs/createdialog.h"
+
 namespace PIPKA::UI {
 
 MainToolBar::MainToolBar(
@@ -53,6 +55,19 @@ void MainToolBar::save() const
     m_controller->saveImage(fileName);
 }
 
+void MainToolBar::create() const
+{
+    CreateDialog dialog;
+    if (dialog.exec() == QDialog::Accepted) {
+        const int width = dialog.widthValue();
+        const int height = dialog.heightValue();
+        qDebug() << "Width:" << width << "Height:" << height;
+        m_controller->createImage(width, height);
+    } else {
+        qDebug() << "Dialog canceled.";
+    }
+}
+
 void MainToolBar::switchCurrentMenu()
 {
     if (m_currentMenu == m_toolMenu) {
@@ -70,11 +85,7 @@ void MainToolBar::switchCurrentMenu()
 
 void MainToolBar::initUi()
 {
-    m_colorSelector = new ColorSelectorWidget(m_controller);
-    m_layerList = new LayerList(m_controller, 248, 40, this);
-    m_brushList = new BrushList(m_controller, 248, 40, this);
     m_topBar = new TopBar(this);
-
     connect(m_topBar, &TopBar::hideMenu, this, &MainToolBar::switchCollapseState);
     connect(m_topBar, &TopBar::save, this, &MainToolBar::save);
     connect(m_topBar, &TopBar::changeMenu, this, &MainToolBar::switchCurrentMenu);
@@ -108,17 +119,23 @@ void MainToolBar::initFileMenuUi()
 
     const auto openButton = new MenuButton(230, 30, 10, "Open", m_fileMenu);
     const auto saveButton = new MenuButton(230, 30, 10, "Save", m_fileMenu);
-    const auto newButton = new MenuButton(230, 30, 10, "New", m_fileMenu);
+    const auto createButton = new MenuButton(230, 30, 10, "New", m_fileMenu);
+
+    connect(saveButton, &MenuButton::pressed, this, &MainToolBar::save);
+    connect(createButton, &MenuButton::pressed, this, &MainToolBar::create);
 
     innerLayout->addWidget(new Splitter(this));
     innerLayout->addWidget(openButton);
     innerLayout->addWidget(saveButton);
-    innerLayout->addWidget(newButton);
+    innerLayout->addWidget(createButton);
     innerLayout->addWidget(new Splitter(this));
 }
 
 void MainToolBar::initToolMenuUi()
 {
+    m_colorSelector = new ColorSelectorWidget(m_controller);
+    m_layerList = new LayerList(m_controller, 248, 40, this);
+    m_brushList = new BrushList(m_controller, 248, 40, this);
     m_toolMenu = new QWidget(this);
     const auto innerLayout = new QVBoxLayout(m_toolMenu);
     innerLayout->setContentsMargins(0, 0, 0, 0);
