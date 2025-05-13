@@ -51,8 +51,10 @@ void MainToolBar::save() const
        tr("Save Image"),
        "./output.png",
        tr("PNG Image (*.png);;All Files (*)")
-   );
-    m_controller->saveImage(fileName);
+    );
+    if (!fileName.isEmpty()) {
+        m_controller->saveImage(fileName);
+    }
 }
 
 void MainToolBar::create() const
@@ -61,10 +63,11 @@ void MainToolBar::create() const
     if (dialog.exec() == QDialog::Accepted) {
         const int width = dialog.widthValue();
         const int height = dialog.heightValue();
-        qDebug() << "Width:" << width << "Height:" << height;
+        if (width <= 0 || height <= 0) {
+            // todo: add error dialog
+            return;
+        }
         m_controller->createImage(width, height);
-    } else {
-        qDebug() << "Dialog canceled.";
     }
 }
 
@@ -110,25 +113,34 @@ void MainToolBar::initUi()
 void MainToolBar::initFileMenuUi()
 {
     m_fileMenu = new QWidget(this);
-    const auto innerLayout = new QVBoxLayout(m_fileMenu);
-    innerLayout->setContentsMargins(16, 0, 16, 0);
-    innerLayout->setAlignment(Qt::AlignTop | Qt::AlignCenter | Qt::AlignAbsolute);
-    innerLayout->setSpacing(10);
-    innerLayout->addWidget(m_topBar);
-    m_fileMenu->setLayout(innerLayout);
 
-    const auto openButton = new MenuButton(230, 30, 10, "Open", m_fileMenu);
-    const auto saveButton = new MenuButton(230, 30, 10, "Save", m_fileMenu);
-    const auto createButton = new MenuButton(230, 30, 10, "New", m_fileMenu);
+    const auto innerBox = new QWidget(m_fileMenu);
+    const auto innerLayout = new QVBoxLayout(m_fileMenu);
+    innerLayout->setSpacing(10);
+    innerLayout->setContentsMargins(0, 0, 0, 0);
+
+    innerLayout->addWidget(new Splitter(this));
+    innerLayout->addWidget(innerBox);
+    innerLayout->addWidget(new Splitter(this));
+
+    const auto innerMarginedLayout = new QVBoxLayout(innerBox);
+    innerMarginedLayout->setContentsMargins(16, 0, 16, 0);
+    innerMarginedLayout->setAlignment(Qt::AlignTop | Qt::AlignCenter | Qt::AlignAbsolute);
+    innerMarginedLayout->setSpacing(10);
+
+    const auto openButton = new MenuButton(230, 30, 10, "Open", innerBox);
+    const auto saveButton = new MenuButton(230, 30, 10, "Save", innerBox);
+    const auto createButton = new MenuButton(230, 30, 10, "New", innerBox);
 
     connect(saveButton, &MenuButton::pressed, this, &MainToolBar::save);
     connect(createButton, &MenuButton::pressed, this, &MainToolBar::create);
 
-    innerLayout->addWidget(new Splitter(this));
-    innerLayout->addWidget(openButton);
-    innerLayout->addWidget(saveButton);
-    innerLayout->addWidget(createButton);
-    innerLayout->addWidget(new Splitter(this));
+    innerMarginedLayout->addWidget(openButton);
+    innerMarginedLayout->addWidget(saveButton);
+    innerMarginedLayout->addWidget(createButton);
+
+    innerBox->setLayout(innerMarginedLayout);
+    m_fileMenu->setLayout(innerLayout);
 }
 
 void MainToolBar::initToolMenuUi()
@@ -141,8 +153,6 @@ void MainToolBar::initToolMenuUi()
     innerLayout->setContentsMargins(0, 0, 0, 0);
     innerLayout->setAlignment(Qt::AlignTop | Qt::AlignCenter | Qt::AlignAbsolute);
     innerLayout->setSpacing(0);
-    innerLayout->addWidget(m_topBar);
-    m_toolMenu->setLayout(innerLayout);
 
     innerLayout->addWidget(new Splitter(this));
     innerLayout->addWidget(m_colorSelector);
@@ -151,6 +161,8 @@ void MainToolBar::initToolMenuUi()
     innerLayout->addWidget(new Splitter(this));
     innerLayout->addWidget(m_layerList);
     innerLayout->addWidget(new Splitter(this));
+
+    m_toolMenu->setLayout(innerLayout);
 }
 
 }
