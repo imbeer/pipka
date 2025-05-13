@@ -4,6 +4,7 @@
 
 #include "elements/splitter.h"
 #include "elements/buttons/menubutton.h"
+#include <QFileDialog>
 
 namespace PIPKA::UI {
 
@@ -43,7 +44,13 @@ void MainToolBar::switchCollapseState()
 
 void MainToolBar::save() const
 {
-    m_controller->saveImage();
+    const QString fileName = QFileDialog::getSaveFileName(
+       nullptr,
+       tr("Save Image"),
+       "./output.png",
+       tr("PNG Image (*.png);;All Files (*)")
+   );
+    m_controller->saveImage(fileName);
 }
 
 void MainToolBar::switchCurrentMenu()

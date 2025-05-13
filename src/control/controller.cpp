@@ -32,9 +32,11 @@ void Controller::createImage(const int &w, const int &h)
 
 void Controller::saveImage(const QString &path) const
 {
-    if (m_image->toQImage().save(path, "PNG")) {
+    const QImage *image = m_image->toQImage();
+    if (image->save(path, "PNG")) {
         qDebug() << "image saved";
     }
+    delete image;
 }
 
 void Controller::clearActiveLayer() const

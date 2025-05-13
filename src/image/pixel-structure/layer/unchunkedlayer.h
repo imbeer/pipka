@@ -26,10 +26,10 @@ public:
     void subtractPixelColor(int x, int y, Color colorDifference) override;
     void addRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
     void subtractRectangle(const Rectangle &rectangle, const Color *pixelBuffer);
-    std::vector<Color> data() const {return m_pixelBuffer; }
+    std::vector<Color> pixelBuffer() const {return m_pixelBuffer; }
     std::shared_ptr<BUFFER::LayerVersionBuffer> versions() { return m_versions; }
 
-    bool isVisible() const {return visibleFlag;}
+    [[nodiscard]] bool isVisible() const {return visibleFlag;}
     void flipVisible();
     void setVisible(bool flag);
 

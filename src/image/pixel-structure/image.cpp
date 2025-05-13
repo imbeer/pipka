@@ -10,15 +10,11 @@ Image::Image(int w, int h) : rect(0, 0, w, h)
     m_layers.push_back(
         std::make_shared<UnchunkedLayer>(0, 0xffffffff, rect)
     );
-    // connectLayer(0)
     connectLayer(m_layers[0]);
     qDebug() << m_layers.size();
     m_activeLayer = m_layers[0];
     m_mergedChunkedLayer = std::make_shared<ChunkedLayer>(rect);
     m_fullBuffer = std::make_shared<UnchunkedLayer>(0, 0xffffffff, rect);
-    // connect(m_layers.at(0).get(), &Layer::pixelChanged, this, &Image::mergePixel);
-    // connect(m_layers.at(0).get(), &Layer::fullLayerChanged, this, &Image::mergeAllPixels);
-    // m_mergedImage = m_layers.at(0)->pixels();
 }
 
 void Image::insertLayer(int index)
@@ -40,18 +36,23 @@ void Image::setActiveLayer(const int index)
     m_activeLayer = m_layers.at(index);
 }
 
-QImage Image::toQImage() const
+QImage *Image::toQImage() const
 {
     const int w = width();
     const int h = height();
 
-    auto image = QImage(
-        reinterpret_cast<const uchar*>(m_fullBuffer->data().data()),
+    const std::vector<Color> buffer = m_fullBuffer->pixelBuffer();
+    const Color *data = buffer.data();
+    const auto *image_buffer = reinterpret_cast<const uchar *>(data);
+
+    auto image = new QImage(
+        image_buffer,
         w, h,
         w * sizeof(Color),
         QImage::Format_ARGB32);
-    image.mirror(false, true);
+    image->mirror(false, true);
     return image;
+    // return image;
 }
 
 void Image::setPixel(int x, int y, Color color, const UnchunkedLayerPtr &layer) const

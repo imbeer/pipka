@@ -16,7 +16,7 @@ public:
     void insertLayer(int index);
     void pushBackLayer();
     void setActiveLayer(int index);
-    QImage toQImage() const;
+    QImage *toQImage() const;
 
     int width() const {return rect.w;}
     int height() const {return rect.h;}
@@ -48,8 +48,8 @@ public:
 private:
     std::vector<UnchunkedLayerPtr> m_layers;
     UnchunkedLayerPtr m_activeLayer;
-    ChunkedLayerPtr m_mergedChunkedLayer;
     UnchunkedLayerPtr m_fullBuffer;
+    ChunkedLayerPtr m_mergedChunkedLayer;
 };
 
 using ImagePtr = std::shared_ptr<Image>;
