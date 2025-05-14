@@ -70,6 +70,26 @@ void Transform::moveDown()
     updateTransform();
 }
 
+void Transform::moveToDeltaX(const float x)
+{
+    moveX += x;
+    updateTransform();
+}
+
+void Transform::moveToDeltaY(const float y)
+{
+    moveY += y;
+    updateTransform();
+}
+
+void Transform::moveVector(const float x, const float y)
+{
+    moveX += x;
+    moveY += y;
+    updateTransform();
+}
+
+
 void Transform::setImage(const IMAGE::ImagePtr &image)
 {
     m_image = image;

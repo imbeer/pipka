@@ -14,14 +14,15 @@ public:
 
     void action(const QVector3D &currentPoint,
                 const optional<QVector3D> &previousPoint,
-                const ImagePtr &image) override;
+                const ImagePtr &image,
+                const std::shared_ptr<Transform> &transform) override;
 
     void release() override;
     void confirm() override;
 
 private:
     /// brazenham line rasterization
-    /// maybe todo: implement custom brute-force algorithm with float interval to allow antialiasing on brush level
+    // todo: implement custom brute-force algorithm with float interval to allow antialiasing on brush level
     void drawLine(
         const QVector3D &start,
         const QVector3D &end);
@@ -30,7 +31,6 @@ private:
         const QVector3D &currentPoint);
 
 private:
-    // std::shared_ptr<BRUSH::Brush> m_brush;
     std::shared_ptr<VERSIONCONTROL::PixelOperation> m_operation;
 };
 

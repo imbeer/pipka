@@ -12,8 +12,7 @@ Controller::Controller() :
     m_image(nullptr),
     m_transform(nullptr)
 {
-    m_versionControlSystem = std::make_shared<VERSIONCONTROL::VersionControlSystem>();
-    m_activeTool = std::make_shared<TOOLS::Rasterizer>(m_versionControlSystem);
+    m_versionControlSystem = TOOLS::ToolRepository::instance()->versionControl();
 }
 
 void Controller::createImage(const int &w, const int &h)
@@ -56,7 +55,7 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 
     if (image()->rect.contains(currentPoint)) return;
 
-    m_activeTool->action(currentPoint, m_previousPoint, m_image);
+    activeTool()->action(currentPoint, m_previousPoint, m_image, m_transform);
     m_previousPoint.emplace(currentPoint);
     emit updated();
 }
@@ -64,7 +63,7 @@ void Controller::handleClick(const double &x, const double &y, const double &pre
 void Controller::handleRelease(const double &x, const double &y, const double &pressure)
 {
     m_pressed = false;
-    m_activeTool->release();
+    activeTool()->release();
     m_previousPoint.reset();
     emit updated();
 }
@@ -75,13 +74,13 @@ void Controller::handleMove(const double &x, const double &y, const double &pres
     const QVector3D currentPoint = coordinates(x, y, pressure);
 
     if (!m_previousPoint.has_value()) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image);
+        activeTool()->action(currentPoint, m_previousPoint, m_image, m_transform);
         m_previousPoint.emplace(currentPoint);
         return;
     }
 
     if (isFarEnough(currentPoint, *m_previousPoint)) {
-        m_activeTool->action(currentPoint, m_previousPoint, m_image);
+        activeTool()->action(currentPoint, m_previousPoint, m_image, m_transform);
         m_previousPoint.emplace(currentPoint);
     }
     emit updated();

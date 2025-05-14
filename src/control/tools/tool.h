@@ -4,6 +4,8 @@
 #include <QVector3D>
 #include <utility>
 #include "../../image/pixel-structure/image.h"
+
+#include "../context/transform.h"
 #include "../context/operations/versioncontrolsystem.h"
 
 namespace PIPKA::CONTROL::TOOLS {
@@ -33,7 +35,8 @@ public:
     virtual void action(
         const QVector3D &currentPoint,
         const optional<QVector3D> &previousPoint,
-        const ImagePtr &image) = 0;
+        const ImagePtr &image,
+        const std::shared_ptr<Transform> &transform) = 0;
 
     /// finalizes action when mouse relises.
     /// example: select a part of layer, add a point in polygon

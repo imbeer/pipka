@@ -84,6 +84,8 @@ set(PROJECT_SOURCES
         src/ui/menus/elements/buttons/menubutton.h
         src/ui/menus/elements/dialogs/createdialog.cpp
         src/ui/menus/elements/dialogs/createdialog.h
+        src/control/tools/movetool.cpp
+        src/control/tools/movetool.h
 
 )
 

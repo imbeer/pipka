@@ -22,6 +22,9 @@ public:
     void moveRight();
     void moveUp();
     void moveDown();
+    void moveToDeltaX(float x);
+    void moveToDeltaY(float y);
+    void moveVector(float x, float y);
     void setImage(const IMAGE::ImagePtr &image);
 
     void updateProjection(const float &viewportRatio);

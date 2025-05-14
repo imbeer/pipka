@@ -13,7 +13,8 @@ Rasterizer::Rasterizer(
 void Rasterizer::action(
     const QVector3D &currentPoint,
     const optional<QVector3D> &previousPoint,
-    const ImagePtr &image)
+    const ImagePtr &image,
+    const std::shared_ptr<Transform> &transform)
 {
     const auto &layer = image->activeLayer();
     if (m_operation == nullptr || m_operation->layer() == nullptr) {
