@@ -12,7 +12,7 @@ namespace PIPKA::UI {
 class ColorSelectorWidget : public QWidget {
 public:
     explicit ColorSelectorWidget(
-        std::shared_ptr<CONTROL::Controller> controller,
+        const std::shared_ptr<CONTROL::Controller> &controller,
         QWidget *parent = nullptr);
 
     void initUI();

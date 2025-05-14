@@ -25,7 +25,7 @@ public:
     {
         const auto newBrush = std::make_shared<Brush>(
             blendMode,
-            0xFFFFFFFF);
+            0xFFFF0000);
         m_storage.push_back(newBrush);
         selectBrush(m_storage.size() - 1);
         emit brushAdded(m_storage.size() - 1);

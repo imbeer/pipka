@@ -14,7 +14,8 @@ ColorSelectorSlider::ColorSelectorSlider(
     QWidget *parent) :
     QWidget(parent),
     m_bottomLimit(bottomLimit),
-    m_topLimit(topLimit)
+    m_topLimit(topLimit),
+    m_position(0), m_value(0)
 {
     m_pressed = false;
     initUI();

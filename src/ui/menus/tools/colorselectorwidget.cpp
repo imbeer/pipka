@@ -1,13 +1,14 @@
 #include "colorselectorwidget.h"
 
 #include <QVBoxLayout>
+#include <utility>
 
 #include "../../../control/repository/brushrepository.h"
 
 namespace PIPKA::UI {
 
 ColorSelectorWidget::ColorSelectorWidget(
-    std::shared_ptr<CONTROL::Controller> controller,
+    const std::shared_ptr<CONTROL::Controller> &controller,
     QWidget *parent) :
     QWidget(parent), m_controller(controller)
 {
@@ -50,7 +51,6 @@ void ColorSelectorWidget::initUI()
 void ColorSelectorWidget::updateColor() const
 {
     const IMAGE::Color color = m_color.toRGB();
-    // qDebug() << "from hsv:" << QString::number(color, 16);
     CONTROL::TOOLS::BrushRepository::instance()->activeBrush()->setColor(color);
 }
 
@@ -66,7 +66,6 @@ void ColorSelectorWidget::saturationAndValueChanged(float saturation, float valu
 {
     m_color.saturation = saturation;
     m_color.value = value;
-    // qDebug() << "saturation: " << m_color.saturation << ", value: " << m_color.value;
     updateColor();
 }
 
