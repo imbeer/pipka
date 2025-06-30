@@ -22,10 +22,12 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
+    void onImageChanged();
     void onAdded(int index);
 
 private:
     std::shared_ptr<IMAGE::Image> m_image;
+    const std::shared_ptr<CONTROL::Controller> m_controller;
 };
 
 }

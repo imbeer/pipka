@@ -26,20 +26,20 @@ void HSVAColor::fromRGB(Color rgbColor)
     const float min = std::min(std::min(red, green), blue);
     const float delta = max - min;
 
-    hue = 0.0f;
-    saturation = (max == 0) ? 0.0f : static_cast<float>(delta / max);
-    value = static_cast<float>(max);
+    this->hue = 0.0f;
+    this->saturation = (max == 0) ? 0.0f : delta / max;
+    this->value = static_cast<float>(max);
     this->alpha = static_cast<float>(alpha);
 
     if (delta > 0) {
         if (max == red) {
-            hue = 60.0f * std::fmod(((green - blue) / delta), 6.0f);
+            this->hue = 60.0f * std::fmod(((green - blue) / delta), 6.0f);
         } else if (max == green) {
-            hue = 60.0f * (((blue - red) / delta) + 2.0f);
+            this->hue = 60.0f * (((blue - red) / delta) + 2.0f);
         } else if (max == blue) {
-            hue = 60.0f * (((red - green) / delta) + 4.0f);
+            this->hue = 60.0f * (((red - green) / delta) + 4.0f);
         }
-        if (hue < 0) hue += 360.0f;
+        if (this->hue < 0) this->hue += 360.0f;
     }
 }
 

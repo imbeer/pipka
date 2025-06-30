@@ -37,7 +37,7 @@ Channel NormalBlend::channel(
     const float &bgChannel, const float &bgAlpha,
     const float &fgChannel, const float &fgAlpha)
 {
-    return floatToHex(fgChannel + bgChannel * (1 - fgAlpha));
+    return floatToHex(fgChannel * fgAlpha + bgChannel * (1 - fgAlpha));
 }
 
 Channel MultiplyBlend::channel(

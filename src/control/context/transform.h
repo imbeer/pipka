@@ -9,8 +9,10 @@
 namespace PIPKA::CONTROL
 {
 
-class Transform : public QObject{
+class Transform : public QObject
+{
     Q_OBJECT
+
 public:
     explicit Transform(const IMAGE::ImagePtr &image);
 

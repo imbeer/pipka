@@ -1,9 +1,6 @@
 #include "controller.h"
-#include "tools/rasterizer.h"
 #include <qdebug.h>
 #include <qvectornd.h>
-
-#include "repository/brushrepository.h"
 
 namespace PIPKA::CONTROL {
 

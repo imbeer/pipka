@@ -30,7 +30,7 @@ public:
     void handleMove(const double &x, const double &y, const double &pressure = 1); /// mapped -1 to 1
     TOOLS::Tool *activeTool() const {return TOOLS::ToolRepository::instance()->activeTool();}
 
-                [[nodiscard]] QVector3D coordinates(const double &x, const double &y, const double &pressure = 1) const;
+    [[nodiscard]] QVector3D coordinates(const double &x, const double &y, const double &pressure = 1) const;
     [[nodiscard]] std::shared_ptr<Transform> transform() const {return m_transform;};
     IMAGE::ImagePtr image() {return m_image;};
     TOOLS::VersionControlPtr versionControl() {return m_versionControlSystem;}

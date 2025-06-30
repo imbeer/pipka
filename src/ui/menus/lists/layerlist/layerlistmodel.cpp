@@ -5,12 +5,17 @@ namespace PIPKA::UI {
 LayerListModel::LayerListModel(
     const std::shared_ptr<CONTROL::Controller> &controller,
     QObject *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent),
+    m_controller(std::move(controller))
 {
     m_image = controller->image();
 
-    connect(m_image.get(), &IMAGE::Image::layerAdded,
-            this, &LayerListModel::onAdded);
+    connect(
+        m_image.get(), &IMAGE::Image::layerAdded,
+        this, &LayerListModel::onAdded);
+    connect(
+        m_controller.get(), &CONTROL::Controller::imageCreated,
+        this, &LayerListModel::onImageChanged);
 }
 
 int LayerListModel::rowCount(const QModelIndex &parent) const
@@ -52,4 +57,9 @@ void LayerListModel::onAdded(const int index) {
     endInsertRows();
 }
 
+void LayerListModel::onImageChanged() {
+    m_image = m_controller->image();
+    removeRows(0, rowCount());
+    insertRows(0, m_image->layerSize());
+}
 }
